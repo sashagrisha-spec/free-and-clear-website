@@ -1,0 +1,194 @@
+export interface BlogPost {
+  slug: string
+  title: string
+  excerpt: string
+  body: string
+  publishedAt: string
+  lang: 'en' | 'he'
+  keywords: string[]
+  category: string
+  readingTime: number
+}
+
+export const blogPosts: BlogPost[] = [
+  {
+    slug: 'sound-confident-english-hebrew-speaker',
+    title: 'How to Sound Confident in English When Your Native Language is Hebrew',
+    excerpt: "You know English. You've been speaking it for years. So why does confidence disappear the moment a high-stakes conversation starts? Here's what's actually happening - and how to fix it.",
+    publishedAt: '2026-05-15',
+    lang: 'en',
+    readingTime: 5,
+    keywords: ['sound confident in English', 'English confidence Hebrew speakers', 'speak English fluently Israel', 'improve English fluency'],
+    category: 'Confidence',
+    body: `
+<p>You've been speaking English for years. You studied it in school, watched American TV shows, maybe even worked at a global company. And yet — the moment you open your mouth in a high-stakes English conversation, something shifts.</p>
+
+<p>Your voice gets quieter. Your sentences come out shorter. You second-guess words you've used a thousand times. You sound... different. Not like yourself.</p>
+
+<p>If you're a Hebrew speaker working in a global environment, this experience is extremely common. And it has nothing to do with your English level.</p>
+
+<h2>Why Hebrew Speakers Lose Confidence in English</h2>
+
+<p>Hebrew and English are structurally very different languages. Hebrew is spoken with a different rhythm, different stress patterns, and a completely different phonological system. When you shift to English, your brain is doing real-time translation — not just of words, but of how you physically produce sound.</p>
+
+<p>This creates cognitive load. And when you're under pressure — in a job interview, a board presentation, or a difficult client call — that load increases. You start monitoring yourself: <em>"Am I saying this right? Do I sound fluent? What's the word for...?"</em></p>
+
+<p>The result: your English sounds hesitant, choppy, or flat — even though your knowledge is strong.</p>
+
+<h2>Confidence Isn't About Vocabulary</h2>
+
+<p>Most language learners think confidence comes from learning more words or getting grammar right. But the Israeli professionals I coach have strong vocabularies and solid grammar. What's missing is <strong>speech muscle memory</strong> — the automatic, effortless delivery that comes from deeply ingraining the sounds and rhythms of English into your body.</p>
+
+<p>Here's the difference:</p>
+
+<ul>
+<li><strong>Knowing English:</strong> You understand and can construct sentences accurately</li>
+<li><strong>Sounding confident in English:</strong> Your delivery is fluent, natural, and automatic — even under pressure</li>
+</ul>
+
+<p>The gap between these two states is exactly what coaching closes.</p>
+
+<h2>Three Things That Actually Build English Confidence</h2>
+
+<h3>1. Shadowing — The Most Underused Technique</h3>
+
+<p>Shadowing means listening to a native English speaker and repeating what they say in real time — mimicking not just the words but the exact rhythm, intonation, and pace. It trains your brain to produce English automatically, without translation, and it works faster than almost any other technique.</p>
+
+<p>Practice 10 minutes a day. Choose content that matches your professional context: TED talks, business podcasts, interviews with speakers you admire.</p>
+
+<h3>2. Record Yourself (Yes, Really)</h3>
+
+<p>Most people avoid hearing themselves speak English. That avoidance is exactly what keeps them stuck. Recording yourself and listening back is uncomfortable — but it's one of the most direct feedback loops available to you.</p>
+
+<p>You'll immediately notice where you're hesitating, where your pronunciation gets muddy, and where you actually sound better than you thought.</p>
+
+<h3>3. Detach Your Identity From Your Accent</h3>
+
+<p>Many Israelis feel shame about their accent in English. This is a mistake — and it's sabotaging your confidence. An accent is not a flaw. It's the signature of a multilingual brain. The goal isn't to sound American. The goal is to be clear, confident, and <em>yourself</em>.</p>
+
+<p>The most impressive speakers I know have strong accents. What they don't have is hesitation.</p>
+
+<h2>What Working with a Coach Does Differently</h2>
+
+<p>Self-study can take you far, but there are two things it struggles to fix: deeply ingrained pronunciation habits you can't hear yourself, and the psychological dimension of confidence.</p>
+
+<p>A coach provides real-time feedback, catches patterns you're not aware of, and creates a structured path from where you are to where you want to be. Most of my clients notice a real shift within 4-5 sessions — not because they suddenly "know more English," but because they've started trusting how they sound.</p>
+
+<p>If you're ready to stop second-guessing yourself in English, <a href="https://www.freeandclearenglish.com/#contact">let's have a conversation</a>.</p>
+    `.trim(),
+  },
+  {
+    slug: 'lamah-anglit-lo-mitkademet',
+    title: '5 סיבות למה האנגלית שלכם לא מתקדמת - ומה לעשות עם זה',
+    excerpt: 'אתם יודעים אנגלית. למדתם אותה שנים, ראיתם סרטים, ואולי אפילו עבדתם עם דוברי אנגלית. אבל משהו תקוע. הנה 5 הסיבות הנפוצות ביותר - ולכולן יש פתרון.',
+    publishedAt: '2026-05-22',
+    lang: 'he',
+    readingTime: 5,
+    keywords: ['לשפר אנגלית', 'אנגלית לדוברי עברית', 'ללמוד אנגלית בוגר', 'ביטחון בדיבור אנגלית'],
+    category: 'טיפים',
+    body: `
+<p>אתם יודעים אנגלית. למדתם אותה שנים, ראיתם סרטים, אולי אפילו עבדתם עם דוברי אנגלית. אבל משהו תקוע. האנגלית שלכם לא מרגישה כמו שלכם - ולא ממש מתקדמת.</p>
+
+<p>מה קורה פה?</p>
+
+<p>אחרי שנים של עבודה עם מנהלים, יזמים ואנשי מקצוע ישראלים, זיהיתי 5 תבניות שמופיעות שוב ושוב - ולכולן יש פתרון ברור.</p>
+
+<h2>1. אתם לומדים אנגלית, לא מדברים אנגלית</h2>
+
+<p>אפליקציות, פודקאסטים, סדרות - כל אלה מעולים לחשיפה לשפה. אבל חשיפה פסיבית לא בונה ביטחון דיבורי. הדרך היחידה לשפר דיבור היא לדבר. ולקבל פידבק.</p>
+
+<p>אם אתם לא מוצאים הזדמנויות לדבר אנגלית בחיים שלכם, צרו אותן: שיחות עם עמיתים, פגישות וירטואליות, חלופת מייל מודעת - כל אחת מהן מתרגלת שריר שונה.</p>
+
+<h2>2. אתם מחפשים מילים במקום שוזרים משפטים</h2>
+
+<p>אחת התכונות הכי נפוצות אצל דוברי עברית ברמה גבוהה: הם יודעים מאות מילים, אבל בשיחה ממשית - הם עוצרים, מחפשים, מאבדים קצב.</p>
+
+<p>הסיבה? המוח לא רגיל לייצר אנגלית אוטומטית. הוא עדיין מתרגם. הפתרון הוא לא ללמוד עוד מילים - אלא לבנות fluency: את היכולת לייצר שפה בצורה אוטומטית, ללא תרגום.</p>
+
+<p>שאדוינג - חיקוי בזמן אמת של דוברי אנגלית - הוא אחד הכלים הכי יעילים לזה.</p>
+
+<h2>3. אתם לא מקשיבים לעצמכם</h2>
+
+<p>רוב האנשים לא מקליטים את עצמם. וזאת טעות גדולה. ההקלטה היא משוב ישיר: היא מראה בדיוק איפה אתם מהססים, איפה ההגייה שלכם מטשטשת, ואיפה אתם למעשה נשמעים הרבה יותר טוב ממה שחשבתם.</p>
+
+<p>נסו 10 דקות ביום: הקליטו את עצמכם מדברים על נושא מקצועי. האזינו. שימו לב למה שאתם שומעים. לאט לאט תתחילו לזהות תבניות.</p>
+
+<h2>4. אתם מחכים שהביטחון יגיע לפני שאתם מדברים</h2>
+
+<p>זה הפוך. ביטחון לא מגיע ולאחר מכן אתם מדברים - אתם מדברים ולאחר מכן הביטחון מגיע. כל שיחה שאתם מגמגמים בה, כל מצגת שעברתם עליה - כל אחת מהן מוסיפה שכבה של ניסיון שמרגיעה את המערכת שלכם.</p>
+
+<p>הביטחון הוא תוצר, לא תנאי מוקדם.</p>
+
+<h2>5. אין לכם מישהו שמגיב לכם ביושר</h2>
+
+<p>לרוב האנשים אין מישהו שמספק להם פידבק אמיתי על האנגלית שלהם. חברים מנומסים. עמיתים לא מתעניינים. ושיעורי שפה מסורתיים מתמקדים בדקדוק, לא בדיבור.</p>
+
+<p>מה שעוזר הכי הרבה זה מאמן שמכיר את הפרופיל הספציפי שלכם - ישראלים, דוברי עברית, עם רקע מסוים - ויכול לזהות בדיוק מה צריך לעבוד.</p>
+
+<p>אם אתם רוצים לדעת מה עוצר אתכם ספציפית, <a href="https://www.freeandclearenglish.com/#contact">שלחו לי הודעה</a> ונדבר.</p>
+    `.trim(),
+  },
+  {
+    slug: 'israeli-accent-vs-pronunciation',
+    title: 'Israeli Accent vs. Pronunciation: What You Actually Need to Fix',
+    excerpt: "Most Israeli professionals think they need to \"fix their accent.\" They're solving the wrong problem. Here's the real distinction - and which pronunciation patterns actually matter.",
+    publishedAt: '2026-05-29',
+    lang: 'en',
+    readingTime: 5,
+    keywords: ['Israeli accent English', 'pronunciation coaching Israel', 'improve English accent Israel', 'Hebrew speaker pronunciation'],
+    category: 'Pronunciation',
+    body: `
+<p>One of the most common things I hear from new clients: "I need to fix my Israeli accent."</p>
+
+<p>When I probe a little deeper, what they usually mean is something different: they want to be clearer, more confident, and easier to understand in professional English contexts. They don't actually need to lose their accent — they need to fix specific pronunciation patterns that are getting in the way.</p>
+
+<p>This distinction matters. And getting it wrong wastes a lot of time and energy.</p>
+
+<h2>What's the Difference Between Accent and Pronunciation?</h2>
+
+<p><strong>Accent</strong> is the overall sound of your voice — the music, rhythm, and flavor of your speech that reflects your background. An Israeli accent in English is the combination of all the small ways your Hebrew-trained mouth and ear influence how you speak. It's not a flaw. It's a fingerprint.</p>
+
+<p><strong>Pronunciation</strong> is about specific sounds — whether you're producing individual phonemes correctly and clearly. Pronunciation errors are sounds that actually get misheard or misunderstood by listeners.</p>
+
+<p>You don't need to change your accent. You probably do need to fix a few specific pronunciation patterns.</p>
+
+<h2>The Most Common Hebrew-Influenced Pronunciation Issues in English</h2>
+
+<p>After coaching hundreds of Israeli professionals, certain patterns come up again and again:</p>
+
+<h3>1. The R Sound</h3>
+<p>Hebrew's guttural resh doesn't exist in English. But many Israeli speakers import it, especially at the start of words or before vowels. The English R is produced further forward in the mouth, with the tongue tip not touching the roof. This single sound affects the perceived fluency of your English more than almost anything else.</p>
+
+<h3>2. Vowel Reduction</h3>
+<p>English has a very specific vowel called the schwa — a neutral, reduced vowel that appears in unstressed syllables. Hebrew doesn't have this sound in the same way. Israeli speakers often over-pronounce every vowel, making their English sound more formal and staccato than it needs to.</p>
+
+<h3>3. Sentence Stress and Rhythm</h3>
+<p>English is a stress-timed language — certain syllables carry more weight and the rhythm of speech revolves around them. Hebrew has a different rhythmic pattern. When Israeli speakers don't shift to English's stress patterns, they can sound monotone or robotic even when the words are correct.</p>
+
+<h3>4. The P, B, and V Distinction</h3>
+<p>Some Israeli speakers occasionally blend these sounds under pressure, especially in fast speech. For native English listeners, mixing these can cause real confusion.</p>
+
+<h2>What You Don't Need to Fix</h2>
+
+<p>Your accent is not the same as a communication problem. Some of the most powerful English speakers I've worked with have strong Israeli accents — and nobody misunderstands them, because they've mastered the specific sounds that matter.</p>
+
+<p>Trying to erase your entire accent is exhausting, often ineffective, and frankly unnecessary. The goal is clear, confident communication. Not performing as someone you're not.</p>
+
+<h2>Where to Start</h2>
+
+<p>If you want to improve your pronunciation, start with awareness: record yourself speaking English for two minutes on a professional topic. Listen back and notice where you feel unclear or hesitant. That's usually where the real work is.</p>
+
+<p>For a more targeted approach, working with a coach who understands the specific Hebrew-to-English sound transfer issues can cut your learning curve significantly. Instead of practicing everything, you work on exactly what matters for your voice.</p>
+
+<p>Curious what your specific pronunciation profile looks like? <a href="https://www.freeandclearenglish.com/#contact">Get in touch</a> — I offer a short discovery call where we can identify exactly what to focus on.</p>
+    `.trim(),
+  },
+]
+
+export function getPostBySlug(slug: string): BlogPost | undefined {
+  return blogPosts.find(p => p.slug === slug)
+}
+
+export function getAllSlugs(): string[] {
+  return blogPosts.map(p => p.slug)
+}
