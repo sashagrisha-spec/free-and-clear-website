@@ -245,6 +245,52 @@ export const blogPosts: BlogPost[] = [
 <p>אם אתם רוצים לעבוד על השיחות שמתרחשות לפני הפגישות הגדולות, <a href="https://www.freeandclearenglish.com/#contact">שלחו לי הודעה</a> ונדבר.</p>
     `.trim(),
   },
+  {
+    slug: 'english-phone-calls-professionals-israel',
+    title: 'Why English Phone Calls Feel Harder Than Any Meeting (And How to Fix That)',
+    excerpt: 'Phone calls strip away every visual cue you rely on. Here\'s why English calls are specifically hard for Hebrew speakers — and what to do about it.',
+    publishedAt: '2026-06-07',
+    lang: 'en',
+    readingTime: 5,
+    keywords: ['English phone calls Israel', 'business English phone skills', 'English fluency professionals', 'Hebrew speakers English at work'],
+    category: 'Business English',
+    body: `
+<p>You've been on an English video call and felt fine. You've given presentations in English that went well. But then your phone rings — it's a client in New York — and something shifts. Your brain speeds up. The words come out clunky. You ask them to repeat themselves twice and feel embarrassed about it.</p>
+
+<p>Phone calls in English are a specific category of hard. And if you're a Hebrew speaker who works in a global environment, you're not imagining it — they really are harder than most other English interactions.</p>
+
+<h2>Why the Phone Strips You of Everything That Helps</h2>
+
+<p>In a face-to-face conversation or a video call, you have a remarkable set of tools working for you without realizing it: facial expressions, lip movement, hand gestures, the rhythm of someone's body language. All of that helps you parse what's being said, especially in moments of ambiguity or fast speech.</p>
+
+<p>On the phone, that all disappears. You're left with voice alone — no visual anchor, no way to check if the other person understood you, no signal that they're about to speak. For Hebrew speakers, whose English processing is still partly happening through translation, this increases the cognitive load significantly.</p>
+
+<p>Add to that the compression of phone audio — accents become harder to decode, background noise creeps in, and the social pressure to respond instantly feels more intense — and you have a genuinely difficult communication challenge.</p>
+
+<h2>The Patterns That Make It Worse</h2>
+
+<p>Most Hebrew speakers on English phone calls fall into a predictable trap: they rush. When they can't see the other person, silence feels unbearable. They fill gaps before they've actually processed what was said. They say "yes" when they're not sure, "I understand" when they didn't quite catch it, and then spend the rest of the call quietly confused about what was agreed.</p>
+
+<p>There's also a pronunciation dynamic that shows up specifically on phone calls. Sounds that might be "close enough" in person — where the listener has your lip movement as context — are more likely to cause confusion over compressed audio. The R sound, certain vowel distinctions, and sentence stress all become more important when you're voice-only.</p>
+
+<h2>Three Things That Actually Help</h2>
+
+<h3>1. Slow Down on Purpose</h3>
+<p>The instinct to speed up under pressure is real, but it works against you on phone calls. Slowing down gives your brain more processing time, gives the listener more decoding time, and paradoxically makes you sound more confident, not less. Practice pacing your English speech slightly slower than feels natural — especially in the first 60 seconds of a call, when both sides are still calibrating.</p>
+
+<h3>2. Make Silence Your Ally</h3>
+<p>Give yourself permission to pause before responding. "Let me think about that for a second" is completely normal in a phone call. So is "Just to make sure I'm tracking this correctly..." followed by a brief recap of what was said. These phrases signal attentiveness and buy you the processing time you need. They do not signal weakness or poor English.</p>
+
+<h3>3. Use a Pre-Call Anchor for High-Stakes Calls</h3>
+<p>For calls where the stakes are high — a client conversation, a negotiation, a difficult discussion with a manager — write two or three sentences before you dial. Not a script to read from, but an anchor: how you'll open, the key point you need to make, the ask you'll close with. Having that structure in your head reduces the cognitive load significantly and frees your brain to be present in the conversation rather than constructing it in real time.</p>
+
+<h2>The Bigger Picture</h2>
+
+<p>Phone call confidence is a skill, not a personality trait. The Israelis I've worked with who handle English calls most smoothly are not necessarily the ones with the best vocabulary or the most neutral accent. They're the ones who've learned to manage the specific dynamics of voice-only communication: pacing, structure, and self-permission to pause.</p>
+
+<p>If English phone calls are a consistent source of stress for you, that's exactly the kind of thing worth working on directly. <a href="https://www.freeandclearenglish.com/#contact">Reach out</a> and let's identify what's getting in the way.</p>
+    `.trim(),
+  },
 ]
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
