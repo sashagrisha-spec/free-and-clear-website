@@ -357,6 +357,78 @@ export const blogPosts: BlogPost[] = [
 <p>אם אתם מרגישים שהתרגום הפנימי הוא מה שעוצר אתכם, זה בדיוק הדבר שכדאי לעבוד עליו. <a href="https://www.freeandclearenglish.com/#contact">שלחו לי הודעה</a> ונדבר על מה שעובד בשבילכם.</p>
     `.trim(),
   },
+  {
+    slug: 'giving-feedback-in-english',
+    title: 'Giving Feedback in English: Why Israeli Directness Gets Lost in Translation',
+    excerpt: 'Israeli professionals are known for being direct — but in English, that same directness can land as harsh. Here\'s how to give honest feedback that actually lands.',
+    publishedAt: '2026-06-15',
+    lang: 'en',
+    readingTime: 5,
+    keywords: ['giving feedback in English', 'English feedback Israeli professionals', 'business English Israel', 'direct communication English'],
+    category: 'Business English',
+    body: `
+<p>You finished a code review. Your colleague's work wasn't quite there — missing edge cases, unclear naming, a section that needs a rethink. In Hebrew you'd say it plainly and they'd get it. But in English, something shifts. You either soften it so much the message disappears, or you deliver it with your natural Israeli directness and watch something change in the other person's face.</p>
+
+<p>This is one of the most common friction points I see with Israeli professionals working on global teams. It's not a vocabulary problem. It's a translation problem — but not the kind you'd expect.</p>
+
+<h2>The Cultural Gap Nobody Warns You About</h2>
+
+<p>Hebrew is a structurally direct language. Israeli communication culture prizes clarity and speed. "זה לא עובד" is a statement of fact. "תשנה את זה" is a practical instruction. Neither is meant unkindly, and neither is received unkindly — in Hebrew.</p>
+
+<p>English business communication, especially in American and British professional contexts, has a different set of unwritten rules. Feedback is typically framed, contextualized, and delivered with a layer of hedging that Israelis often experience as vague or even dishonest. But when you skip that layer entirely, the same honest statement reads much more critically to a native English speaker than you intended.</p>
+
+<p>Look at what happens in the translation:</p>
+
+<ul>
+<li><em>"This doesn't work"</em> — reads as dismissal of the person's effort, not description of the output</li>
+<li><em>"Change this"</em> — reads as a command, not a clear instruction</li>
+<li><em>"This is wrong"</em> — reads as a verdict, not a technical observation</li>
+</ul>
+
+<p>The words are accurate. The delivery is fine. But the cultural context is different enough that the message lands wrong.</p>
+
+<h2>Two Traps Israeli Professionals Fall Into</h2>
+
+<p><strong>Over-softening:</strong> You sense the feedback is coming out too blunt, so you hedge it beyond recognition. "This was pretty good overall, maybe just a tiny thing..." The other person walks away thinking everything was fine. Nothing changes. You're frustrated, and you feel like you can't give honest feedback in English without it becoming a diplomatic incident.</p>
+
+<p><strong>Under-softening:</strong> You stay direct, as you would in Hebrew. The feedback is clear and accurate, but it lands harder than you meant. The other person goes quiet or gets defensive. You didn't intend any of that — you were just being efficient.</p>
+
+<p>Neither extreme works. And the solution isn't to pick a point somewhere in the middle. It's to learn a different frame entirely.</p>
+
+<h2>How to Be Direct Without Being Blunt</h2>
+
+<p>The goal isn't to hide your feedback in diplomatic language. Israeli directness is genuinely valuable — it's efficient, specific, and honest. What changes is the packaging, not the content.</p>
+
+<p>A few patterns that work:</p>
+
+<h3>Lead with observation, not verdict</h3>
+<p>Instead of: <em>"This slide is confusing."</em><br>
+Try: <em>"I'm losing the thread here — can you walk me through the logic?"</em></p>
+
+<p>You're saying the same thing. But you're framing it as a question about your own understanding rather than a judgment on their work. The other person is far more likely to engage.</p>
+
+<h3>Name what's needed, not just what's wrong</h3>
+<p>Instead of: <em>"This report is incomplete."</em><br>
+Try: <em>"For this to be ready to send, I need the Q3 comparison and the executive summary added."</em></p>
+
+<p>Specific, actionable, no judgment. This is actually more direct than a vague criticism — and it's easier to act on.</p>
+
+<h3>The SBI framework</h3>
+<p>Three elements, in order: <strong>Situation</strong>, <strong>Behavior</strong>, <strong>Impact</strong>.</p>
+
+<p><em>"In yesterday's client call [Situation], when you presented the pricing without leaving time for questions [Behavior], the client left confused and I had to follow up separately [Impact]."</em></p>
+
+<p>No "you're bad at this." No editorial. Just specific, clear, connected to outcome. This is the model I recommend most to Israeli professionals because it's actually more precise than hedged feedback — and it respects both sides' time.</p>
+
+<h2>What Changes When You Get This Right</h2>
+
+<p>The Israeli professionals I work with who crack this feel a shift in how their teams respond to them. Feedback stops being a moment of tension and starts being useful information. People trust that when you say something is good, you mean it — because they've seen you say what's not.</p>
+
+<p>Your directness isn't a liability in English contexts. It's an asset — once you learn which parts of the packaging to keep and which to adjust. That adjustment is smaller than it sounds, and it's very learnable.</p>
+
+<p>If giving feedback in English is something you navigate regularly and it's not landing the way you intend, <a href="https://www.freeandclearenglish.com/#contact">reach out</a> — it's exactly the kind of thing we can work on together.</p>
+    `.trim(),
+  },
 ]
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
