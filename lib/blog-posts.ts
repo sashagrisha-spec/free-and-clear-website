@@ -429,6 +429,63 @@ Try: <em>"For this to be ready to send, I need the Q3 comparison and the executi
 <p>If giving feedback in English is something you navigate regularly and it's not landing the way you intend, <a href="https://www.freeandclearenglish.com/#contact">reach out</a> — it's exactly the kind of thing we can work on together.</p>
     `.trim(),
   },
+  {
+    slug: 'rayon-avoda-anglit',
+    title: 'ראיון עבודה באנגלית: איך מגיעים מוכנים ומשאירים את הרושם הנכון',
+    excerpt: 'ראיון עבודה באנגלית הוא לא רק מבחן שפה - הוא מבחן של ביטחון, מבנה ויכולת לדבר על עצמכם תחת לחץ. הנה מה שבאמת עוזר.',
+    publishedAt: '2026-06-21',
+    lang: 'he',
+    readingTime: 6,
+    keywords: ['ראיון עבודה באנגלית', 'הכנה לראיון עבודה אנגלית', 'אנגלית מקצועית ישראלים', 'להציג עצמכם באנגלית'],
+    category: 'Business English',
+    body: `
+<p>קיבלתם ראיון עבודה בחברה גלובלית. הדייט ביומן, הניסיון שלכם מדבר בעד עצמו. ואז מגיע הרגע: המראיין פותח באנגלית. "So, tell me about yourself."</p>
+
+<p>ואתם קופאים. לא כי אין לכם מה להגיד. אלא כי פתאום כל מה שתכננתם להגיד ברח. המשפט הפשוט ביותר נשמע מוזר, קשה למצוא את המקצב, ומה שיצא לא מייצג אתכם בכלל.</p>
+
+<p>ראיון עבודה באנגלית הוא לא רק מבחן שפה. הוא מבחן של ביטחון, מבנה, ויכולת לדבר על עצמכם בצורה ברורה תחת לחץ. הבשורה הטובה: כל אחד מאלה ניתן להכנה.</p>
+
+<h2>שאלת הפתיחה שכולם מגמגמים עליה</h2>
+
+<p>"Tell me about yourself" היא השאלה הכי נפוצה ולעתים הכי מבלבלת בראיונות באנגלית. היא פתוחה מדי. לא ברור מה רוצים לשמוע. ואז מקבלים סיפור חיים שלם, או תשובה קצרה מדי שלא מרשימה.</p>
+
+<p>יש מבנה שעובד כמעט תמיד: <strong>עבר, הווה, עתיד.</strong></p>
+
+<ul>
+<li><strong>עבר:</strong> "I've spent the last several years working in [תחום] — mainly focused on [מה עשיתם בפועל]."</li>
+<li><strong>הווה:</strong> "Right now I'm at [חברה נוכחית], where I lead [מה שאתם אחראים עליו]."</li>
+<li><strong>עתיד:</strong> "I'm looking to move into [מה שמחפשים] because [סיבה אחת קצרה וכנה]."</li>
+</ul>
+
+<p>שלושה משפטים. דקה וחצי. מבנה שמעביר תמונה שלמה בלי לאבד את המראיין.</p>
+
+<h2>השאלות שדוברי עברית נתקעים עליהן</h2>
+
+<p>מעבר ל-"tell me about yourself", יש כמה שאלות שמרגישות קלות אבל מוציאות אנשים משיווי משקל:</p>
+
+<p><strong>"What's your biggest weakness?"</strong> ישראלים נוטים לאחד משני קצוות: להיות ישירים מדי ("I don't really like meetings") או לברוח לתשובה שחוקה ("I work too hard"). מה שעובד: חולשה אמיתית עם עדות להתפתחות. "I used to struggle with delegating. I've been working on it actively and built a habit of weekly check-ins with my team."</p>
+
+<p><strong>"Tell me about a time you failed."</strong> שאלה קשה כי היא מבקשת ספציפיות. לא "once I made a mistake" אלא מקרה, מה קרה, מה למדתם. הכינו שניים-שלושה סיפורים כאלה מראש לפי מבנה STAR: Situation, Task, Action, Result.</p>
+
+<p><strong>"Why do you want this role?"</strong> ישראלים נוטים לתשובות כלליות ("This company is amazing"). מה שמרשים: הוכחה שעשיתם שיעורי בית. "I read about your work on [פרויקט ספציפי] and the way you approach [אתגר] aligns exactly with how I think about this problem."</p>
+
+<h2>מה גורם לכם להישמע פחות בטוחים ממה שאתם</h2>
+
+<p>אחת הסיבות שישראלים נשמעים פחות בטוחים מהמצופה בראיונות לא קשורה בכלל לאנגלית. היא קשורה לחוסר הרגלה לדבר על עצמכם בחיוב.</p>
+
+<p>בתרבות הישראלית, "לא להתנפח" הוא ערך. אתם נוטים למעט, להסייג, להוסיף "אבל". "I led the team, well, kind of co-led, together with my manager of course, and the results were okay I guess."</p>
+
+<p>בראיון עבודה באנגלית, המראיין מחפש ביטחון. הם לא רוצים שתתנפחו, הם רוצים שתדברו על מה שעשיתם בצורה ברורה וישירה. "I led a team of six and delivered the project three weeks ahead of schedule." ללא הסייגים, רק העובדות.</p>
+
+<h2>הכנה שבאמת עוזרת</h2>
+
+<p>ההכנה הכי יעילה לראיון באנגלית היא לא לקרוא תשובות, זה לדבר בקול. קחו את השאלות הנפוצות, שבו לבד ותנו תשובות בקול. הקליטו את עצמכם. האזינו. שימו לב איפה אתם מהססים, איפה אתם מאבדים קצב, ואיפה אתם לא מדויקים.</p>
+
+<p>עשר דקות של תרגול מדובב שווות יותר משעה של קריאה. הגוף צריך להיזכר איך נשמע המשפט, לא רק הראש.</p>
+
+<p>אם יש לכם ראיון קרוב ואתם רוצים לתרגל ולקבל פידבק ספציפי, <a href="https://www.freeandclearenglish.com/#contact">שלחו לי הודעה</a> ונכין את זה יחד.</p>
+    `.trim(),
+  },
 ]
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
