@@ -22,3 +22,66 @@ body {
   color: var(--dark-grey);
   -webkit-font-smoothing: antialiased;
 }
+
+/* Blog article typography */
+.blog-body {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--dark-grey);
+}
+
+.blog-body p {
+  margin-bottom: 1.4rem;
+}
+
+.blog-body h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.blog-body h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.blog-body ul,
+.blog-body ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.4rem;
+}
+
+[dir="rtl"] .blog-body ul,
+[dir="rtl"] .blog-body ol {
+  padding-left: 0;
+  padding-right: 1.5rem;
+}
+
+.blog-body li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-body strong {
+  font-weight: 700;
+  color: var(--dark-grey);
+}
+
+.blog-body em {
+  font-style: italic;
+}
+
+.blog-body a {
+  color: var(--navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.blog-body a:hover {
+  opacity: 0.75;
+}

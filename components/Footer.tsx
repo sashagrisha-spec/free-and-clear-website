@@ -7,7 +7,7 @@ export default function Footer() {
         </p>
         <div className="flex gap-6">
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/freeandclearenglish"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/40 hover:text-white text-sm transition-colors"
@@ -15,7 +15,7 @@ export default function Footer() {
             Instagram
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/sasha-daniel/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/40 hover:text-white text-sm transition-colors"

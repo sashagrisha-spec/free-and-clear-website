@@ -62,12 +62,12 @@ export default function PracticePodsPage() {
       {/* What is it + How it works */}
       <section style={{ backgroundColor: 'var(--light-grey)' }} className="py-20 px-6" dir="rtl">
         <div className="max-w-3xl mx-auto">
-          <p className="text-xs font-bold tracking-widest uppercase mb-3 text-center" style={{ color: 'var(--yellow)' }}>
-            מה זה בעצם
-          </p>
-          <h2 className="text-3xl font-bold mb-6 text-center" style={{ color: 'var(--navy)' }}>
-            קבוצת תרגול קטנה. פעמיים בשבוע. חצי שעה.
+          <h2 className="text-2xl font-bold mb-3 text-center" style={{ color: 'var(--navy)' }}>
+            מה זה בעצם?
           </h2>
+          <p className="text-3xl font-bold mb-6 text-center" style={{ color: 'var(--mid-grey)' }}>
+            קבוצת תרגול קטנה. פעמיים בשבוע. חצי שעה.
+          </p>
           <p className="text-lg leading-relaxed text-center mb-14" style={{ color: 'var(--mid-grey)' }}>
             Practice Pod הוא מרחב בטוח ומסודר לתרגול אנגלית. נפגשים בזום, יש מנחה שמוביל,
             מדברים בחדרים קטנים ואז חוזרים לקבוצה לרגע קצר של שיתוף.
@@ -108,7 +108,7 @@ export default function PracticePodsPage() {
           <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
               <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--navy)' }}>
-                מה Practice Pods הוא <span style={{ color: 'var(--mid-grey)' }}>לא</span>
+                מה זה <span style={{ color: 'var(--mid-grey)' }}>לא</span>
               </h2>
               <ul className="space-y-4">
                 {[
@@ -126,7 +126,7 @@ export default function PracticePodsPage() {
             </div>
             <div>
               <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--navy)' }}>
-                מה <span style={{ color: 'var(--yellow)' }}>כן</span>
+                מה זה <span style={{ color: 'var(--yellow)' }}>כן</span>
               </h2>
               <ul className="space-y-4">
                 {[
@@ -149,12 +149,12 @@ export default function PracticePodsPage() {
       {/* Who is this for */}
       <section style={{ backgroundColor: 'var(--light-grey)' }} className="py-20 px-6" dir="rtl">
         <div className="max-w-2xl mx-auto text-center">
-          <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: 'var(--yellow)' }}>
-            למי זה מתאים
-          </p>
-          <h2 className="text-3xl font-bold mb-10" style={{ color: 'var(--navy)' }}>
-            אם זה נשמע כמוכם - Practice Pods בשבילכם
+          <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--navy)' }}>
+            למי זה מתאים?
           </h2>
+          <p className="text-3xl font-bold mb-10" style={{ color: 'var(--mid-grey)' }}>
+            אם זה נשמע כמוכם - Practice Pods בשבילכם
+          </p>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
               { emoji: '🫶', text: 'מבינים אנגלית טוב אבל נתקעים ברגע שצריך לדבר' },
@@ -219,9 +219,6 @@ export default function PracticePodsPage() {
           >
             לבחירת פגישה והרשמה
           </a>
-          <p className="mt-5 text-sm" style={{ color: 'rgba(255,255,255,0.38)' }}>
-            קוד קופון ENGLISHGYM - 5% הנחה
-          </p>
         </div>
       </section>
 

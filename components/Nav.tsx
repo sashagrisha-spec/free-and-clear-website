@@ -14,10 +14,11 @@ export default function Nav() {
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="#about" className="text-white/80 hover:text-white text-sm font-medium transition-colors">About</Link>
-          <Link href="#services" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Services</Link>
-          <Link href="#testimonials" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Testimonials</Link>
-          <Link href="#contact" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }} className="text-sm font-bold px-5 py-2 rounded hover:opacity-90 transition-opacity">
+          <Link href="/#about" className="text-white/80 hover:text-white text-sm font-medium transition-colors">About</Link>
+          <Link href="/#services" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Services</Link>
+          <Link href="/#testimonials" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Testimonials</Link>
+          <Link href="/blog" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Blog</Link>
+          <Link href="/#contact" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }} className="text-sm font-bold px-5 py-2 rounded hover:opacity-90 transition-opacity">
             Let&apos;s Talk
           </Link>
         </div>
@@ -36,10 +37,11 @@ export default function Nav() {
 
       {open && (
         <div style={{ backgroundColor: 'var(--navy)' }} className="md:hidden px-6 pb-6 flex flex-col gap-4">
-          <Link href="#about" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>About</Link>
-          <Link href="#services" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>Services</Link>
-          <Link href="#testimonials" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>Testimonials</Link>
-          <Link href="#contact" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }} className="text-sm font-bold px-5 py-2 rounded text-center" onClick={() => setOpen(false)}>
+          <Link href="/#about" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>About</Link>
+          <Link href="/#services" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>Services</Link>
+          <Link href="/#testimonials" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>Testimonials</Link>
+          <Link href="/blog" className="text-white/80 text-sm font-medium" onClick={() => setOpen(false)}>Blog</Link>
+          <Link href="/#contact" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }} className="text-sm font-bold px-5 py-2 rounded text-center" onClick={() => setOpen(false)}>
             Let&apos;s Talk
           </Link>
         </div>

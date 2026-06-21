@@ -4,17 +4,24 @@ import { useState } from 'react'
 export default function ContactCTA() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', message: '' })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    await fetch('/api/contact', {
+    setError('')
+    const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     })
     setLoading(false)
+    if (!res.ok) {
+      const data = await res.json()
+      setError(data.error || 'Something went wrong. Please try again.')
+      return
+    }
     setSubmitted(true)
   }
 
@@ -77,6 +84,9 @@ export default function ContactCTA() {
                 placeholder="I've been speaking English for years but in meetings I still feel like I'm leaving something on the table..."
               />
             </div>
+            {error && (
+              <p className="text-red-400 text-sm mb-4">{error}</p>
+            )}
             <button
               type="submit"
               disabled={loading}

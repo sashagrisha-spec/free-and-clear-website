@@ -1,7 +1,5 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 import { NextResponse } from 'next/server'
-
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 export async function POST(request: Request) {
   const { name, email, message } = await request.json()
@@ -10,10 +8,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
   }
 
-  await resend.emails.send({
-    from: 'Free & Clear English <sasha@freeandclearenglish.com>',
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_APP_PASSWORD,
+    },
+  })
+
+  await transporter.sendMail({
+    from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
     to: 'sasha@freeandclearenglish.com',
     subject: `New message from ${name}`,
+    replyTo: email,
     html: `
       <h2>New contact form submission</h2>
       <p><strong>Name:</strong> ${name}</p>
@@ -21,7 +28,6 @@ export async function POST(request: Request) {
       <p><strong>Message:</strong></p>
       <p>${message.replace(/\n/g, '<br>')}</p>
     `,
-    replyTo: email,
   })
 
   return NextResponse.json({ success: true })
