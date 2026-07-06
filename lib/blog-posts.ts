@@ -486,6 +486,59 @@ Try: <em>"For this to be ready to send, I need the Q3 comparison and the executi
 <p>אם יש לכם ראיון קרוב ואתם רוצים לתרגל ולקבל פידבק ספציפי, <a href="https://www.freeandclearenglish.com/#contact">שלחו לי הודעה</a> ונכין את זה יחד.</p>
     `.trim(),
   },
+  {
+    slug: 'english-presentation-tips-israeli-professionals',
+    title: 'How to Give a Confident English Presentation as an Israeli Professional',
+    excerpt: 'Sounding confident in an English presentation is a skill you can train, separately from your English level. Here is how to build it.',
+    publishedAt: '2026-07-06',
+    lang: 'en',
+    readingTime: 4,
+    keywords: ['English presentation tips', 'presenting in English Israel', 'business English Israeli professionals', 'sound confident presenting English'],
+    category: 'Business English',
+    body: `
+<p>You have done this presentation a hundred times in your head. You know the material better than anyone in the room. And then you switch to English, and suddenly every sentence feels like it is walking uphill. Your pace speeds up, your voice gets flatter, and the ideas that felt sharp in Hebrew come out softer than you wanted.</p>
+
+<p>If that sounds familiar, you are not alone, and it is not a language-level problem. Most of the Israeli professionals I coach have strong English. What they are missing is a way to deliver it under pressure, in front of people, without losing themselves. Here is how to build that.</p>
+
+<h2>Why presenting in English feels harder than it should</h2>
+
+<p>When you present in your native language, delivery is automatic. You are free to focus on the audience, the timing, the room. In English, part of your attention is quietly pulled toward word choice and grammar, so you have less left for everything else. That split is what makes you sound hesitant, even when your content is excellent. The goal is not more vocabulary. It is to make your delivery automatic enough that your attention can go back where it belongs: to the people in front of you.</p>
+
+<h2>Prepare your delivery, not just your slides</h2>
+
+<p>Israeli professionals tend to over-prepare the content and under-prepare the speaking. Flip that. Once your slides are ready, spend your remaining time out loud, not in your head.</p>
+
+<ul>
+<li>Rehearse the first ninety seconds until they are effortless. A calm opening sets the tone for everything after it.</li>
+<li>Say your key sentences out loud, not silently. The mouth needs to remember them, not just the brain.</li>
+<li>Record yourself once and listen back. You will hear exactly where you rush and where you reach for a word.</li>
+</ul>
+
+<p>Ten minutes of speaking out loud is worth an hour of rereading notes.</p>
+
+<h2>Techniques that make you sound confident in the room</h2>
+
+<p>Confidence in English is mostly rhythm and pacing, not perfect grammar.</p>
+
+<ul>
+<li><strong>Slow down on purpose.</strong> Under pressure we speed up, and speed is what makes an accent hard to follow. A slightly slower pace sounds more senior, not less fluent.</li>
+<li><strong>Use pauses as punctuation.</strong> A short silence after an important point reads as authority.</li>
+<li><strong>Shadowing:</strong> pick a speaker you admire, a TED talk or a podcast, and repeat their sentences in real time, copying their rhythm. Ten minutes a day trains your delivery fast.</li>
+</ul>
+
+<p>None of these require better English. They require practicing the English you already have.</p>
+
+<h2>Handling questions without losing your footing</h2>
+
+<p>The Q and A is where confidence often slips, because you cannot script it. Two habits help. First, buy yourself a second: <em>"That is a good question, let me think about that for a moment."</em> It is completely natural and gives your brain time to organize the answer in English. Second, if you did not fully catch a question, ask them to repeat it. Asking for clarification is what confident senior people do, in any language.</p>
+
+<h2>The bottom line</h2>
+
+<p>Sounding confident in an English presentation is a skill you can train, separately from your English level. Prepare your delivery out loud, slow down, use pauses, and give yourself permission to think before you answer. Do that, and the version of you that shows up in English starts to match the one your colleagues know in Hebrew.</p>
+
+<p>If you have an important presentation coming up and you want to practice it with specific feedback, <a href="https://www.freeandclearenglish.com/#contact">send me a message</a> and we will prepare it together.</p>
+`.trim(),
+  },
 ]
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
