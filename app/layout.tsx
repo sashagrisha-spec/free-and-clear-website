@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
+import { getLangForPath } from "@/lib/page-lang";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -65,13 +67,17 @@ const structuredData = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = (await headers()).get("x-pathname");
+  const lang = getLangForPath(pathname);
+  const dir = lang === "he" ? "rtl" : "ltr";
+
   return (
-    <html lang="en" className="h-full">
+    <html lang={lang} dir={dir} className="h-full">
       <head>
         <script
           type="application/ld+json"
