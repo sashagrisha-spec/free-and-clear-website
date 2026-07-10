@@ -3,6 +3,7 @@
 // Requires env: ANTHROPIC_API_KEY
 
 import fs from 'node:fs';
+import { keywordTargets } from './keyword-targets.mjs';
 
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 if (!API_KEY) {
@@ -23,12 +24,21 @@ Tone: warm, direct, human. Never corporate.
 HARD RULE: NEVER use an em dash (the "—" character) anywhere. Use commas, colons, or regular hyphens instead.
 If you write the post in Hebrew you MUST use gender-neutral plural forms only (אתם, שלכם, לכם, אתכם, עצמכם) and plural verbs (יודעים, מדברים, נסו, שלחו), never masculine singular (אתה, שלך, לך).`;
 
+const targetList = keywordTargets
+  .map((t, i) => `${i + 1}. [${t.lang}] ${t.q}${t.note ? `: ${t.note}` : ''}`)
+  .join('\n');
+
 const user = `Write ONE new blog post (600-900 words) for the Free & Clear English blog.
 
-These posts are ALREADY published, so choose a DIFFERENT topic not covered by any of them:
+These posts are ALREADY published, so do NOT repeat any of these topics:
 ${titles.map((t) => `- ${t}`).join('\n')}
 
-Pick a fresh, genuinely useful topic for this audience (for example: shadowing, presentations, running meetings in English, job interviews, professional email, small talk, negotiation, giving feedback, accent and pronunciation, idioms Israelis misuse, thinking in English instead of translating). Write in English or Hebrew; if the recent posts are mostly English, prefer Hebrew this time (and vice versa).
+Below is our prioritized list of target search queries (real SEO keywords Israelis type into Google). Choose the SINGLE highest-priority query from this list that is NOT already covered by a published post above, and write the post to rank for it. Build the title, the <h2> headings, the keywords array, and the excerpt around that exact query and its close variations.
+
+Target queries (highest priority first):
+${targetList}
+
+Language rule: write the post in the language tagged next to the chosen query ([he] = Hebrew, [en] = English). Most targets are Hebrew because our audience searches in Hebrew; when in doubt, prefer a Hebrew target.
 
 The body must be HTML using ONLY these tags: <p>, <h2>, <h3>, <ul>, <li>, <strong>, <em>, <a href="...">. Include an engaging opening paragraph, 2 to 4 <h2> sections with practical content, and a closing paragraph whose call to action links to https://www.freeandclearenglish.com/#contact .
 
