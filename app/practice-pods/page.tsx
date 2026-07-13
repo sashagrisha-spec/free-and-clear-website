@@ -5,6 +5,9 @@ import Footer from '@/components/Footer'
 export const metadata: Metadata = {
   title: 'Practice Pods - תרגול אנגלית עם אנשים כמוכם | Free & Clear English',
   description: 'מרחב תרגול מסודר לדוברי עברית שרוצים לפתוח את הפה ולדבר אנגלית. פגישות זום פעמיים בשבוע, 30 דקות, בחדרים קטנים עם שותפים למסע.',
+  // Currently unavailable to customers. Kept as infrastructure but hidden from
+  // search and unlinked from the site. Remove this `robots` block to re-list it.
+  robots: { index: false, follow: false },
   alternates: {
     canonical: 'https://www.freeandclearenglish.com/practice-pods',
   },

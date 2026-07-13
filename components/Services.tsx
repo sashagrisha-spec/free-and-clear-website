@@ -145,70 +145,12 @@ export default function Services() {
           </div>
         </div>
 
-        {/* TIER 3 - Live Practice */}
-        <div className="mb-6">
-          <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: 'var(--mid-grey)' }}>
-            Live Practice
-          </p>
-          <Link
-            href="/practice-pods"
-            className="block rounded-2xl p-8 hover:opacity-95 transition-opacity"
-            style={{ backgroundColor: 'var(--navy)' }}
-          >
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div className="flex-1">
-                <span
-                  className="text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full inline-block mb-5"
-                  style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
-                >
-                  Practice Pods
-                </span>
-                <h3 className="text-2xl font-bold mb-2 text-white" dir="rtl">מתים לתרגל אנגלית אבל אין לכם עם מי?</h3>
-                <p className="text-sm font-medium mb-4" style={{ color: 'var(--yellow)' }}>
-                  Twice a week on Zoom · 30 min · ₪45/session
-                </p>
-                <p className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }} dir="rtl">
-                  קבוצת תרגול קטנה שנפגשת פעמיים בשבוע בזום. יש מנחה, יש חדרים קטנים, ויש אנשים בדיוק כמוכם. לא שיעור, לא מורה - מרחב בטוח לפתוח את הפה ולדבר.
-                </p>
-              </div>
-              <div className="flex-shrink-0">
-                <span
-                  className="inline-block font-bold py-3 px-8 rounded-lg text-sm"
-                  style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
-                >
-                  לבחירת פגישה
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* TIER 4 - Community & Challenge */}
+        {/* TIER 3 - Daily Practice */}
         <div>
           <p className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: 'var(--mid-grey)' }}>
-            Community &amp; Daily Practice
+            Daily Practice
           </p>
-          <div className="grid md:grid-cols-2 gap-6">
-
-            <div className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
-              <div className="flex items-start justify-between gap-4 mb-1">
-                <h3 className="text-xl font-bold" style={{ color: 'var(--navy)' }}>English Gym</h3>
-                <div className="text-right flex-shrink-0">
-                  <span className="text-xl font-bold" style={{ color: 'var(--navy)' }}>₪20</span>
-                  <span className="text-xs block" style={{ color: 'var(--mid-grey)' }}>/month</span>
-                </div>
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: 'var(--mid-grey)' }}>
-                Exclusive WhatsApp club · Shadowing method
-              </p>
-              <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--mid-grey)' }}>
-                A weekly 10-minute recording lands in your WhatsApp. You listen, you repeat.
-                New topic every week. The most consistent thing you can do for your English.
-              </p>
-              <a href="https://small-talk.ravpage.co.il/gym" target="_blank" rel="noopener noreferrer" className="text-center font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity text-sm" style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}>
-                Join the Club
-              </a>
-            </div>
+          <div className="grid md:grid-cols-1 gap-6">
 
             <div className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
               <div className="flex items-start justify-between gap-4 mb-1">

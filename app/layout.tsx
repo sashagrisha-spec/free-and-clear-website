@@ -57,13 +57,6 @@ const structuredData = {
       name: "1:1 Personal Coaching",
       description: "10-session personal coaching program for English pronunciation and fluency",
     },
-    {
-      "@type": "Offer",
-      name: "English Gym",
-      description: "Monthly shadowing club with weekly audio recordings",
-      price: "20",
-      priceCurrency: "ILS",
-    },
   ],
 }
 
