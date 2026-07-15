@@ -49,7 +49,7 @@ export default function About() {
             The gap between who you are and how you come across? That&apos;s exactly what we close together.
           </p>
           <Link
-            href="#contact"
+            href="/#contact"
             style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}
             className="font-bold px-8 py-4 rounded hover:opacity-90 transition-opacity inline-block"
           >
