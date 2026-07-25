@@ -5,11 +5,13 @@ export type PageLang = 'he' | 'en'
 // Route prefixes whose content is written in Hebrew.
 // To add a new Hebrew page later, just add its path prefix here.
 const HEBREW_PREFIXES = [
+  '/anglit-hitech',
   '/anglit-iski',
   '/coach-anglit',
   '/hagaya-anglit',
   '/practice-pods',
   '/speak-like-yourself', // also covers /speak-like-yourself-ig and their /success pages
+  '/yalla-lachzor-acharei',
 ]
 
 // Decide the real language of a page from its path.
