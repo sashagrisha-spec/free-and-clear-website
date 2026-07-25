@@ -97,6 +97,20 @@ export async function POST(req: NextRequest) {
       subject: 'יאללה, לחזור אחרי: הגישה שלכם להקלטות 🎧',
       html: accessEmailHtml(name, bump),
     }),
+    // Per-purchase heads-up to Sasha. Kept until the nightly 20:00 summary is
+    // built; at that point this is removed so only the Small talk alert remains.
+    transporter.sendMail({
+      from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
+      to: process.env.GMAIL_USER,
+      subject: `מכירה חדשה: יאללה, לחזור אחרי · ${name}`,
+      html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right">
+        <h3>רכישה חדשה: יאללה, לחזור אחרי</h3>
+        <p><strong>שם:</strong> ${name}</p>
+        <p><strong>מייל:</strong> ${email}</p>
+        <p><strong>סכום:</strong> ${value} ₪</p>
+        ${bump ? '<p><strong>כולל גם:</strong> קורס Small talk 🎓</p>' : ''}
+      </div>`,
+    }),
     saveBuyer({
       product: PRODUCT_SLUG,
       name,
@@ -108,9 +122,8 @@ export async function POST(req: NextRequest) {
     }),
   ]
 
-  // Notify Sasha ONLY when the Small talk course was added, because it needs a
-  // manual step (adding the buyer to the RavMesser list). Regular purchases are
-  // captured by the nightly summary instead, so her inbox stays quiet.
+  // Extra actionable alert ONLY when the Small talk course was added, because it
+  // needs a manual step (adding the buyer to the RavMesser list).
   if (bump) {
     sideEffects.push(
       transporter.sendMail({
