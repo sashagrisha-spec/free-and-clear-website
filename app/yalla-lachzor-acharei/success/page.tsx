@@ -10,6 +10,7 @@ function SuccessContent() {
   const [error, setError] = useState('')
   const [name, setName] = useState('')
   const [driveLink, setDriveLink] = useState('')
+  const [bump, setBump] = useState(false)
 
   useEffect(() => {
     const rv = searchParams.get('rv') || ''
@@ -29,6 +30,7 @@ function SuccessContent() {
         if (data.success) {
           setName(data.name || '')
           setDriveLink(data.driveLink || '')
+          setBump(Boolean(data.bump))
           // Purchase is counted ONLY here, after the server verified the payment.
           trackPurchase(data.value, data.currency, data.eventId)
           setStatus('success')
@@ -83,6 +85,11 @@ function SuccessContent() {
           <a href={driveLink} target="_blank" rel="noopener noreferrer" className="inline-block font-bold py-4 px-10 rounded-lg text-lg hover:opacity-90 transition-opacity" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
             לכל ההקלטות 👈
           </a>
+        )}
+        {bump && (
+          <p className="text-base mt-8 mx-auto max-w-sm rounded-2xl p-4" style={{ color: 'rgba(255,255,255,0.85)', backgroundColor: 'rgba(255,255,255,0.06)' }}>
+            🎓 והוספתם גם את <strong style={{ color: 'var(--yellow)' }}>Small talk קטן עליי</strong> - הגישה לקורס תגיע במייל נפרד עם שם משתמש וסיסמה, ממש בקרוב.
+          </p>
         )}
       </div>
     </main>

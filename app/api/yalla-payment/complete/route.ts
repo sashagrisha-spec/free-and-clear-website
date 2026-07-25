@@ -10,6 +10,8 @@ import { saveBuyer } from '@/lib/save-buyer'
 // Supabase, and fire the server-side Meta Purchase (de-duped with the browser).
 
 const PRODUCT_SLUG = 'yalla-lachzor-acharei'
+const SMALL_TALK_SLUG = 'small-talk-bump'
+const SMALL_TALK_LIST = 'רכשו קורס סמול טוק' // RavMesser list that unlocks the Schooler course
 const DRIVE_LINK = 'https://drive.google.com/drive/folders/1vUQK4CzoPDkPYX87VAdUNcu5lhkl_yGj?usp=drive_link'
 
 const transporter = nodemailer.createTransport({
@@ -30,11 +32,18 @@ async function verifyCardcom(lowProfileCode: string) {
   return res.json()
 }
 
-function accessEmailHtml(name: string): string {
+function accessEmailHtml(name: string, bump: boolean): string {
+  const smallTalkNote = bump
+    ? `<div style="background:#FFFBEE;border:1px dashed #F2B705;border-radius:12px;padding:16px 20px;margin:20px 0;line-height:1.8">
+        <p style="margin:0 0 6px"><strong>וגם: קורס Small talk קטן עליי 🎉</strong></p>
+        <p style="margin:0">הגישה לקורס תגיע אליכם במייל נפרד עם שם משתמש וסיסמה, ממש בקרוב. שווה לחכות לזה.</p>
+      </div>`
+    : ''
   return `
     <div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;max-width:520px;margin:0 auto;color:#2D2D2D">
       <h2 style="color:#1B3054">היי ${name}, יאללה מתחילים! 🎧</h2>
       <p style="font-size:16px">התשלום עבר, וכל 55 ההקלטות מחכות לכם כאן:</p>
+      ${smallTalkNote}
 
       <p style="text-align:center;margin:28px 0">
         <a href="${DRIVE_LINK}"
@@ -75,28 +84,18 @@ export async function POST(req: NextRequest) {
   if (parts.length < 4 || parts[0] !== 'YALLA') {
     return NextResponse.json({ error: 'פרמטרים שגויים' }, { status: 400 })
   }
-  const [, email, name, eventId] = parts
+  const [, email, name, eventId, bumpFlag] = parts
+  const bump = bumpFlag === '1'
   const value = typeof amount === 'number' ? amount : 97
   const currency = 'ILS'
 
   // Best-effort side effects, never block the buyer's confirmation on one failing.
-  await Promise.allSettled([
+  const sideEffects: Promise<unknown>[] = [
     transporter.sendMail({
       from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: 'יאללה, לחזור אחרי: הגישה שלכם להקלטות 🎧',
-      html: accessEmailHtml(name),
-    }),
-    transporter.sendMail({
-      from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `מכירה חדשה: יאללה, לחזור אחרי · ${name}`,
-      html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right">
-        <h3>רכישה חדשה: יאללה, לחזור אחרי</h3>
-        <p><strong>שם:</strong> ${name}</p>
-        <p><strong>מייל:</strong> ${email}</p>
-        <p><strong>סכום:</strong> ${value} ₪</p>
-      </div>`,
+      html: accessEmailHtml(name, bump),
     }),
     saveBuyer({
       product: PRODUCT_SLUG,
@@ -107,7 +106,38 @@ export async function POST(req: NextRequest) {
       cardcomLowProfile: lowProfileCode,
       eventId,
     }),
-  ])
+  ]
+
+  // Notify Sasha ONLY when the Small talk course was added, because it needs a
+  // manual step (adding the buyer to the RavMesser list). Regular purchases are
+  // captured by the nightly summary instead, so her inbox stays quiet.
+  if (bump) {
+    sideEffects.push(
+      transporter.sendMail({
+        from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
+        to: process.env.GMAIL_USER,
+        subject: `🎓 נמכר Small talk! ${name}`,
+        html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;line-height:1.8;color:#2D2D2D">
+          <h3 style="color:#1B3054">רכישת קורס Small talk 🎉</h3>
+          <p><strong>שם:</strong> ${name}</p>
+          <p><strong>מייל:</strong> ${email}</p>
+          <div style="background:#FFFBEE;border:1px dashed #F2B705;border-radius:10px;padding:14px 18px;margin-top:12px">
+            <strong>הפעולה שלך:</strong> הוסיפי את <strong>${email}</strong> לרשימה "${SMALL_TALK_LIST}" ברב מסר, וסקולר ישלח לה גישה אוטומטית.
+          </div>
+        </div>`,
+      }),
+      saveBuyer({
+        product: SMALL_TALK_SLUG,
+        name,
+        email,
+        currency,
+        cardcomLowProfile: lowProfileCode,
+        eventId,
+      }),
+    )
+  }
+
+  await Promise.allSettled(sideEffects)
 
   // Count the purchase in Meta (server-side, de-duped with the browser pixel).
   await sendPurchaseEvent({
@@ -120,5 +150,5 @@ export async function POST(req: NextRequest) {
     userAgent: req.headers.get('user-agent') || undefined,
   })
 
-  return NextResponse.json({ success: true, name, driveLink: DRIVE_LINK, eventId, value, currency })
+  return NextResponse.json({ success: true, name, driveLink: DRIVE_LINK, eventId, value, currency, bump })
 }

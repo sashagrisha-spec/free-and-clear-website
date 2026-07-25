@@ -5,19 +5,31 @@ import { NextRequest, NextResponse } from 'next/server'
 // ReturnValue so Meta can de-duplicate the browser + server Purchase events.
 
 const PRICE = 97
+const BUMP_PRICE = 68
 const TEST_PRICE = 1
+const TEST_BUMP_PRICE = 1
 
 export async function POST(req: NextRequest) {
-  const { name, email, test } = await req.json()
+  const { name, email, test, bump } = await req.json()
 
   if (!name || !email) {
     return NextResponse.json({ error: 'חסרים פרטים' }, { status: 400 })
   }
 
-  const amount = test ? TEST_PRICE : PRICE
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!
+  const basePrice = test ? TEST_PRICE : PRICE
+  const bumpPrice = test ? TEST_BUMP_PRICE : BUMP_PRICE
+  const amount = basePrice + (bump ? bumpPrice : 0)
+  // Production sets NEXT_PUBLIC_BASE_URL, so live behavior is unchanged. On a
+  // Vercel preview (where it isn't set) fall back to the deployment's own URL so
+  // Cardcom redirects back to the same preview for end-to-end testing.
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    (process.env.VERCEL_BRANCH_URL && `https://${process.env.VERCEL_BRANCH_URL}`) ||
+    (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) ||
+    ''
   const eventId = `yalla_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`
-  const returnValue = `YALLA|${email}|${name}|${eventId}`
+  // 5th field flags whether the Small talk order bump was added.
+  const returnValue = `YALLA|${email}|${name}|${eventId}|${bump ? '1' : '0'}`
   const rv = encodeURIComponent(returnValue)
 
   const body = {
@@ -40,9 +52,16 @@ export async function POST(req: NextRequest) {
       Products: [
         {
           Description: 'Free & Clear English - יאללה, לחזור אחרי (55 הקלטות)',
-          UnitCost: amount,
+          UnitCost: basePrice,
           Quantity: 1,
         },
+        ...(bump
+          ? [{
+              Description: 'Free & Clear English - קורס Small talk קטן עליי',
+              UnitCost: bumpPrice,
+              Quantity: 1,
+            }]
+          : []),
       ],
     },
   }
