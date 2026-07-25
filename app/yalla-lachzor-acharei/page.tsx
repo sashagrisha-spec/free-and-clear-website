@@ -105,7 +105,7 @@ export default function YallaLandingPage() {
               כי שנים אתם משלמים על קורסים שמלמדים אתכם דקדוק, ובדיוק ברגע שצריך לפתוח את הפה: <strong style={{ color: 'var(--yellow)' }}>כלום.</strong> לא הגיע הזמן למשהו אחר?
             </p>
             <a
-              href="#story"
+              href="#buy"
               style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
               className="inline-block font-bold px-12 py-4 rounded-lg hover:opacity-90 transition-opacity text-lg"
             >
