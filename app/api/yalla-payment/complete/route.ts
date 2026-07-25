@@ -97,20 +97,8 @@ export async function POST(req: NextRequest) {
       subject: 'יאללה, לחזור אחרי: הגישה שלכם להקלטות 🎧',
       html: accessEmailHtml(name, bump),
     }),
-    // Per-purchase heads-up to Sasha. Kept until the nightly 20:00 summary is
-    // built; at that point this is removed so only the Small talk alert remains.
-    transporter.sendMail({
-      from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER,
-      subject: `מכירה חדשה: יאללה, לחזור אחרי · ${name}`,
-      html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right">
-        <h3>רכישה חדשה: יאללה, לחזור אחרי</h3>
-        <p><strong>שם:</strong> ${name}</p>
-        <p><strong>מייל:</strong> ${email}</p>
-        <p><strong>סכום:</strong> ${value} ₪</p>
-        ${bump ? '<p><strong>כולל גם:</strong> קורס Small talk 🎓</p>' : ''}
-      </div>`,
-    }),
+    // No per-purchase email: regular sales are reported by the nightly 06:00
+    // summary. Sasha is emailed only when a sale needs action (Small talk, below).
     saveBuyer({
       product: PRODUCT_SLUG,
       name,
@@ -128,7 +116,7 @@ export async function POST(req: NextRequest) {
     sideEffects.push(
       transporter.sendMail({
         from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
-        to: process.env.GMAIL_USER,
+        to: [process.env.GMAIL_USER, 'sasha@freeandclearenglish.com'].join(', '),
         subject: `🎓 נמכר Small talk! ${name}`,
         html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;line-height:1.8;color:#2D2D2D">
           <h3 style="color:#1B3054">רכישת קורס Small talk 🎉</h3>

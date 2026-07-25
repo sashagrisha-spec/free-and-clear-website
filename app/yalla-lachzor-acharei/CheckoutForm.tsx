@@ -6,10 +6,9 @@ const BASE_PRICE = 97
 const BUMP_PRICE = 68
 const BUMP_OLD_PRICE = 137
 
-// While false, the Small talk order bump shows ONLY in test mode (?test=1),
-// so real customers see the page exactly as before. Flip to true to launch the
-// bump to everyone.
-const BUMP_LIVE = false
+// The Small talk order bump is LIVE for all customers. Set to false to hide it
+// from customers again (it would then show only in test mode, ?test=1).
+const BUMP_LIVE = true
 
 const SMALL_TALK_PERKS = [
   'מה להגיד בכל סיטואציה בחיים - במעלית, בסופר, בתחילת פגישה',
