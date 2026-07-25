@@ -6,6 +6,11 @@ const BASE_PRICE = 97
 const BUMP_PRICE = 68
 const BUMP_OLD_PRICE = 137
 
+// While false, the Small talk order bump shows ONLY in test mode (?test=1),
+// so real customers see the page exactly as before. Flip to true to launch the
+// bump to everyone.
+const BUMP_LIVE = false
+
 const SMALL_TALK_PERKS = [
   'מה להגיד בכל סיטואציה בחיים - במעלית, בסופר, בתחילת פגישה',
   'הבדלים תרבותיים - מה להגיד וממה להיזהר',
@@ -26,7 +31,8 @@ export default function CheckoutForm() {
     setIsTest(new URLSearchParams(window.location.search).get('test') === '1')
   }, [])
 
-  const total = BASE_PRICE + (bump ? BUMP_PRICE : 0)
+  const showBump = BUMP_LIVE || isTest
+  const total = BASE_PRICE + (showBump && bump ? BUMP_PRICE : 0)
   const testCharge = 1 + (bump ? 1 : 0)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -79,6 +85,8 @@ export default function CheckoutForm() {
         style={{ backgroundColor: '#fff', color: 'var(--navy)', border: '1.5px solid rgba(27,48,84,0.15)', outline: 'none' }}
       />
 
+      {showBump && (
+        <>
       {/* Order bump: add the Small talk course at a discount */}
       <label
         className="block w-full text-right cursor-pointer select-none rounded-2xl p-4 mt-1"
@@ -138,6 +146,8 @@ export default function CheckoutForm() {
         <span className="font-bold text-lg">סה״כ לתשלום</span>
         <span className="font-bold text-lg" style={{ fontVariantNumeric: 'tabular-nums' }}>₪{total}</span>
       </div>
+        </>
+      )}
 
       {isTest && (
         <p className="text-xs text-center" style={{ color: 'var(--yellow)' }}>
@@ -153,7 +163,7 @@ export default function CheckoutForm() {
         className="font-bold py-4 px-8 rounded-xl text-lg hover:opacity-90 transition-opacity disabled:opacity-50 shadow-lg"
         style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
       >
-        {loading ? 'מעבירים אתכם לתשלום...' : `לתשלום המאובטח ₪${total} 👈`}
+        {loading ? 'מעבירים אתכם לתשלום...' : showBump ? `לתשלום המאובטח ₪${total} 👈` : 'אני רוצה להתחיל 👈 ₪97'}
       </button>
       <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.6)' }}>
         תשלום מאובטח דרך Cardcom · חשבונית תישלח אוטומטית למייל
