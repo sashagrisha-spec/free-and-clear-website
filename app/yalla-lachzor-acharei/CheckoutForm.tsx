@@ -18,11 +18,14 @@ export default function CheckoutForm() {
     const fbq = (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq
     if (fbq) fbq('track', 'InitiateCheckout')
 
+    // Visiting the page with ?test=1 charges ₪1 for an end-to-end test.
+    const isTest = new URLSearchParams(window.location.search).get('test') === '1'
+
     try {
       const res = await fetch('/api/yalla-payment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim() }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), test: isTest }),
       })
       const data = await res.json()
       if (data.url) {
