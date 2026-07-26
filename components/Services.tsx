@@ -151,6 +151,47 @@ export default function Services() {
             Digital Courses
           </p>
 
+          {/* NEW launch: יאללה, לחזור אחרי - the most prominent card (yellow) */}
+          <div
+            dir="rtl"
+            className="mb-6 rounded-2xl p-8"
+            style={{ backgroundColor: 'var(--yellow)', boxShadow: '0 22px 55px -22px rgba(245,200,66,0.75)' }}
+          >
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div className="flex-1">
+                <span
+                  className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4"
+                  style={{ backgroundColor: 'var(--navy)', color: 'var(--yellow)' }}
+                >
+                  🔥 בהשקה · לזמן מוגבל
+                </span>
+                <h3 className="text-3xl font-bold mb-2" style={{ color: 'var(--navy)' }}>יאללה, לחזור אחרי!</h3>
+                <p className="text-sm font-bold uppercase tracking-wide mb-3" style={{ color: 'var(--navy)', opacity: 0.7 }}>
+                  55 הקלטות בשיטת Shadowing · לשיפור הדיבור
+                </p>
+                <p className="text-base leading-relaxed" style={{ color: 'var(--navy)', opacity: 0.9, maxWidth: 470 }}>
+                  מקשיבים, חוזרים אחרי בקול, והפה סוף סוף מתאמן בדיבור. 10 דקות ביום, בקצב שלכם, ושלכם לתמיד.
+                </p>
+              </div>
+              <div className="flex-shrink-0 flex flex-col md:items-center text-center">
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--navy)', opacity: 0.7 }}>
+                  מחיר השקה
+                </span>
+                <span className="text-5xl font-black leading-none my-1" style={{ color: 'var(--navy)' }}>₪97</span>
+                <span className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--navy)', opacity: 0.7 }}>
+                  תשלום חד-פעמי
+                </span>
+                <Link
+                  href="/yalla-lachzor-acharei"
+                  className="text-center font-bold py-3.5 px-10 rounded-lg hover:opacity-90 transition-opacity"
+                  style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}
+                >
+                  רוצה להתחיל 👈
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Beginners+ : אתגר שמע + Small Talk side by side */}
           <div className="grid md:grid-cols-2 gap-6">
 
