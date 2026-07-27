@@ -2,8 +2,12 @@ import type { Metadata } from 'next'
 import { Suez_One } from 'next/font/google'
 import MetaPixel from '@/components/MetaPixel'
 import CheckoutForm from './CheckoutForm'
+import CountdownTimer from './CountdownTimer'
 
 const display = Suez_One({ subsets: ['hebrew', 'latin'], weight: '400', display: 'swap' })
+
+// Launch offer ends Sunday 3.8.2026, end of day Israel time (UTC+3).
+const DEADLINE = '2026-08-03T23:59:59+03:00'
 
 export const metadata: Metadata = {
   title: 'יאללה, לחזור אחרי | 55 הקלטות לשיפור הדיבור באנגלית',
@@ -63,6 +67,21 @@ function DownArrow() {
   )
 }
 
+// Inline call-to-action that scrolls to the checkout box.
+function InlineCTA({ label = 'אני רוצה להתחיל 👈' }: { label?: string }) {
+  return (
+    <div className="text-center mt-12">
+      <a
+        href="#buy"
+        className="inline-block font-bold px-12 py-4 rounded-lg hover:opacity-90 transition-opacity text-lg shadow-lg"
+        style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
+      >
+        {label}
+      </a>
+    </div>
+  )
+}
+
 const YES = [
   'אתם מבינים ומדברים אנגלית, אבל נתקעים ומתביישים ברגע האמת',
   'אתם רוצים להגדיל אוצר מילים, וגם להשתמש בו בזמן אמת',
@@ -111,6 +130,11 @@ export default function YallaLandingPage() {
             >
               הגיע הזמן 👈
             </a>
+            <p className="mt-6 text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
+              🔥 מחיר השקה ₪97{' '}
+              <span style={{ textDecoration: 'line-through', opacity: 0.55 }}>₪197</span>
+              {' '}· רק עד יום ראשון, 3.8
+            </p>
           </div>
         </section>
 
@@ -204,12 +228,41 @@ export default function YallaLandingPage() {
                 Week 15 · Agreeing &amp; Disagreeing Politely
               </p>
             </div>
-            <DownArrow />
+            <InlineCTA />
+          </div>
+        </section>
+
+        {/* Testimonials - moved up: social proof right after the sample */}
+        <section className="py-20" style={{ backgroundColor: 'var(--light-grey)' }}>
+          <div className="max-w-5xl mx-auto px-6">
+            <h2 className="text-3xl font-bold mb-8 text-center" style={{ color: 'var(--navy)' }}>הם כבר חזרו אחרי 💛</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { name: 'נעומי', file: 'naomi' },
+                { name: 'תומר', file: 'tomer' },
+                { name: 'אורי', file: 'uri' },
+                { name: 'מרוה', file: 'marve' },
+              ].map(t => (
+                <div key={t.file}>
+                  <video
+                    controls
+                    preload="none"
+                    poster={`/videos/testimonial-${t.file}.jpg`}
+                    className="w-full rounded-xl bg-black"
+                    style={{ aspectRatio: '9 / 16', objectFit: 'cover' }}
+                  >
+                    <source src={`/videos/testimonial-${t.file}.mp4`} type="video/mp4" />
+                  </video>
+                  <p className="text-center text-sm font-bold mt-2" style={{ color: 'var(--navy)' }}>{t.name}</p>
+                </div>
+              ))}
+            </div>
+            <InlineCTA />
           </div>
         </section>
 
         {/* Who it's for */}
-        <section className="py-20" style={{ backgroundColor: 'var(--light-grey)', position: 'relative', overflow: 'hidden' }}>
+        <section className="py-20" style={{ backgroundColor: 'var(--white)', position: 'relative', overflow: 'hidden' }}>
           <div aria-hidden style={{ position: 'absolute', top: -50, insetInlineStart: -50, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(27,48,84,0.06), transparent 70%)' }} />
           <div aria-hidden style={{ position: 'absolute', bottom: -40, insetInlineEnd: -40, width: 160, height: 160, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.18), transparent 70%)' }} />
           <div className="max-w-2xl mx-auto px-6" style={{ position: 'relative' }}>
@@ -246,6 +299,7 @@ export default function YallaLandingPage() {
                 </div>
               ))}
             </div>
+            <InlineCTA />
           </div>
         </section>
 
@@ -276,34 +330,6 @@ export default function YallaLandingPage() {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section className="py-20" style={{ backgroundColor: 'var(--white)' }}>
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-3xl font-bold mb-8 text-center" style={{ color: 'var(--navy)' }}>המלצות על התוכנית</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[
-                { name: 'נעומי', file: 'naomi' },
-                { name: 'תומר', file: 'tomer' },
-                { name: 'אורי', file: 'uri' },
-                { name: 'מרוה', file: 'marve' },
-              ].map(t => (
-                <div key={t.file}>
-                  <video
-                    controls
-                    preload="none"
-                    poster={`/videos/testimonial-${t.file}.jpg`}
-                    className="w-full rounded-xl bg-black"
-                    style={{ aspectRatio: '9 / 16', objectFit: 'cover' }}
-                  >
-                    <source src={`/videos/testimonial-${t.file}.mp4`} type="video/mp4" />
-                  </video>
-                  <p className="text-center text-sm font-bold mt-2" style={{ color: 'var(--navy)' }}>{t.name}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Guarantee */}
         <section className="py-20" style={{ backgroundColor: 'var(--light-grey)' }}>
           <div className="max-w-2xl mx-auto px-6">
@@ -322,12 +348,34 @@ export default function YallaLandingPage() {
         <section id="buy" style={{ backgroundColor: 'var(--navy)', position: 'relative', overflow: 'hidden' }} className="py-20">
           <div aria-hidden style={{ position: 'absolute', top: -70, insetInlineStart: -70, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.16), transparent 70%)' }} />
           <div className="max-w-xl mx-auto px-6 text-center" style={{ position: 'relative' }}>
+
+            <div className="mb-8">
+              <CountdownTimer target={DEADLINE} label="מחיר ההשקה נגמר בעוד" />
+            </div>
+
             <span className="inline-block text-sm font-bold uppercase tracking-widest mb-4 px-4 py-1.5 rounded-full" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
-              מחיר השקה · לשבועיים בלבד
+              🔥 מחיר השקה · עד יום ראשון 3.8
             </span>
-            <p className="text-white mb-1"><span className="text-6xl font-bold">₪97</span></p>
-            <p className="text-white/60 text-sm mb-8">תשלום חד-פעמי. בלי מנוי, בלי חיובים חוזרים.</p>
+
+            <p className="mb-1 flex items-baseline justify-center gap-3">
+              <span className="text-3xl font-bold" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through' }}>₪197</span>
+              <span className="text-6xl font-bold text-white">₪97</span>
+            </p>
+            <p className="text-white/60 text-sm mb-6">תשלום חד-פעמי. בלי מנוי, בלי חיובים חוזרים.</p>
+
+            <div className="rounded-2xl p-5 mb-8 text-right max-w-md mx-auto" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
+              <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.92)' }}>
+                <span style={{ color: 'var(--yellow)' }} className="flex-shrink-0 font-bold">✓</span>
+                <span>55 אימונים = <strong style={{ color: 'var(--yellow)' }}>פחות מ-₪2 לאימון</strong></span>
+              </p>
+            </div>
+
             <CheckoutForm />
+
+            <p className="flex items-center justify-center gap-2 mt-5 text-sm" style={{ color: 'rgba(255,255,255,0.8)' }}>
+              🛡️ <span>אחריות מלאה: לא עבד אחרי 3 חודשים? החזר כספי מלא.</span>
+            </p>
+
             <p className={`${display.className} text-white text-2xl mt-10`}>יאללה, לחזור אחרי!</p>
           </div>
         </section>

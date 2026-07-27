@@ -6,9 +6,10 @@ const BASE_PRICE = 97
 const BUMP_PRICE = 68
 const BUMP_OLD_PRICE = 137
 
-// The Small talk order bump is LIVE for all customers. Set to false to hide it
-// from customers again (it would then show only in test mode, ?test=1).
-const BUMP_LIVE = true
+// Small talk order bump toggle. Turned OFF 2026-07-27 to test whether the base
+// conversion rate rises without the extra decision at checkout. Set true to
+// bring it back for all customers.
+const BUMP_LIVE = false
 
 const SMALL_TALK_PERKS = [
   'מה להגיד בכל סיטואציה בחיים - במעלית, בסופר, בתחילת פגישה',
@@ -162,7 +163,7 @@ export default function CheckoutForm() {
         className="font-bold py-4 px-8 rounded-xl text-lg hover:opacity-90 transition-opacity disabled:opacity-50 shadow-lg"
         style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
       >
-        {loading ? 'מעבירים אתכם לתשלום...' : showBump ? `לתשלום המאובטח ₪${total} 👈` : 'אני רוצה להתחיל 👈 ₪97'}
+        {loading ? 'מעבירים אתכם לתשלום...' : 'אני רוצה להתחיל 👈'}
       </button>
       <p className="text-xs text-center" style={{ color: 'rgba(255,255,255,0.6)' }}>
         תשלום מאובטח דרך Cardcom · חשבונית תישלח אוטומטית למייל
