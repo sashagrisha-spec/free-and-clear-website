@@ -9,9 +9,6 @@ import { NextRequest, NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
 const SUMMARY_TO = 'sasha@freeandclearenglish.com'
-const PRODUCT_SLUG = 'yalla-lachzor-acharei'
-const REAL_MIN = 90 // exclude ₪1/₪2 test purchases
-const BUMP_MIN = 150 // a sale that included the Small talk bump (97 + 68 = 165)
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -39,27 +36,30 @@ export async function GET(req: NextRequest) {
   }
 
   const yesterday = jerusalemDate(new Date(Date.now() - 24 * 3600 * 1000))
-  const cutoff = new Date(Date.now() - 48 * 3600 * 1000).toISOString()
 
-  let rows: Array<{ amount: number | null; created_at: string }> = []
+  // Read via a SECURITY DEFINER function (yalla_sales_summary) so RLS on
+  // product_buyers doesn't block the anon key from reading. It returns only
+  // aggregates (count/revenue), never customer PII. Excludes ₪1/₪2 tests.
+  let count: number, revenue: number, withBump: number
   try {
-    const res = await fetch(
-      `${url}/rest/v1/product_buyers?product=eq.${PRODUCT_SLUG}&created_at=gte.${encodeURIComponent(cutoff)}&select=amount,created_at`,
-      { headers: { apikey: key, Authorization: `Bearer ${key}` } },
-    )
+    const res = await fetch(`${url}/rest/v1/rpc/yalla_sales_summary`, {
+      method: 'POST',
+      headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ target_date: yesterday }),
+    })
     const data = await res.json()
-    if (Array.isArray(data)) rows = data
+    const row = Array.isArray(data) ? data[0] : data
+    if (!row || typeof row.cnt === 'undefined') {
+      console.error('[daily-summary] unexpected rpc response:', JSON.stringify(data).slice(0, 200))
+      return NextResponse.json({ error: 'summary query failed' }, { status: 500 })
+    }
+    count = Number(row.cnt) || 0
+    revenue = Number(row.revenue) || 0
+    withBump = Number(row.with_bump) || 0
   } catch (err) {
-    console.error('[daily-summary] supabase fetch error:', err)
+    console.error('[daily-summary] supabase rpc error:', err)
     return NextResponse.json({ error: 'fetch failed' }, { status: 500 })
   }
-
-  const day = rows.filter(
-    r => jerusalemDate(new Date(r.created_at)) === yesterday && Number(r.amount) >= REAL_MIN,
-  )
-  const count = day.length
-  const revenue = day.reduce((s, r) => s + Number(r.amount || 0), 0)
-  const withBump = day.filter(r => Number(r.amount) >= BUMP_MIN).length
 
   const [yy, mm, dd] = yesterday.split('-')
   const dateHe = `${dd}/${mm}/${yy}`
