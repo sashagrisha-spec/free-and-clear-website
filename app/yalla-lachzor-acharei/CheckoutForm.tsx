@@ -6,10 +6,9 @@ const BASE_PRICE = 97
 const BUMP_PRICE = 68
 const BUMP_OLD_PRICE = 137
 
-// Small talk order bump toggle. Turned OFF 2026-07-27 to test whether the base
-// conversion rate rises without the extra decision at checkout. Set true to
-// bring it back for all customers.
-const BUMP_LIVE = false
+// Small talk order bump toggle. Back ON 2026-07-31 (Sasha wants the upsell
+// revenue again now that the campaign converts well). Set false to hide it.
+const BUMP_LIVE = true
 
 const SMALL_TALK_PERKS = [
   'מה להגיד בכל סיטואציה בחיים - במעלית, בסופר, בתחילת פגישה',
