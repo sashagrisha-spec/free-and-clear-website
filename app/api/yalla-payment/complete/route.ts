@@ -89,6 +89,27 @@ export async function POST(req: NextRequest) {
   const value = typeof amount === 'number' ? amount : 97
   const currency = 'ILS'
 
+  // Idempotency guard. The thank-you page calls this on every load, so a buyer
+  // who refreshes or re-opens it would otherwise re-trigger every side effect
+  // (buyer email, Sasha's Small-talk alert, Meta event, extra Supabase rows).
+  // We "claim" the transaction by inserting the main row first: the insert is
+  // idempotent on (product, cardcom_lowprofile), so only the FIRST call for a
+  // given Cardcom transaction gets 'inserted'. A 'duplicate' means we already
+  // handled it -> return success without re-sending anything. On 'error' (DB
+  // unreachable) we fall through and still serve the buyer.
+  const claim = await saveBuyer({
+    product: PRODUCT_SLUG,
+    name,
+    email,
+    amount: value,
+    currency,
+    cardcomLowProfile: lowProfileCode,
+    eventId,
+  })
+  if (claim === 'duplicate') {
+    return NextResponse.json({ success: true, name, driveLink: DRIVE_LINK, eventId, value, currency, bump, duplicate: true })
+  }
+
   // Best-effort side effects, never block the buyer's confirmation on one failing.
   const sideEffects: Promise<unknown>[] = [
     transporter.sendMail({
@@ -99,15 +120,6 @@ export async function POST(req: NextRequest) {
     }),
     // No per-purchase email: regular sales are reported by the nightly 06:00
     // summary. Sasha is emailed only when a sale needs action (Small talk, below).
-    saveBuyer({
-      product: PRODUCT_SLUG,
-      name,
-      email,
-      amount: value,
-      currency,
-      cardcomLowProfile: lowProfileCode,
-      eventId,
-    }),
   ]
 
   // Extra actionable alert ONLY when the Small talk course was added, because it
