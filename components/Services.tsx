@@ -129,7 +129,7 @@ export default function Services() {
                 </ul>
               </div>
               <div className="flex-shrink-0 flex flex-col md:items-end md:text-right">
-                <span className="text-3xl font-bold" style={{ color: 'var(--navy)' }}>₪2,500</span>
+                <span className="text-3xl font-bold" style={{ color: 'var(--navy)' }}>₪2,700</span>
                 <span className="text-xs font-semibold uppercase tracking-wide mb-5" style={{ color: 'var(--mid-grey)' }}>
                   Full 8-week cohort
                 </span>
@@ -192,43 +192,22 @@ export default function Services() {
             </div>
           </div>
 
-          {/* Beginners+ : אתגר שמע + Small Talk side by side */}
-          <div className="grid md:grid-cols-2 gap-6">
-
-            <div className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
-              <div className="flex items-start justify-between gap-4 mb-1">
-                <h3 className="text-xl font-bold" style={{ color: 'var(--navy)' }}>אתגר שמע</h3>
-                <span className="text-xl font-bold flex-shrink-0" style={{ color: 'var(--navy)' }}>₪45</span>
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: 'var(--mid-grey)' }}>
-                21 recordings · 2 min each · Beginners+
-              </p>
-              <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--mid-grey)' }}>
-                For people who understand English but barely speak yet. 21 recordings, 2 minutes each,
-                one simple topic at a time. You listen, you repeat, you start opening your mouth.
-              </p>
-              <a href="https://secure.cardcom.solutions/EA/EA5/PVxn8Db8UEGNxWe3KEtkPQ/PaymentSP" target="_blank" rel="noopener noreferrer" className="text-center font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity text-sm" style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}>
-                Start the Challenge
-              </a>
+          {/* Beginners+ : Small Talk */}
+          <div className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
+            <div className="flex items-start justify-between gap-4 mb-1">
+              <h3 className="text-xl font-bold" style={{ color: 'var(--navy)' }}>Small Talk קטן עליי</h3>
+              <span className="text-xl font-bold flex-shrink-0" style={{ color: 'var(--navy)' }}>₪157</span>
             </div>
-
-            <div className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
-              <div className="flex items-start justify-between gap-4 mb-1">
-                <h3 className="text-xl font-bold" style={{ color: 'var(--navy)' }}>Small Talk קטן עליי</h3>
-                <span className="text-xl font-bold flex-shrink-0" style={{ color: 'var(--navy)' }}>₪137</span>
-              </div>
-              <p className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: 'var(--mid-grey)' }}>
-                English + Hebrew · Beginners+
-              </p>
-              <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--mid-grey)' }}>
-                For people who understand and speak a little but freeze up, even on the simplest topics.
-                Real phrases, popular topics and cultural differences, so you stop dreading &ldquo;so what do you do?&rdquo;
-              </p>
-              <a href="https://small-talk.ravpage.co.il/smalltalkall" target="_blank" rel="noopener noreferrer" className="text-center font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity text-sm" style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}>
-                Get the Course
-              </a>
-            </div>
-
+            <p className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: 'var(--mid-grey)' }}>
+              English + Hebrew · Beginners+
+            </p>
+            <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--mid-grey)' }}>
+              For people who understand and speak a little but freeze up, even on the simplest topics.
+              Real phrases, popular topics and cultural differences, so you stop dreading &ldquo;so what do you do?&rdquo;
+            </p>
+            <a href="https://small-talk.ravpage.co.il/smalltalkall" target="_blank" rel="noopener noreferrer" className="text-center font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity text-sm" style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}>
+              Get the Course
+            </a>
           </div>
 
           {/* Intermediate+ : the more advanced course, below */}
