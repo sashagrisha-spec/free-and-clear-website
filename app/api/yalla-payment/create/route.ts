@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { saveLead } from '@/lib/save-lead'
 
 // Cardcom checkout for the "יאללה, לחזור אחרי" recordings pack.
 // Mirrors the proven workshop-payment flow, plus an eventId threaded through
 // ReturnValue so Meta can de-duplicate the browser + server Purchase events.
 
+const PRODUCT_SLUG = 'yalla-lachzor-acharei'
 const PRICE = 97
 const BUMP_PRICE = 68
 const TEST_PRICE = 1
@@ -31,6 +33,13 @@ export async function POST(req: NextRequest) {
   // 5th field flags whether the Small talk order bump was added.
   const returnValue = `YALLA|${email}|${name}|${eventId}|${bump ? '1' : '0'}`
   const rv = encodeURIComponent(returnValue)
+
+  // Capture the lead BEFORE redirecting to Cardcom, so anyone who abandons at the
+  // payment step is still saved as a warm contact. Best-effort: never blocks or
+  // breaks checkout. Skip the ₪1 test flow so tests don't pollute the lead list.
+  if (!test) {
+    await saveLead({ product: PRODUCT_SLUG, name, email, bump: !!bump, eventId })
+  }
 
   const body = {
     TerminalNumber: Number(process.env.CARDCOM_TERMINAL),

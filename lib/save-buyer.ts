@@ -1,13 +1,18 @@
-// Best-effort: save a buyer to Supabase (public.product_buyers) via PostgREST.
-// Never throws. If it fails (e.g. the free-tier DB is paused), the caller's
-// notification email to Sasha still contains the buyer's details as a backup.
+// Best-effort: save a buyer to Supabase (public.product_buyers). Never throws.
+// If it fails, the caller still serves the buyer and (see complete/route.ts) an
+// alert email is sent to Sasha so a lost record is caught the SAME day.
 // Requires env: SUPABASE_URL, SUPABASE_ANON_KEY.
 //
-// The insert is idempotent per Cardcom transaction: a unique constraint on
-// (product, cardcom_lowprofile) + PostgREST `resolution=ignore-duplicates` means
-// re-processing the same transaction (e.g. the buyer refreshing the thank-you
-// page) inserts nothing and reports 'duplicate'. Callers use that to avoid
-// re-sending emails / re-firing Meta events for a transaction already handled.
+// ⚠️ WHY THIS GOES THROUGH AN RPC AND NOT A DIRECT TABLE INSERT ⚠️
+// product_buyers has an INSERT-only RLS policy for the anon role and NO SELECT
+// policy (deliberate: the anon key must never be able to read customer PII).
+// A direct PostgREST insert that asks to read the row back (Prefer:
+// return=representation, needed to tell "inserted" from "duplicate") is blocked
+// by RLS and fails 42501 -> every capture silently broke for days (2026-08-02
+// .. 08-06). We now call the SECURITY DEFINER function public.yalla_upsert_buyer,
+// which bypasses RLS and returns ONLY a boolean (was a new row inserted?), never
+// any PII. DO NOT switch this back to a direct table insert with
+// return=representation unless a SELECT policy for anon is added first.
 
 interface Buyer {
   product: string
@@ -32,36 +37,30 @@ export async function saveBuyer(b: Buyer): Promise<SaveBuyerResult> {
     return 'error'
   }
   try {
-    const res = await fetch(
-      `${url}/rest/v1/product_buyers?on_conflict=product,cardcom_lowprofile`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: key,
-          Authorization: `Bearer ${key}`,
-          // ignore-duplicates: on a conflict, insert nothing (don't overwrite).
-          // return=representation: the response body lists only rows actually
-          // inserted, so an empty array means it was a duplicate.
-          Prefer: 'resolution=ignore-duplicates,return=representation',
-        },
-        body: JSON.stringify({
-          product: b.product,
-          name: b.name,
-          email: b.email,
-          amount: b.amount,
-          currency: b.currency || 'ILS',
-          cardcom_lowprofile: b.cardcomLowProfile,
-          event_id: b.eventId,
-        }),
+    const res = await fetch(`${url}/rest/v1/rpc/yalla_upsert_buyer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: key,
+        Authorization: `Bearer ${key}`,
       },
-    )
+      body: JSON.stringify({
+        p_product: b.product,
+        p_name: b.name,
+        p_email: b.email,
+        p_amount: typeof b.amount === 'number' ? b.amount : null,
+        p_currency: b.currency || 'ILS',
+        p_cardcom_lowprofile: b.cardcomLowProfile ?? null,
+        p_event_id: b.eventId ?? null,
+      }),
+    })
     if (!res.ok) {
-      console.error('[save-buyer] insert failed:', res.status, await res.text())
+      console.error('[save-buyer] rpc failed:', res.status, await res.text())
       return 'error'
     }
-    const rows = await res.json().catch(() => [])
-    return Array.isArray(rows) && rows.length === 0 ? 'duplicate' : 'inserted'
+    // The function returns a scalar boolean: true = newly inserted, false = duplicate.
+    const inserted = await res.json().catch(() => null)
+    return inserted === true ? 'inserted' : 'duplicate'
   } catch (err) {
     console.error('[save-buyer] error:', err)
     return 'error'

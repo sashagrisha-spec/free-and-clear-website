@@ -110,6 +110,29 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, name, driveLink: DRIVE_LINK, eventId, value, currency, bump, duplicate: true })
   }
 
+  // Fail-safe: if the purchase could NOT be recorded (DB/RLS/network), the buyer
+  // is still served below, but the record is lost UNLESS we surface it. Email
+  // Sasha immediately with everything needed to reconcile by hand, so a silent
+  // capture failure is caught the same day instead of days later. This is the
+  // alarm that would have flagged the 2026-08-02 RLS breakage on day one.
+  if (claim === 'error') {
+    transporter.sendMail({
+      from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
+      to: [process.env.GMAIL_USER, 'sasha@freeandclearenglish.com'].join(', '),
+      subject: `⚠️ רכישה לא נרשמה במסד! ${name} - פעולה ידנית`,
+      html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;line-height:1.8;color:#2D2D2D">
+        <h3 style="color:#B91C1C">רכישה עברה אבל לא נשמרה ב-Supabase ⚠️</h3>
+        <p>הלקוח/ה קיבל/ה גישה כרגיל, אבל השורה לא נכתבה למסד הנתונים. שמרי את הפרטים ידנית ובדקי את מנגנון הקליטה:</p>
+        <p><strong>שם:</strong> ${name}</p>
+        <p><strong>מייל:</strong> ${email}</p>
+        <p><strong>סכום:</strong> ₪${value}</p>
+        <p><strong>Small talk:</strong> ${bump ? 'כן' : 'לא'}</p>
+        <p><strong>Cardcom LowProfile:</strong> ${lowProfileCode}</p>
+        <p><strong>event_id:</strong> ${eventId}</p>
+      </div>`,
+    }).catch(err => console.error('[yalla/complete] failed to send capture-failure alert:', err))
+  }
+
   // Best-effort side effects, never block the buyer's confirmation on one failing.
   const sideEffects: Promise<unknown>[] = [
     transporter.sendMail({
