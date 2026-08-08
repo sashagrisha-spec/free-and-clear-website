@@ -122,7 +122,11 @@ export default function YallaLandingPage() {
             </div>
 
             <p className="text-white/80 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-              כי שנים אומרים לכם לעבוד על דקדוק, ובדיוק ברגע שצריך לפתוח את הפה: <strong style={{ color: 'var(--yellow)' }}>לא יוצא כלום.</strong> לא הגיע הזמן לעשות משהו אחר?
+              כי שנים אומרים לכם לעבוד על דקדוק, ובדיוק ברגע שצריך לפתוח את הפה:
+              <br />
+              <strong style={{ color: 'var(--yellow)', whiteSpace: 'nowrap' }}>לא יוצא כלום.</strong>
+              <br />
+              לא הגיע הזמן לעשות משהו אחר?
             </p>
             <a
               href="#buy"
