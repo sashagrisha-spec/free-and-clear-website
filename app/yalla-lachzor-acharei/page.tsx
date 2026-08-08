@@ -2,21 +2,16 @@ import type { Metadata } from 'next'
 import { Suez_One } from 'next/font/google'
 import MetaPixel from '@/components/MetaPixel'
 import CheckoutForm from './CheckoutForm'
-import CountdownTimer from './CountdownTimer'
 
 const display = Suez_One({ subsets: ['hebrew', 'latin'], weight: '400', display: 'swap' })
 
-// Launch price is good through 9.8.2026; on 10.8 it goes up to ₪197. The
-// countdown therefore hits zero at the START of 10.8 (Israel time, UTC+3).
-const DEADLINE = '2026-08-10T00:00:00+03:00'
-
 export const metadata: Metadata = {
   title: 'יאללה, לחזור אחרי | 55 הקלטות לשיפור הדיבור באנגלית',
-  description: 'נמאס לכם להתבאס מהאנגלית שלכם? 55 הקלטות בשיטת Shadowing שסוגרות את הפער בין מה שיש בראש למה שיוצא מהפה. מחיר השקה ₪97.',
+  description: 'נמאס לכם להתבאס מהאנגלית שלכם? 55 הקלטות בשיטת Shadowing שסוגרות את הפער בין מה שיש בראש למה שיוצא מהפה. ₪197, תשלום חד-פעמי.',
   alternates: { canonical: 'https://www.freeandclearenglish.com/yalla-lachzor-acharei' },
   openGraph: {
     title: 'יאללה, לחזור אחרי',
-    description: '55 הקלטות בשיטת Shadowing לשיפור הדיבור באנגלית. מחיר השקה ₪97.',
+    description: '55 הקלטות בשיטת Shadowing לשיפור הדיבור באנגלית. ₪197, תשלום חד-פעמי.',
     url: 'https://www.freeandclearenglish.com/yalla-lachzor-acharei',
     siteName: 'Free & Clear English',
     locale: 'he_IL',
@@ -132,9 +127,8 @@ export default function YallaLandingPage() {
               הגיע הזמן 👈
             </a>
             <p className="mt-6 text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
-              🔥 מחיר השקה ₪97{' '}
-              <span style={{ textDecoration: 'line-through', opacity: 0.55 }}>₪197</span>
-              {' '}· רק עד 9.8 · מ-10.8 המחיר עולה
+              ₪197 · תשלום חד-פעמי ·{' '}
+              <span style={{ color: 'var(--yellow)' }}>פחות מ-₪4 לכל אימון</span>
             </p>
           </div>
         </section>
@@ -361,24 +355,19 @@ export default function YallaLandingPage() {
           <div aria-hidden style={{ position: 'absolute', top: -70, insetInlineStart: -70, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.16), transparent 70%)' }} />
           <div className="max-w-xl mx-auto px-6 text-center" style={{ position: 'relative' }}>
 
-            <div className="mb-8">
-              <CountdownTimer target={DEADLINE} label="מחיר ההשקה נגמר בעוד" />
-            </div>
-
             <span className="inline-block text-sm font-bold uppercase tracking-widest mb-4 px-4 py-1.5 rounded-full" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
-              🔥 מחיר השקה · רק עד 9.8 · מ-10.8 עולה ל-₪197
+              🎧 55 אימונים · פחות מ-₪4 לכל אימון
             </span>
 
             <p className="mb-1 flex items-baseline justify-center gap-3">
-              <span className="text-3xl font-bold" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'line-through' }}>₪197</span>
-              <span className="text-6xl font-bold text-white">₪97</span>
+              <span className="text-6xl font-bold text-white">₪197</span>
             </p>
             <p className="text-white/60 text-sm mb-6">תשלום חד-פעמי. בלי מנוי, בלי חיובים חוזרים.</p>
 
             <div className="rounded-2xl p-5 mb-8 text-right max-w-md mx-auto" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
               <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.92)' }}>
                 <span style={{ color: 'var(--yellow)' }} className="flex-shrink-0 font-bold">✓</span>
-                <span>55 אימונים = <strong style={{ color: 'var(--yellow)' }}>פחות מ-₪2 לאימון</strong></span>
+                <span>55 אימונים = <strong style={{ color: 'var(--yellow)' }}>פחות מ-₪4 לאימון</strong></span>
               </p>
             </div>
 
