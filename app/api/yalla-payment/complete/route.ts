@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import { NextRequest, NextResponse } from 'next/server'
 import { sendPurchaseEvent } from '@/lib/meta-capi'
 import { saveBuyer } from '@/lib/save-buyer'
+import { addSubscriberToList } from '@/lib/ravmesser'
 
 // Called by the thank-you page after Cardcom redirects back. It FIRST verifies
 // the payment with Cardcom: nothing is counted, emailed or stored unless a real
@@ -12,6 +13,7 @@ import { saveBuyer } from '@/lib/save-buyer'
 const PRODUCT_SLUG = 'yalla-lachzor-acharei'
 const SMALL_TALK_SLUG = 'small-talk-bump'
 const SMALL_TALK_LIST = 'רכשו קורס סמול טוק' // RavMesser list that unlocks the Schooler course
+const SMALL_TALK_LIST_ID = Number(process.env.SMALL_TALK_LIST_ID) || 77532 // id of that list
 const DRIVE_LINK = 'https://drive.google.com/drive/folders/1vUQK4CzoPDkPYX87VAdUNcu5lhkl_yGj?usp=drive_link'
 
 const transporter = nodemailer.createTransport({
@@ -145,23 +147,55 @@ export async function POST(req: NextRequest) {
     // summary. Sasha is emailed only when a sale needs action (Small talk, below).
   ]
 
-  // Extra actionable alert ONLY when the Small talk course was added, because it
-  // needs a manual step (adding the buyer to the RavMesser list).
+  // When the Small talk course was added, grant access AUTOMATICALLY: add the
+  // buyer to the RavMesser list, which makes Schooler email them a username +
+  // password. Only if that API call fails do we fall back to the old manual
+  // alert asking Sasha to add the email by hand, so no buyer is ever left
+  // without access. Either way, record the bump sale in Supabase.
   if (bump) {
+    const grant = await addSubscriberToList({
+      email,
+      first: name,
+      name,
+      listId: SMALL_TALK_LIST_ID,
+    })
+
+    if (grant === 'error') {
+      // Automation failed -> tell Sasha to do it by hand (the pre-automation flow).
+      sideEffects.push(
+        transporter.sendMail({
+          from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
+          to: [process.env.GMAIL_USER, 'sasha@freeandclearenglish.com'].join(', '),
+          subject: `⚠️ נמכר Small talk - הוספה ידנית נדרשת! ${name}`,
+          html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;line-height:1.8;color:#2D2D2D">
+            <h3 style="color:#B91C1C">רכישת Small talk - ההוספה האוטומטית נכשלה</h3>
+            <p>הלקוח/ה שילם/ה, אבל לא הצלחנו להוסיף אותו/ה לרשימה ברב מסר אוטומטית. אנא הוסיפי ידנית:</p>
+            <p><strong>שם:</strong> ${name}</p>
+            <p><strong>מייל:</strong> ${email}</p>
+            <div style="background:#FFFBEE;border:1px dashed #F2B705;border-radius:10px;padding:14px 18px;margin-top:12px">
+              <strong>הפעולה שלך:</strong> הוסיפי את <strong>${email}</strong> לרשימה "${SMALL_TALK_LIST}" ברב מסר, וסקולר ישלח לה גישה אוטומטית.
+            </div>
+          </div>`,
+        }),
+      )
+    } else {
+      // Confirmed active on the list -> quiet heads-up, no action needed.
+      sideEffects.push(
+        transporter.sendMail({
+          from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
+          to: [process.env.GMAIL_USER, 'sasha@freeandclearenglish.com'].join(', '),
+          subject: `🎓 נמכר Small talk! ${name} (גישה ניתנה אוטומטית)`,
+          html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;line-height:1.8;color:#2D2D2D">
+            <h3 style="color:#1B3054">רכישת קורס Small talk 🎉</h3>
+            <p><strong>שם:</strong> ${name}</p>
+            <p><strong>מייל:</strong> ${email}</p>
+            <p style="color:#059669"><strong>הגישה ניתנה אוטומטית ואומתה מול רב מסר.</strong> לא צריך לעשות כלום - סקולר שולח שם משתמש וסיסמה.</p>
+          </div>`,
+        }),
+      )
+    }
+
     sideEffects.push(
-      transporter.sendMail({
-        from: `"Free & Clear English" <${process.env.GMAIL_USER}>`,
-        to: [process.env.GMAIL_USER, 'sasha@freeandclearenglish.com'].join(', '),
-        subject: `🎓 נמכר Small talk! ${name}`,
-        html: `<div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;line-height:1.8;color:#2D2D2D">
-          <h3 style="color:#1B3054">רכישת קורס Small talk 🎉</h3>
-          <p><strong>שם:</strong> ${name}</p>
-          <p><strong>מייל:</strong> ${email}</p>
-          <div style="background:#FFFBEE;border:1px dashed #F2B705;border-radius:10px;padding:14px 18px;margin-top:12px">
-            <strong>הפעולה שלך:</strong> הוסיפי את <strong>${email}</strong> לרשימה "${SMALL_TALK_LIST}" ברב מסר, וסקולר ישלח לה גישה אוטומטית.
-          </div>
-        </div>`,
-      }),
       saveBuyer({
         product: SMALL_TALK_SLUG,
         name,
