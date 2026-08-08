@@ -14,6 +14,7 @@ const PRODUCT_SLUG = 'yalla-lachzor-acharei'
 const SMALL_TALK_SLUG = 'small-talk-bump'
 const SMALL_TALK_LIST = 'רכשו קורס סמול טוק' // RavMesser list that unlocks the Schooler course
 const SMALL_TALK_LIST_ID = Number(process.env.SMALL_TALK_LIST_ID) || 77532 // id of that list
+const YALLA_LIST_ID = Number(process.env.YALLA_LIST_ID) || 112995 // RavMesser buyers list "רכשו יאללה, לחזור אחרי" (segmentation)
 const DRIVE_LINK = 'https://drive.google.com/drive/folders/1vUQK4CzoPDkPYX87VAdUNcu5lhkl_yGj?usp=drive_link'
 
 const transporter = nodemailer.createTransport({
@@ -146,6 +147,14 @@ export async function POST(req: NextRequest) {
     // No per-purchase email: regular sales are reported by the nightly 06:00
     // summary. Sasha is emailed only when a sale needs action (Small talk, below).
   ]
+
+  // Every buyer joins the "רכשו יאללה, לחזור אחרי" RavMesser list for
+  // segmentation (so Sasha can email buyers later). This list has no
+  // autoresponder, so the buyer gets NO email from it; disableNotification also
+  // keeps Sasha from being pinged per sale. Best-effort, never blocks.
+  sideEffects.push(
+    addSubscriberToList({ email, first: name, name, listId: YALLA_LIST_ID, disableNotification: true }),
+  )
 
   // When the Small talk course was added, grant access AUTOMATICALLY: add the
   // buyer to the RavMesser list, which makes Schooler email them a username +

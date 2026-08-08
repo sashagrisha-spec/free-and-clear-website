@@ -84,8 +84,11 @@ export async function addSubscriberToList(params: {
   first?: string
   name?: string
   listId: number
+  // Suppress the list-owner "new subscriber" notification. Use for plain
+  // segmentation lists (e.g. the buyers list) so Sasha isn't emailed per sale.
+  disableNotification?: boolean
 }): Promise<GrantResult> {
-  const { email, first, name, listId } = params
+  const { email, first, name, listId, disableNotification } = params
   if (!process.env.RAVMESSER_CLIENT_ID || !process.env.RAVMESSER_CLIENT_SECRET || !process.env.RAVMESSER_USER_TOKEN) {
     console.warn('[ravmesser] credentials not set, skipping')
     return 'error'
@@ -109,6 +112,7 @@ export async function addSubscriberToList(params: {
         // already on it). This is what keeps us from ever resurrecting someone
         // who unsubscribed.
         override: false,
+        disable_notification: !!disableNotification,
       }),
     })
     if (!res.ok) {
