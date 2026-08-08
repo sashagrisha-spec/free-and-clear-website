@@ -6,8 +6,9 @@ import CountdownTimer from './CountdownTimer'
 
 const display = Suez_One({ subsets: ['hebrew', 'latin'], weight: '400', display: 'swap' })
 
-// Launch offer ends Sunday 10.8.2026, end of day Israel time (UTC+3).
-const DEADLINE = '2026-08-10T23:59:59+03:00'
+// Launch price is good through 9.8.2026; on 10.8 it goes up to ₪197. The
+// countdown therefore hits zero at the START of 10.8 (Israel time, UTC+3).
+const DEADLINE = '2026-08-10T00:00:00+03:00'
 
 export const metadata: Metadata = {
   title: 'יאללה, לחזור אחרי | 55 הקלטות לשיפור הדיבור באנגלית',
@@ -133,7 +134,7 @@ export default function YallaLandingPage() {
             <p className="mt-6 text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
               🔥 מחיר השקה ₪97{' '}
               <span style={{ textDecoration: 'line-through', opacity: 0.55 }}>₪197</span>
-              {' '}· רק עד יום ראשון, 10.8
+              {' '}· רק עד 9.8 · מ-10.8 המחיר עולה
             </p>
           </div>
         </section>
@@ -365,7 +366,7 @@ export default function YallaLandingPage() {
             </div>
 
             <span className="inline-block text-sm font-bold uppercase tracking-widest mb-4 px-4 py-1.5 rounded-full" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
-              🔥 מחיר השקה · עד יום ראשון 10.8
+              🔥 מחיר השקה · רק עד 9.8 · מ-10.8 עולה ל-₪197
             </span>
 
             <p className="mb-1 flex items-baseline justify-center gap-3">
