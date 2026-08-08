@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react'
 
 const BASE_PRICE = 97
-const BUMP_PRICE = 68
-const BUMP_OLD_PRICE = 137
+const BUMP_PRICE = 78
+const BUMP_OLD_PRICE = 157
+// Savings % shown on the bump badge, computed so it always matches the prices above.
+const BUMP_SAVINGS_PCT = Math.round((1 - BUMP_PRICE / BUMP_OLD_PRICE) * 100)
 
 // Small talk order bump toggle. Back ON 2026-07-31 (Sasha wants the upsell
 // revenue again now that the campaign converts well). Set false to hide it.
@@ -134,7 +136,7 @@ export default function CheckoutForm() {
             <span style={{ color: 'var(--mid-grey)', textDecoration: 'line-through' }}>₪{BUMP_OLD_PRICE}</span>
             <span className="font-bold text-2xl" style={{ color: 'var(--navy)' }}>₪{BUMP_PRICE}</span>
             <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(27,138,90,0.12)', color: '#1B8A5A' }}>
-              חיסכון של 50%
+              חיסכון של {BUMP_SAVINGS_PCT}%
             </span>
           </span>
         </span>

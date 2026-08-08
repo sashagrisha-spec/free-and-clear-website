@@ -6,8 +6,8 @@ import CountdownTimer from './CountdownTimer'
 
 const display = Suez_One({ subsets: ['hebrew', 'latin'], weight: '400', display: 'swap' })
 
-// Launch offer ends Sunday 3.8.2026, end of day Israel time (UTC+3).
-const DEADLINE = '2026-08-03T23:59:59+03:00'
+// Launch offer ends Sunday 10.8.2026, end of day Israel time (UTC+3).
+const DEADLINE = '2026-08-10T23:59:59+03:00'
 
 export const metadata: Metadata = {
   title: 'יאללה, לחזור אחרי | 55 הקלטות לשיפור הדיבור באנגלית',
@@ -133,7 +133,7 @@ export default function YallaLandingPage() {
             <p className="mt-6 text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
               🔥 מחיר השקה ₪97{' '}
               <span style={{ textDecoration: 'line-through', opacity: 0.55 }}>₪197</span>
-              {' '}· רק עד יום ראשון, 3.8
+              {' '}· רק עד יום ראשון, 10.8
             </p>
           </div>
         </section>
@@ -316,15 +316,26 @@ export default function YallaLandingPage() {
                   לפתוח את הפה ולדבר בביטחון. את ההקלטות האלה יצרתי בדיוק בשביל אנשים כמוכם, שרוצים להתחיל
                   ממשהו קטן ולטעום דרך חדשה, שונה ו<strong style={{ color: 'var(--navy)' }}>אפקטיבית מאוד</strong>.
                 </p>
-                <a
-                  href="https://www.instagram.com/freeandclearenglish"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 font-bold hover:opacity-80 transition-opacity"
-                  style={{ color: 'var(--navy)' }}
-                >
-                  <InstagramIcon /> @freeandclearenglish
-                </a>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2">
+                  <a
+                    href="https://www.instagram.com/freeandclearenglish"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-bold hover:opacity-80 transition-opacity"
+                    style={{ color: 'var(--navy)' }}
+                  >
+                    <InstagramIcon /> @freeandclearenglish
+                  </a>
+                  <a
+                    href="https://www.freeandclearenglish.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 font-bold hover:opacity-80 transition-opacity"
+                    style={{ color: 'var(--navy)' }}
+                  >
+                    🌐 freeandclearenglish.com
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -354,7 +365,7 @@ export default function YallaLandingPage() {
             </div>
 
             <span className="inline-block text-sm font-bold uppercase tracking-widest mb-4 px-4 py-1.5 rounded-full" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
-              🔥 מחיר השקה · עד יום ראשון 3.8
+              🔥 מחיר השקה · עד יום ראשון 10.8
             </span>
 
             <p className="mb-1 flex items-baseline justify-center gap-3">

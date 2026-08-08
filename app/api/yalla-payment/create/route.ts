@@ -7,7 +7,7 @@ import { saveLead } from '@/lib/save-lead'
 
 const PRODUCT_SLUG = 'yalla-lachzor-acharei'
 const PRICE = 97
-const BUMP_PRICE = 68
+const BUMP_PRICE = 78
 const TEST_PRICE = 1
 const TEST_BUMP_PRICE = 1
 
