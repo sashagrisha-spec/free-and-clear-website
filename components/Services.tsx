@@ -163,7 +163,7 @@ export default function Services() {
                   className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4"
                   style={{ backgroundColor: 'var(--navy)', color: 'var(--yellow)' }}
                 >
-                  🔥 בהשקה · לזמן מוגבל
+                  ⭐ הכי מבוקש
                 </span>
                 <h3 className="text-3xl font-bold mb-2" style={{ color: 'var(--navy)' }}>יאללה, לחזור אחרי!</h3>
                 <p className="text-sm font-bold uppercase tracking-wide mb-3" style={{ color: 'var(--navy)', opacity: 0.7 }}>
@@ -175,9 +175,9 @@ export default function Services() {
               </div>
               <div className="flex-shrink-0 flex flex-col md:items-center text-center">
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--navy)', opacity: 0.7 }}>
-                  מחיר השקה
+                  פחות מ-₪4 לאימון
                 </span>
-                <span className="text-5xl font-black leading-none my-1" style={{ color: 'var(--navy)' }}>₪97</span>
+                <span className="text-5xl font-black leading-none my-1" style={{ color: 'var(--navy)' }}>₪197</span>
                 <span className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--navy)', opacity: 0.7 }}>
                   תשלום חד-פעמי
                 </span>
