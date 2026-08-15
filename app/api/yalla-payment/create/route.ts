@@ -6,7 +6,7 @@ import { saveLead } from '@/lib/save-lead'
 // ReturnValue so Meta can de-duplicate the browser + server Purchase events.
 
 const PRODUCT_SLUG = 'yalla-lachzor-acharei'
-const PRICE = 197
+const PRICE = 127
 const BUMP_PRICE = 78
 const TEST_PRICE = 1
 const TEST_BUMP_PRICE = 1

@@ -7,11 +7,11 @@ const display = Suez_One({ subsets: ['hebrew', 'latin'], weight: '400', display:
 
 export const metadata: Metadata = {
   title: 'יאללה, לחזור אחרי | 55 הקלטות לשיפור הדיבור באנגלית',
-  description: 'נמאס לכם להתבאס מהאנגלית שלכם? 55 הקלטות בשיטת Shadowing שסוגרות את הפער בין מה שיש בראש למה שיוצא מהפה. ₪197, תשלום חד-פעמי.',
+  description: 'נמאס לכם להתבאס מהאנגלית שלכם? 55 הקלטות בשיטת Shadowing שסוגרות את הפער בין מה שיש בראש למה שיוצא מהפה. ₪127 במקום ₪197, תשלום חד-פעמי.',
   alternates: { canonical: 'https://www.freeandclearenglish.com/yalla-lachzor-acharei' },
   openGraph: {
     title: 'יאללה, לחזור אחרי',
-    description: '55 הקלטות בשיטת Shadowing לשיפור הדיבור באנגלית. ₪197, תשלום חד-פעמי.',
+    description: '55 הקלטות בשיטת Shadowing לשיפור הדיבור באנגלית. ₪127 במקום ₪197, תשלום חד-פעמי.',
     url: 'https://www.freeandclearenglish.com/yalla-lachzor-acharei',
     siteName: 'Free & Clear English',
     locale: 'he_IL',
@@ -130,9 +130,13 @@ export default function YallaLandingPage() {
             >
               הגיע הזמן 👈
             </a>
-            <p className="mt-6 text-base font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
-              ₪197 · תשלום חד-פעמי ·{' '}
-              <span style={{ color: 'var(--yellow)' }}>פחות מ-₪4 לכל אימון</span>
+            <div className="mt-8 flex items-baseline justify-center gap-3">
+              <span className="font-bold" style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)' }}>₪197</span>
+              <span className="font-black leading-none" style={{ color: 'var(--yellow)', fontSize: 'clamp(3.25rem, 11vw, 5rem)' }}>₪127</span>
+            </div>
+            <p className="mt-3 text-base md:text-lg font-semibold" style={{ color: 'rgba(255,255,255,0.9)' }}>
+              תשלום חד-פעמי ·{' '}
+              <span style={{ color: 'var(--yellow)' }}>פחות מ-₪2.5 לכל אימון</span>
             </p>
           </div>
         </section>
@@ -359,21 +363,19 @@ export default function YallaLandingPage() {
           <div aria-hidden style={{ position: 'absolute', top: -70, insetInlineStart: -70, width: 240, height: 240, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.16), transparent 70%)' }} />
           <div className="max-w-xl mx-auto px-6 text-center" style={{ position: 'relative' }}>
 
-            <span className="inline-block text-sm font-bold uppercase tracking-widest mb-4 px-4 py-1.5 rounded-full" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
-              🎧 55 אימונים · פחות מ-₪4 לכל אימון
-            </span>
-
-            <p className="mb-1 flex items-baseline justify-center gap-3">
-              <span className="text-6xl font-bold text-white">₪197</span>
-            </p>
-            <p className="text-white/60 text-sm mb-6">תשלום חד-פעמי. בלי מנוי, בלי חיובים חוזרים.</p>
-
-            <div className="rounded-2xl p-5 mb-8 text-right max-w-md mx-auto" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
-              <p className="flex items-center gap-2" style={{ color: 'rgba(255,255,255,0.92)' }}>
-                <span style={{ color: 'var(--yellow)' }} className="flex-shrink-0 font-bold">✓</span>
-                <span>55 אימונים = <strong style={{ color: 'var(--yellow)' }}>פחות מ-₪4 לאימון</strong></span>
-              </p>
+            <div className="mb-4 flex items-baseline justify-center gap-3">
+              <span className="font-bold text-white/45" style={{ textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)' }}>₪197</span>
+              <span className="font-black leading-none text-white" style={{ fontSize: 'clamp(3.25rem, 11vw, 5rem)' }}>₪127</span>
             </div>
+            <p className="mb-5">
+              <span className="inline-block text-lg md:text-xl font-bold px-6 py-2.5 rounded-full shadow-lg" style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}>
+                מחיר מיוחד · חיסכון של ₪70
+              </span>
+            </p>
+            <p className="text-white/70 text-base mb-10">
+              תשלום חד-פעמי · בלי מנוי ·{' '}
+              <span style={{ color: 'var(--yellow)' }} className="font-semibold">פחות מ-₪2.5 לכל אימון</span>
+            </p>
 
             <CheckoutForm />
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const BASE_PRICE = 197
+const BASE_PRICE = 127
 const BUMP_PRICE = 78
 const BUMP_OLD_PRICE = 157
 // Savings % shown on the bump badge, computed so it always matches the prices above.

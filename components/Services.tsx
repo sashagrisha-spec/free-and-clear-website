@@ -175,9 +175,12 @@ export default function Services() {
               </div>
               <div className="flex-shrink-0 flex flex-col md:items-center text-center">
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--navy)', opacity: 0.7 }}>
-                  פחות מ-₪4 לאימון
+                  פחות מ-₪2.5 לאימון
                 </span>
-                <span className="text-5xl font-black leading-none my-1" style={{ color: 'var(--navy)' }}>₪197</span>
+                <span className="flex items-baseline justify-center gap-2 my-1">
+                  <span className="text-2xl font-bold" style={{ color: 'var(--navy)', opacity: 0.4, textDecoration: 'line-through' }}>₪197</span>
+                  <span className="text-5xl font-black leading-none" style={{ color: 'var(--navy)' }}>₪127</span>
+                </span>
                 <span className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--navy)', opacity: 0.7 }}>
                   תשלום חד-פעמי
                 </span>
