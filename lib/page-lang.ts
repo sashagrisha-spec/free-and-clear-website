@@ -6,6 +6,7 @@ export type PageLang = 'he' | 'en'
 // To add a new Hebrew page later, just add its path prefix here.
 const HEBREW_PREFIXES = [
   '/anglit-hitech',
+  '/courses', // the all-courses hub and the course pages under it are in Hebrew
   '/anglit-iski',
   '/coach-anglit',
   '/hagaya-anglit',

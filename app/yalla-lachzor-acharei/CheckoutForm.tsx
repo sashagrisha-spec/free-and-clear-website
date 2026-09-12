@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { applyDiscount, checkCoupon, couponErrorMessage, type CouponResult } from '@/lib/coupons'
 
 const BASE_PRICE = 127
 const BUMP_PRICE = 78
@@ -28,13 +29,40 @@ export default function CheckoutForm() {
   const [error, setError] = useState('')
   const [isTest, setIsTest] = useState(false)
 
+  // Coupon field stays collapsed behind a small link. An empty coupon box in
+  // plain sight sends full-price buyers off to hunt for a code they don't have,
+  // and they don't come back.
+  const [couponOpen, setCouponOpen] = useState(false)
+  const [couponInput, setCouponInput] = useState('')
+  const [couponError, setCouponError] = useState('')
+  const [applied, setApplied] = useState<Extract<CouponResult, { ok: true }> | null>(null)
+
   useEffect(() => {
     setIsTest(new URLSearchParams(window.location.search).get('test') === '1')
   }, [])
 
   const showBump = BUMP_LIVE || isTest
-  const total = BASE_PRICE + (showBump && bump ? BUMP_PRICE : 0)
+  const discount = applied?.discount ?? 0
+
+  // Per-line rounding, matching the server exactly, so the total shown here is
+  // the total Cardcom charges.
+  const basePrice = applied ? applyDiscount(BASE_PRICE, discount) : BASE_PRICE
+  const bumpNow = applied ? applyDiscount(BUMP_PRICE, discount) : BUMP_PRICE
+
+  const fullTotal = BASE_PRICE + (showBump && bump ? BUMP_PRICE : 0)
+  const total = basePrice + (showBump && bump ? bumpNow : 0)
   const testCharge = 1 + (bump ? 1 : 0)
+
+  function handleApplyCoupon() {
+    const result = checkCoupon(couponInput)
+    if (result.ok) {
+      setApplied(result)
+      setCouponError('')
+    } else {
+      setApplied(null)
+      setCouponError(couponErrorMessage(result.reason))
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -50,12 +78,24 @@ export default function CheckoutForm() {
       const res = await fetch('/api/yalla-payment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), test: isTest, bump }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          test: isTest,
+          bump,
+          coupon: applied?.code,
+        }),
       })
       const data = await res.json()
       if (data.url) {
         window.location.href = data.url
       } else {
+        // The server has the last word on the coupon. If it refused ours, drop
+        // it here too so the price on screen goes back to being the truth.
+        if (res.status === 400 && applied) {
+          setApplied(null)
+          setCouponError(data.error || 'הקופון לא תקין')
+        }
         setError(data.error || 'משהו השתבש, נסו שוב')
         setLoading(false)
       }
@@ -142,12 +182,87 @@ export default function CheckoutForm() {
         </span>
       </label>
 
-      {/* Total */}
-      <div className="flex items-center justify-between px-1 pt-1" style={{ color: '#fff' }}>
-        <span className="font-bold text-lg">סה״כ לתשלום</span>
-        <span className="font-bold text-lg" style={{ fontVariantNumeric: 'tabular-nums' }}>₪{total}</span>
-      </div>
         </>
+      )}
+
+      {/* ── Coupon ────────────────────────────────────────────────────────
+          Deliberately collapsed. A visible empty coupon box tells a full-price
+          buyer they are missing a deal and sends them off to look for a code,
+          and most of them never come back. Only people who already have a code
+          go looking for this link. */}
+      {!applied && !couponOpen && (
+        <button
+          type="button"
+          onClick={() => setCouponOpen(true)}
+          className="self-start text-base underline px-1 py-1"
+          style={{ color: 'rgba(255,255,255,0.8)', background: 'none', border: 'none', cursor: 'pointer' }}
+        >
+          יש לי קוד קופון
+        </button>
+      )}
+
+      {!applied && couponOpen && (
+        <div>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="קוד קופון"
+              value={couponInput}
+              onChange={e => { setCouponInput(e.target.value); setCouponError('') }}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleApplyCoupon() } }}
+              autoComplete="off"
+              className="flex-1 px-4 py-3 rounded-xl text-right"
+              style={{ backgroundColor: '#fff', color: 'var(--navy)', border: '1.5px solid rgba(27,48,84,0.15)', outline: 'none' }}
+            />
+            <button
+              type="button"
+              onClick={handleApplyCoupon}
+              className="px-5 py-3 rounded-xl font-bold flex-shrink-0"
+              style={{ backgroundColor: 'rgba(255,255,255,0.15)', color: '#fff', border: '1.5px solid rgba(255,255,255,0.3)' }}
+            >
+              החל
+            </button>
+          </div>
+          {couponError && (
+            <p className="text-sm mt-1.5 px-1" style={{ color: '#FCA5A5' }}>{couponError}</p>
+          )}
+        </div>
+      )}
+
+      {applied && (
+        <div
+          className="flex items-center justify-between gap-3 rounded-xl px-4 py-3"
+          style={{ backgroundColor: 'rgba(27,138,90,0.18)', border: '1.5px solid rgba(52,211,153,0.5)' }}
+        >
+          <span className="text-sm font-bold" style={{ color: '#6EE7B7' }}>
+            ✓ {applied.label} הופעלה
+          </span>
+          <button
+            type="button"
+            onClick={() => { setApplied(null); setCouponInput(''); setCouponError('') }}
+            className="text-xs underline flex-shrink-0"
+            style={{ color: 'rgba(255,255,255,0.55)', background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            הסרה
+          </button>
+        </div>
+      )}
+
+      {/* Total. Shows for the order bump as before, and now also whenever a
+          coupon is applied, so a coupon buyer with no bump still sees the price
+          drop before they commit. */}
+      {(showBump || applied) && (
+        <div className="flex items-center justify-between px-1 pt-1" style={{ color: '#fff' }}>
+          <span className="font-bold text-lg">סה״כ לתשלום</span>
+          <span className="flex items-center gap-2.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+            {applied && (
+              <span className="font-bold text-lg" style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through' }}>
+                ₪{fullTotal}
+              </span>
+            )}
+            <span className="font-bold text-lg">₪{total}</span>
+          </span>
+        </div>
       )}
 
       {isTest && (

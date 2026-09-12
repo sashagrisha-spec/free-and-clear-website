@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { saveLead } from '@/lib/save-lead'
+import { applyDiscount, checkCoupon, couponErrorMessage } from '@/lib/coupons'
 
 // Cardcom checkout for the "יאללה, לחזור אחרי" recordings pack.
 // Mirrors the proven workshop-payment flow, plus an eventId threaded through
@@ -12,14 +13,25 @@ const TEST_PRICE = 1
 const TEST_BUMP_PRICE = 1
 
 export async function POST(req: NextRequest) {
-  const { name, email, test, bump } = await req.json()
+  const { name, email, test, bump, coupon } = await req.json()
 
   if (!name || !email) {
     return NextResponse.json({ error: 'חסרים פרטים' }, { status: 400 })
   }
 
-  const basePrice = test ? TEST_PRICE : PRICE
-  const bumpPrice = test ? TEST_BUMP_PRICE : BUMP_PRICE
+  // The price is decided HERE, never in the browser: the client sends only the
+  // coupon string. If the buyer claimed a coupon we cannot honour (typo, or an
+  // expired code kept alive by a wrong clock on their device), refuse instead of
+  // silently charging full price, so nobody is ever billed a number they did not
+  // see on screen.
+  const couponResult = checkCoupon(coupon)
+  if (coupon && !couponResult.ok) {
+    return NextResponse.json({ error: couponErrorMessage(couponResult.reason) }, { status: 400 })
+  }
+  const discount = couponResult.ok ? couponResult.discount : 0
+
+  const basePrice = test ? TEST_PRICE : applyDiscount(PRICE, discount)
+  const bumpPrice = test ? TEST_BUMP_PRICE : applyDiscount(BUMP_PRICE, discount)
   const amount = basePrice + (bump ? bumpPrice : 0)
   // Production sets NEXT_PUBLIC_BASE_URL, so live behavior is unchanged. On a
   // Vercel preview (where it isn't set) fall back to the deployment's own URL so
@@ -29,6 +41,8 @@ export async function POST(req: NextRequest) {
     (process.env.VERCEL_BRANCH_URL && `https://${process.env.VERCEL_BRANCH_URL}`) ||
     (process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`) ||
     ''
+  // Spelled out on the receipt so the buyer's invoice explains its own price.
+  const couponNote = couponResult.ok ? ` (${couponResult.label}, קוד ${couponResult.code})` : ''
   const eventId = `yalla_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`
   // 5th field flags whether the Small talk order bump was added.
   const returnValue = `YALLA|${email}|${name}|${eventId}|${bump ? '1' : '0'}`
@@ -60,13 +74,13 @@ export async function POST(req: NextRequest) {
       Language: 'he',
       Products: [
         {
-          Description: 'Free & Clear English - יאללה, לחזור אחרי (55 הקלטות)',
+          Description: `Free & Clear English - יאללה, לחזור אחרי (55 הקלטות)${couponNote}`,
           UnitCost: basePrice,
           Quantity: 1,
         },
         ...(bump
           ? [{
-              Description: 'Free & Clear English - קורס Small talk קטן עליי',
+              Description: `Free & Clear English - קורס Small talk קטן עליי${couponNote}`,
               UnitCost: bumpPrice,
               Quantity: 1,
             }]
