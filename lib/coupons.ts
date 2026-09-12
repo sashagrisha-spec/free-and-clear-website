@@ -30,10 +30,12 @@ export type Coupon = {
 }
 
 export const COUPONS: Record<string, Coupon> = {
-  // Holiday sale 2026. Ends Saturday 3 Oct 2026 at 23:59 Israel time.
+  // Holiday sale 2026. ONE WEEK ONLY: ends Sunday 20 Sep 2026 at 23:59 Israel
+  // time. Shortened from 3 Oct on 2026-09-12, so the site goes quiet on sales
+  // until the new course launches.
   CHAG35: {
     discount: 0.35,
-    expires: '2026-10-03T23:59:00+03:00',
+    expires: '2026-09-20T23:59:00+03:00',
     label: 'הנחת חג 35%',
   },
 }
