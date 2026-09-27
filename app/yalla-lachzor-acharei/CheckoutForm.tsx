@@ -28,6 +28,7 @@ export default function CheckoutForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [isTest, setIsTest] = useState(false)
+  const [testKey, setTestKey] = useState('')
 
   // Coupon field stays collapsed behind a small link. An empty coupon box in
   // plain sight sends full-price buyers off to hunt for a code they don't have,
@@ -38,7 +39,9 @@ export default function CheckoutForm() {
   const [applied, setApplied] = useState<Extract<CouponResult, { ok: true }> | null>(null)
 
   useEffect(() => {
-    setIsTest(new URLSearchParams(window.location.search).get('test') === '1')
+    const k = new URLSearchParams(window.location.search).get('test') || ''
+    setTestKey(k)
+    setIsTest(k.length > 0)
   }, [])
 
   const showBump = BUMP_LIVE || isTest
@@ -81,7 +84,7 @@ export default function CheckoutForm() {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          test: isTest,
+          test: testKey,
           bump,
           coupon: applied?.code,
         }),

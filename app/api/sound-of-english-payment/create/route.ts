@@ -20,10 +20,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'חסרים פרטים' }, { status: 400 })
   }
 
+  // ₪1 test checkout is gated behind a secret only Sasha knows, because the
+  // browser can send any flag it likes: without this, a visitor who read the
+  // page's own javascript could buy the course for ₪1. A wrong key is REFUSED
+  // rather than silently charged full price, so a test can never bill for real.
+  const testKey = process.env.TEST_CHECKOUT_KEY
+  const isTest = Boolean(test) && Boolean(testKey) && test === testKey
+  if (test && !isTest) {
+    return NextResponse.json({ error: 'מצב בדיקה לא תקין' }, { status: 400 })
+  }
+
   // Every price is decided HERE, never in the browser.
-  const base = test ? TEST_PRICE : PRICE
-  const smallTalkPrice = test ? TEST_PRICE : SMALL_TALK_PRICE
-  const yallaPrice = test ? TEST_PRICE : YALLA_PRICE
+  const base = isTest ? TEST_PRICE : PRICE
+  const smallTalkPrice = isTest ? TEST_PRICE : SMALL_TALK_PRICE
+  const yallaPrice = isTest ? TEST_PRICE : YALLA_PRICE
   const amount = base + (smallTalk ? smallTalkPrice : 0) + (yalla ? yallaPrice : 0)
 
   // Where Cardcom sends the buyer back. When the checkout was opened from a
@@ -49,7 +59,7 @@ export async function POST(req: NextRequest) {
   // Anyone who reaches the payment step is saved as a warm contact even if they
   // abandon. Best-effort, never blocks checkout. The ₪1 test flow is skipped so
   // tests do not pollute the lead list.
-  if (!test) {
+  if (!isTest) {
     await saveLead({ product: PRODUCT_SLUG, name, email, bump: Boolean(smallTalk || yalla), eventId })
   }
 

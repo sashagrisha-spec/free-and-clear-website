@@ -43,8 +43,10 @@ export default function CheckoutForm() {
   const [picked, setPicked] = useState<Record<string, boolean>>({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  // ?test=1 switches the charge to ₪1 so Sasha can run a real end-to-end test.
-  const isTest = useSearchParams().get('test') === '1'
+  // ?test=<secret> switches the charge to ₪1. The server checks the secret;
+  // the browser only passes it through.
+  const testKey = useSearchParams().get('test') || ''
+  const isTest = testKey.length > 0
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -61,7 +63,7 @@ export default function CheckoutForm() {
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          test: isTest,
+          test: testKey,
           smallTalk: !!picked.smallTalk,
           yalla: !!picked.yalla,
         }),

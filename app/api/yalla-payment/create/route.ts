@@ -19,6 +19,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'חסרים פרטים' }, { status: 400 })
   }
 
+  // Same guard as the course page: the ₪1 test flow needs a secret key, and a
+  // wrong key is refused instead of quietly charging the real price.
+  const testKey = process.env.TEST_CHECKOUT_KEY
+  const isTest = Boolean(test) && Boolean(testKey) && test === testKey
+  if (test && !isTest) {
+    return NextResponse.json({ error: 'מצב בדיקה לא תקין' }, { status: 400 })
+  }
+
   // The price is decided HERE, never in the browser: the client sends only the
   // coupon string. If the buyer claimed a coupon we cannot honour (typo, or an
   // expired code kept alive by a wrong clock on their device), refuse instead of
@@ -30,8 +38,8 @@ export async function POST(req: NextRequest) {
   }
   const discount = couponResult.ok ? couponResult.discount : 0
 
-  const basePrice = test ? TEST_PRICE : applyDiscount(PRICE, discount)
-  const bumpPrice = test ? TEST_BUMP_PRICE : applyDiscount(BUMP_PRICE, discount)
+  const basePrice = isTest ? TEST_PRICE : applyDiscount(PRICE, discount)
+  const bumpPrice = isTest ? TEST_BUMP_PRICE : applyDiscount(BUMP_PRICE, discount)
   const amount = basePrice + (bump ? bumpPrice : 0)
   // Production sets NEXT_PUBLIC_BASE_URL, so live behavior is unchanged. On a
   // Vercel preview (where it isn't set) fall back to the deployment's own URL so
@@ -51,7 +59,7 @@ export async function POST(req: NextRequest) {
   // Capture the lead BEFORE redirecting to Cardcom, so anyone who abandons at the
   // payment step is still saved as a warm contact. Best-effort: never blocks or
   // breaks checkout. Skip the ₪1 test flow so tests don't pollute the lead list.
-  if (!test) {
+  if (!isTest) {
     await saveLead({ product: PRODUCT_SLUG, name, email, bump: !!bump, eventId })
   }
 
