@@ -87,25 +87,33 @@ function Lines({ lines, tone = BODY }: { lines: Line[]; tone?: string }) {
 
 /* ---------- decorative phonetics ---------- */
 
+const BLUE_G = '#8FBCEA'
+const GOLD_G = '#F3D46B'
+const PINK_G = '#F0A9C0'
+
 function Phonetics({ set = 0 }: { set?: number }) {
+  // Mirrored pairs: whatever sits on the right has a partner on the left at the
+  // same height, same size, opposite tilt. The page reads symmetric even though
+  // the background is busy. Each pair shares a colour; each glyph floats on its
+  // own delay so the movement never looks mechanical.
   const packs = [
     [
-      { g: 'θ', top: '4%', left: '6%', size: 190, rot: -14, c: '#8FBCEA' },
-      { g: 'ə', top: '54%', left: '86%', size: 230, rot: 10, c: '#F7D66B' },
-      { g: 'ʃ', top: '72%', left: '10%', size: 150, rot: 7, c: '#D9C27A' },
-      { g: 'iː', top: '16%', left: '80%', size: 130, rot: -8, c: '#B9D2EE' },
+      { g: 'θ', top: '7%', left: '5%', size: 185, rot: -14, c: BLUE_G, d: 0 },
+      { g: 'iː', top: '7%', left: '80%', size: 185, rot: 14, c: BLUE_G, d: 1.1 },
+      { g: 'ʃ', top: '64%', left: '7%', size: 150, rot: 8, c: GOLD_G, d: 0.6 },
+      { g: 'ə', top: '64%', left: '83%', size: 150, rot: -8, c: GOLD_G, d: 1.8 },
     ],
     [
-      { g: 'ɹ', top: '8%', left: '84%', size: 200, rot: 12, c: '#8FBCEA' },
-      { g: 'æ', top: '60%', left: '4%', size: 210, rot: -9, c: '#F7D66B' },
-      { g: 'ŋ', top: '30%', left: '12%', size: 140, rot: 15, c: '#CFE0F4' },
-      { g: 'uː', top: '80%', left: '78%', size: 160, rot: -6, c: '#E0CB8A' },
+      { g: 'ɹ', top: '9%', left: '6%', size: 170, rot: 12, c: PINK_G, d: 0.4 },
+      { g: 'æ', top: '9%', left: '81%', size: 170, rot: -12, c: PINK_G, d: 1.5 },
+      { g: 'ŋ', top: '62%', left: '4%', size: 145, rot: 6, c: BLUE_G, d: 1.0 },
+      { g: 'uː', top: '62%', left: '82%', size: 145, rot: -6, c: BLUE_G, d: 2.1 },
     ],
     [
-      { g: 'ð', top: '10%', left: '10%', size: 170, rot: 8, c: '#F7D66B' },
-      { g: 'ʌ', top: '46%', left: '88%', size: 200, rot: -12, c: '#8FBCEA' },
-      { g: 'ɔː', top: '78%', left: '18%', size: 150, rot: -5, c: '#CFE0F4' },
-      { g: 'ɪ', top: '22%', left: '74%', size: 120, rot: 14, c: '#E0CB8A' },
+      { g: 'ð', top: '8%', left: '7%', size: 165, rot: 8, c: GOLD_G, d: 0.8 },
+      { g: 'ʌ', top: '8%', left: '81%', size: 165, rot: -8, c: GOLD_G, d: 1.9 },
+      { g: 'ɔː', top: '63%', left: '5%', size: 150, rot: -5, c: PINK_G, d: 0.2 },
+      { g: 'ɪ', top: '63%', left: '85%', size: 150, rot: 5, c: PINK_G, d: 1.4 },
     ],
   ]
   const pack = packs[set % packs.length]
@@ -114,20 +122,59 @@ function Phonetics({ set = 0 }: { set?: number }) {
       {pack.map((s, i) => (
         <span
           key={i}
+          className="fce-float"
           style={{
             position: 'absolute',
             top: s.top,
             left: s.left,
             fontSize: s.size,
             lineHeight: 1,
-            transform: `rotate(${s.rot}deg)`,
+            // The tilt lives on an inner span: the float animates the outer
+            // transform, and one element cannot hold both.
             color: s.c,
-            opacity: 0.5,
+            opacity: s.c === PINK_G ? 0.36 : 0.45,
             fontWeight: 300,
+            animationDelay: `${s.d}s`,
           }}
         >
-          {s.g}
+          <span style={{ display: 'inline-block', transform: `rotate(${s.rot}deg)` }}>{s.g}</span>
         </span>
+      ))}
+    </div>
+  )
+}
+
+/* Confetti, borrowed from the giveaway page so the two feel like one launch.
+   Mirrored left and right around the centre axis. Used sparingly: only where
+   the page is celebrating (the opening and the buy box), never over reading
+   text. `tone` lets it sit on the navy section without disappearing. */
+function Confetti({ tone = 'light' }: { tone?: 'light' | 'onNavy' }) {
+  const colors = tone === 'onNavy'
+    ? { a: '#F5C842', b: '#9CC6F0', c: '#F3B6CA' }
+    : { a: '#F5C842', b: '#7FB0E4', c: '#F0A9C0' }
+  const half = [
+    { top: '11%', x: 15, w: 13, h: 13, rot: 22, c: colors.a, round: false, d: 0 },
+    { top: '24%', x: 28, w: 9, h: 9, rot: 0, c: colors.b, round: true, d: 0.7 },
+    { top: '41%', x: 8, w: 11, h: 11, rot: -18, c: colors.c, round: false, d: 1.3 },
+    { top: '58%', x: 24, w: 8, h: 8, rot: 0, c: colors.a, round: true, d: 0.4 },
+    { top: '74%', x: 12, w: 12, h: 12, rot: 34, c: colors.b, round: false, d: 1.1 },
+    { top: '87%', x: 26, w: 10, h: 10, rot: 0, c: colors.c, round: true, d: 1.7 },
+  ]
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden select-none">
+      {half.map((s, i) => (
+        <span
+          key={`r-${i}`}
+          className="fce-float"
+          style={{ position: 'absolute', top: s.top, right: `${s.x}%`, width: s.w, height: s.h, backgroundColor: s.c, borderRadius: s.round ? '50%' : 3, transform: `rotate(${s.rot}deg)`, opacity: 0.85, animationDelay: `${s.d}s` }}
+        />
+      ))}
+      {half.map((s, i) => (
+        <span
+          key={`l-${i}`}
+          className="fce-float"
+          style={{ position: 'absolute', top: s.top, left: `${s.x}%`, width: s.w, height: s.h, backgroundColor: s.c, borderRadius: s.round ? '50%' : 3, transform: `rotate(${-s.rot}deg)`, opacity: 0.85, animationDelay: `${s.d + 0.35}s` }}
+        />
       ))}
     </div>
   )
@@ -221,14 +268,36 @@ export default function TheSoundOfEnglishPage() {
     <>
     <MetaPixel />
     <main dir="rtl" className={assistant.className} style={{ backgroundColor: '#fff', color: INK, textAlign: 'center' }}>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+@keyframes fceFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+/* No will-change here on purpose: the page carries 60 of these, and promoting
+   every one to its own layer costs more on a phone than it saves. */
+.fce-float { animation: fceFloat 4.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .fce-float { animation: none !important; } }
+`,
+        }}
+      />
+
       {/* HERO */}
-      <section className="relative overflow-hidden pt-16 pb-16" style={{ backgroundColor: '#FCFBF7' }}>
+      <section
+        className="relative overflow-hidden pt-16 pb-16"
+        style={{ background: 'linear-gradient(180deg, #FFF6DE 0%, #FDFBF4 46%, #FCFBF7 100%)' }}
+      >
+        {/* Two glows, one per side, so the light is symmetric around the centre. */}
         <div
           aria-hidden
           className="absolute"
-          style={{ top: -200, right: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.28) 0%, rgba(245,200,66,0) 70%)' }}
+          style={{ top: -200, right: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.34) 0%, rgba(245,200,66,0) 70%)' }}
+        />
+        <div
+          aria-hidden
+          className="absolute"
+          style={{ top: -200, left: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(127,176,228,0.26) 0%, rgba(127,176,228,0) 70%)' }}
         />
         <Phonetics set={0} />
+        <Confetti />
         <div className="relative max-w-3xl mx-auto px-6">
           <p className="mb-7 inline-block rounded-full" style={{ backgroundColor: 'rgba(27,48,84,0.05)', padding: '0.45rem 1.3rem', fontSize: '1.02rem', color: SOFT }}>
             🎧 קורס דיגיטלי להגייה ומבטא
@@ -540,6 +609,7 @@ export default function TheSoundOfEnglishPage() {
       {/* PRICE */}
       <section id="buy" className="relative overflow-hidden py-24" style={{ backgroundColor: INK }}>
         <Phonetics set={0} />
+        <Confetti tone="onNavy" />
         <div className="relative max-w-xl mx-auto px-6" style={{ color: '#fff' }}>
           <h2 className="mb-7" style={{ fontSize: 'clamp(1.8rem, 4.8vw, 2.7rem)', color: '#fff', fontWeight: 600 }}>
             מחיר ההשקה
