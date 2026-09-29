@@ -52,10 +52,14 @@ function accessEmailHtml(name: string, link: string, smallTalk: boolean, yalla: 
         </p>
       </div>`
     : ''
+  // The Small talk credentials come from Schooler in a separate email, and it
+  // lands in Gmail's Promotions tab often enough that buyers think it never
+  // arrived. Saying so here, in red, costs one line and saves the support mail.
   const smallTalkNote = smallTalk
     ? `<div style="background:#FFFBEE;border:1px dashed #F2B705;border-radius:12px;padding:16px 20px;margin:20px 0;line-height:1.8">
         <p style="margin:0 0 6px"><strong>וגם: קורס Small talk קטן עליי 🎉</strong></p>
-        <p style="margin:0">הגישה לקורס תגיע במייל נפרד עם שם משתמש וסיסמה, ממש בקרוב.</p>
+        <p style="margin:0 0 8px">הגישה לקורס תגיע במייל נפרד עם שם משתמש וסיסמה, ממש בקרוב.</p>
+        <p style="margin:0;color:#C0281E"><strong>שימו לב: לפעמים המייל הזה נוחת בתיבת הקידומים (שיווק) או בספאם, אז שווה לחפש אותו גם שם.</strong></p>
       </div>`
     : ''
   return `
