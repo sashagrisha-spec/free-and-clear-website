@@ -18,9 +18,21 @@ export interface DemoLesson {
 export interface DemoChapter {
   title: string
   lessons: DemoLesson[]
+  // A one-lesson "chapter" that should read as a single lesson: no chapter
+  // header in the list, no chapter line above the video. Used for the closing
+  // video, which needs no label to say what it is.
+  standalone?: boolean
 }
 
 const STORAGE_KEY = 'fce-course-demo-progress'
+const CERT_NAME_KEY = 'fce-course-certificate-name'
+
+// Standalone entries are not chapters, so they must not consume a chapter
+// number: without this the bonuses would be "Chapter 4" and the closing video
+// "Chapter 5", which is exactly the labelling we removed.
+function chapterNumber(chapters: DemoChapter[], ci: number): number {
+  return chapters.slice(0, ci + 1).filter((c) => !c.standalone).length
+}
 
 export default function CoursePlayer({
   courseName,
@@ -42,6 +54,7 @@ export default function CoursePlayer({
   const [done, setDone] = useState<Set<number>>(new Set())
   const [menuOpen, setMenuOpen] = useState(false)
   const [finished, setFinished] = useState(false)
+  const [showCertificate, setShowCertificate] = useState(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const playerRef = useRef<Player | null>(null)
   // Chapters start folded; only the chapter you are in is open.
@@ -123,7 +136,12 @@ export default function CoursePlayer({
 
   const complete = () => {
     save(new Set(done).add(i))
-    if (!isLast) goTo(i + 1)
+    if (isLast) {
+      setFinished(false)
+      setShowCertificate(true)
+      return
+    }
+    goTo(i + 1)
   }
 
   const toggleDone = (n: number) => {
@@ -169,6 +187,48 @@ export default function CoursePlayer({
           const indices = flat.flatMap((f, n) => (f.chapterIndex === ci ? [n] : []))
           const doneCount = indices.filter((n) => done.has(n)).length
           const open = openChapters.has(ci)
+
+          // Standalone: rendered as one plain lesson row, always visible.
+          if (chapter.standalone) {
+            const n = indices[0]
+            const active = n === i
+            const isDone = done.has(n)
+            return (
+              <div key={ci} className="flex items-center gap-1 pt-2">
+                <button
+                  onClick={() => toggleDone(n)}
+                  aria-label={isDone ? 'Mark as not watched' : 'Mark as watched'}
+                  className="shrink-0 rounded-full flex items-center justify-center transition-colors"
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    border: isDone ? 'none' : '1.5px solid rgba(255,255,255,0.3)',
+                    backgroundColor: isDone ? 'var(--yellow)' : 'transparent',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {isDone && (
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                  )}
+                </button>
+                <button
+                  onClick={() => goTo(n)}
+                  className="flex-1 text-left text-sm rounded-md px-2 py-1.5 transition-colors"
+                  style={{
+                    color: active ? 'var(--navy)' : 'rgba(255,255,255,0.75)',
+                    backgroundColor: active ? 'var(--yellow)' : 'transparent',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {chapter.lessons[0].title}
+                </button>
+              </div>
+            )
+          }
+
           return (
             <div key={ci}>
               <button
@@ -180,7 +240,7 @@ export default function CoursePlayer({
               >
                 <span>
                   <span className="block text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    Chapter {ci + 1}
+                    Chapter {chapterNumber(chapters, ci)}
                   </span>
                   <span className="block text-sm font-bold text-white">{chapter.title}</span>
                 </span>
@@ -256,6 +316,9 @@ export default function CoursePlayer({
 
   return (
     <div className="max-w-6xl mx-auto lg:grid lg:gap-12" style={{ gridTemplateColumns: '260px 1fr' }}>
+      {showCertificate && (
+        <Certificate courseName={courseName} onClose={() => setShowCertificate(false)} />
+      )}
       {/* Mobile: the same list, folded into a toggle above the video. */}
       <div className="lg:hidden mb-6">
         <button
@@ -316,9 +379,11 @@ export default function CoursePlayer({
           )}
         </div>
 
-        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--yellow)' }}>
-          Chapter {lesson.chapterIndex + 1} · {chapters[lesson.chapterIndex].title}
-        </p>
+        {!chapters[lesson.chapterIndex].standalone && (
+          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--yellow)' }}>
+            Chapter {chapterNumber(chapters, lesson.chapterIndex)} · {chapters[lesson.chapterIndex].title}
+          </p>
+        )}
         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">{lesson.title}</h1>
         {lesson.description && (
           <p className="text-base leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.65)' }}>
@@ -361,6 +426,194 @@ export default function CoursePlayer({
           </NavButton>
         </div>
       </main>
+    </div>
+  )
+}
+
+/* The reward for finishing. The old "Finish course" button did nothing at all,
+   which is a flat ending for a course somebody paid for and worked through.
+   The learner types their own name (we never learn it from the signed link,
+   which carries only an email) and can print or save it as a PDF. */
+function Certificate({ courseName, onClose }: { courseName: string; onClose: () => void }) {
+  const [name, setName] = useState('')
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(CERT_NAME_KEY)
+      if (saved) setName(saved)
+    } catch {}
+  }, [])
+
+  const onName = (v: string) => {
+    setName(v)
+    try {
+      localStorage.setItem(CERT_NAME_KEY, v)
+    } catch {}
+  }
+
+  // Hardcoded Israel time: the date on the certificate should be her students'
+  // date, not the timezone of whatever device they happen to be using.
+  const date = new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Asia/Jerusalem',
+  }).format(new Date())
+
+  const confetti = [
+    { top: '8%', left: '10%', c: '#F5C842', r: false, s: 13, d: 0 },
+    { top: '14%', left: '86%', c: '#F5C842', r: false, s: 13, d: 0.5 },
+    { top: '30%', left: '5%', c: '#7FB0E4', r: true, s: 10, d: 0.9 },
+    { top: '30%', left: '92%', c: '#7FB0E4', r: true, s: 10, d: 1.4 },
+    { top: '68%', left: '8%', c: '#F0A9C0', r: false, s: 11, d: 0.3 },
+    { top: '68%', left: '89%', c: '#F0A9C0', r: false, s: 11, d: 1.1 },
+    // Kept in the corners: at 16%/81% these two landed on the date and the
+    // signature line.
+    { top: '91%', left: '4%', c: '#F5C842', r: true, s: 9, d: 1.7 },
+    { top: '91%', left: '94%', c: '#F5C842', r: true, s: 9, d: 0.7 },
+  ]
+
+  return (
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto cert-overlay"
+      style={{ backgroundColor: 'rgba(11,23,44,0.92)', backdropFilter: 'blur(3px)' }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Certificate of completion"
+    >
+      <style>{`
+@keyframes certFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+@keyframes certIn { from { opacity: 0; transform: translateY(14px) scale(0.97) } to { opacity: 1; transform: none } }
+.cert-float { animation: certFloat 4.5s ease-in-out infinite; }
+.cert-card { animation: certIn 0.5s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .cert-float, .cert-card { animation: none !important; } }
+@media print {
+  body * { visibility: hidden !important; }
+  .cert-overlay { position: absolute !important; inset: 0 !important; background: #fff !important; backdrop-filter: none !important; overflow: visible !important; }
+  .cert-card, .cert-card * { visibility: visible !important; }
+  .cert-card { box-shadow: none !important; margin: 0 !important; animation: none !important; }
+  .cert-hide-print { display: none !important; }
+  @page { size: A4 landscape; margin: 12mm; }
+}
+      `}</style>
+
+      <div className="min-h-full flex flex-col items-center justify-center px-4 py-10">
+        <div
+          className="cert-card relative w-full"
+          style={{
+            maxWidth: 780,
+            backgroundColor: '#FDFBF4',
+            border: '1px solid rgba(27,48,84,0.12)',
+            borderRadius: 20,
+            padding: 'clamp(2rem, 6vw, 3.6rem) clamp(1.2rem, 5vw, 3.4rem)',
+            boxShadow: '0 30px 70px rgba(0,0,0,0.35)',
+            textAlign: 'center',
+            color: '#1B3054',
+          }}
+        >
+          {/* A gold inner rule, the way a real certificate is framed. */}
+          <span
+            aria-hidden
+            style={{ position: 'absolute', inset: 12, borderRadius: 14, border: '2px solid rgba(201,162,39,0.45)', pointerEvents: 'none' }}
+          />
+          {confetti.map((c, n) => (
+            <span
+              key={n}
+              aria-hidden
+              className="cert-float"
+              style={{
+                position: 'absolute',
+                top: c.top,
+                left: c.left,
+                width: c.s,
+                height: c.s,
+                backgroundColor: c.c,
+                borderRadius: c.r ? '50%' : 3,
+                opacity: 0.9,
+                animationDelay: `${c.d}s`,
+              }}
+            />
+          ))}
+
+          <p style={{ fontSize: '2.6rem', lineHeight: 1 }} aria-hidden>
+            🎉
+          </p>
+
+          <p
+            className="uppercase"
+            style={{ marginTop: '1.1rem', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.24em', color: '#C9A227' }}
+          >
+            Certificate of Completion
+          </p>
+
+          <p style={{ marginTop: '1.6rem', fontSize: '1.02rem', color: '#42536D' }}>This certifies that</p>
+
+          <input
+            value={name}
+            onChange={(e) => onName(e.target.value)}
+            placeholder="Your name"
+            aria-label="Your name"
+            className="cert-name"
+            style={{
+              display: 'block',
+              margin: '0.6rem auto 0',
+              width: 'min(100%, 420px)',
+              textAlign: 'center',
+              fontSize: 'clamp(1.6rem, 5.5vw, 2.3rem)',
+              fontWeight: 700,
+              color: '#1B3054',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: '2px solid rgba(201,162,39,0.55)',
+              padding: '0.25rem 0.4rem',
+              outline: 'none',
+            }}
+          />
+
+          <p style={{ marginTop: '1.5rem', fontSize: '1.02rem', color: '#42536D' }}>has completed</p>
+          <p style={{ marginTop: '0.45rem', fontSize: 'clamp(1.35rem, 4.6vw, 1.85rem)', fontWeight: 700, direction: 'ltr' }}>
+            {courseName}
+          </p>
+          <p style={{ marginTop: '1.1rem', fontSize: '1rem', lineHeight: 1.65, color: '#42536D' }}>
+            every sound, every practice, all the way to the end.
+          </p>
+
+          <div
+            style={{
+              marginTop: '2.4rem',
+              paddingTop: '1.4rem',
+              borderTop: '1px solid rgba(27,48,84,0.12)',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.8rem',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              fontSize: '0.9rem',
+              color: '#7C8AA0',
+            }}
+          >
+            <span>{date}</span>
+            <span style={{ fontWeight: 700, color: '#1B3054' }}>Sasha · Free &amp; Clear English</span>
+          </div>
+        </div>
+
+        <div className="cert-hide-print flex flex-wrap items-center justify-center gap-3" style={{ marginTop: '1.8rem' }}>
+          <button
+            onClick={() => window.print()}
+            className="rounded-full font-bold"
+            style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)', padding: '0.85rem 1.7rem', fontSize: '0.95rem', cursor: 'pointer', border: 'none' }}
+          >
+            Print or save as PDF
+          </button>
+          <button
+            onClick={onClose}
+            className="rounded-full font-bold"
+            style={{ backgroundColor: 'transparent', color: 'rgba(255,255,255,0.8)', padding: '0.85rem 1.5rem', fontSize: '0.95rem', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.3)' }}
+          >
+            Back to the course
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

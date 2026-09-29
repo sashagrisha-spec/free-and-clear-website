@@ -52,15 +52,19 @@ export const CHAPTERS: DemoChapter[] = [
     ],
   },
   {
-    title: 'Ending',
-    lessons: [{ title: 'Ending', vimeoId: '1226973327' }],
-  },
-  {
     title: 'Bonuses',
     lessons: [
       { title: 'Silent letters', vimeoId: '1226980885', pdf: '/practice-pdf/15-silent-letters.pdf' },
       { title: 'V/W practice', vimeoId: '1226981178', pdf: '/practice-pdf/16-v-w.pdf' },
       { title: 'ED ending', vimeoId: '1226980884', pdf: '/practice-pdf/17-ed-endings.pdf' },
     ],
+  },
+  // Last, and deliberately not a chapter: one closing video needs no chapter
+  // header to explain itself, and it must not sit before the bonuses, or the
+  // course would offer a "Finish course" button with lessons still to come.
+  {
+    title: 'Ending',
+    standalone: true,
+    lessons: [{ title: 'Ending', vimeoId: '1226973327' }],
   },
 ]
