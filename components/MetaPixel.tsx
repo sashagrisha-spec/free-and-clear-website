@@ -36,3 +36,13 @@ export function trackPurchase(value: number, currency: string, eventId: string) 
     fbq('track', 'Purchase', { value, currency }, { eventID: eventId })
   }
 }
+
+// Helper to fire a de-duplicated Lead from the browser. The eventId comes back
+// from the server so Meta counts one lead, not two.
+export function trackLead(eventId: string, contentName = 'hagrala-waitlist') {
+  if (typeof window === 'undefined') return
+  const fbq = (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq
+  if (fbq) {
+    fbq('track', 'Lead', { content_name: contentName }, { eventID: eventId })
+  }
+}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { trackLead } from '@/components/MetaPixel'
 
 const INK = '#1B3054'
 const BODY = '#42536D'
@@ -47,6 +48,9 @@ export default function SignupForm() {
         setError(data.error || 'משהו השתבש, נסו שוב')
         return
       }
+      // Same id the server already sent through the Conversions API, so Meta
+      // de-duplicates the two into one lead.
+      if (data.eventId) trackLead(data.eventId)
       setDone(true)
     } catch {
       setError('משהו השתבש, נסו שוב')

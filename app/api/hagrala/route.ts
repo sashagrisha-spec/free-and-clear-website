@@ -7,10 +7,12 @@
 // catches the dumbest bots, a per-IP limit catches the rest, and nothing here
 // can ever charge money or hand out course access.
 
+import crypto from 'crypto'
 import nodemailer from 'nodemailer'
 import { NextRequest, NextResponse } from 'next/server'
 import { addSubscriberToList } from '@/lib/ravmesser'
 import { saveLead } from '@/lib/save-lead'
+import { sendLeadEvent } from '@/lib/meta-capi'
 
 const LIST_ID = Number(process.env.HAGRALA_LIST_ID) || 121157
 const PRODUCT_SLUG = 'hagrala-waitlist'
@@ -94,5 +96,17 @@ export async function POST(req: NextRequest) {
       .catch(() => {})
   }
 
-  return NextResponse.json({ success: true })
+  // Tell Meta a lead happened, so a paid campaign can optimise for signups
+  // instead of clicks and Sasha can see the cost per email. Server-side first;
+  // the browser fires the same id and Meta counts it once.
+  const eventId = crypto.randomUUID()
+  await sendLeadEvent({
+    email,
+    eventId,
+    eventSourceUrl: req.nextUrl.href,
+    clientIp: ip === 'unknown' ? undefined : ip,
+    userAgent: req.headers.get('user-agent') ?? undefined,
+  }).catch(() => {})
+
+  return NextResponse.json({ success: true, eventId })
 }
