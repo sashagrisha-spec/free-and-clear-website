@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import { applyDiscount, checkCoupon, couponErrorMessage, type CouponResult } from '@/lib/coupons'
 
-const BASE_PRICE = 127
-const BUMP_PRICE = 78
-const BUMP_OLD_PRICE = 157
+const BASE_PRICE = 167
+const BUMP_PRICE = 94
+const BUMP_OLD_PRICE = 187
 // Savings % shown on the bump badge, computed so it always matches the prices above.
 const BUMP_SAVINGS_PCT = Math.round((1 - BUMP_PRICE / BUMP_OLD_PRICE) * 100)
 

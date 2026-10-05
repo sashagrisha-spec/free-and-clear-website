@@ -7,10 +7,11 @@ import { saveLead } from '@/lib/save-lead'
 // through ReturnValue so Meta can de-duplicate the browser + server Purchase.
 
 const PRODUCT_SLUG = 'the-sound-of-english'
-const PRICE = 97 // launch price. Anchor shown on the page is 197.
-// Order bumps, both at half their normal price (₪157 and ₪127).
-const SMALL_TALK_PRICE = 78
-const YALLA_PRICE = 64
+const PRICE = 97 // launch price. Anchor shown on the page is 247.
+// After the launch (from 26.10.2026): PRICE = 247 and the page anchor becomes 297.
+// Order bumps, both at half their normal price (₪187 and ₪167).
+const SMALL_TALK_PRICE = 94
+const YALLA_PRICE = 84
 const TEST_PRICE = 1
 
 export async function POST(req: NextRequest) {

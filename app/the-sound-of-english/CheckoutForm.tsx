@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
 const PRICE = 97
-const OLD_PRICE = 197
+const OLD_PRICE = 247
 
 // Order bumps, each at half its normal price. The server decides the real
 // charge; these numbers only draw the screen.
@@ -13,8 +13,8 @@ const BUMPS = [
     id: 'smallTalk' as const,
     title: 'סמול טוק קטן עליי',
     line: 'הקורס שמלמד לנהל שיחה באנגלית בלי להיתקע, ובלי להישמע מוזר.',
-    price: 78,
-    old: 157,
+    price: 94,
+    old: 187,
     perks: [
       '8 פרקים קצרים, כל אחד על סיטואציה אחרת',
       'איך פותחים שיחה, איך מגיבים, ואיך מסיימים בלי מבוכה',
@@ -26,8 +26,8 @@ const BUMPS = [
     id: 'yalla' as const,
     title: 'יאללה, לחזור אחרי',
     line: '55 הקלטות שמאמנות את שריר הדיבור. עשר דקות ביום, בלי דקדוק ובלי שינון.',
-    price: 64,
-    old: 127,
+    price: 84,
+    old: 167,
     perks: [
       '55 הקלטות קצרות ב-18 תיקיות',
       'שיטת Shadowing: מקשיבים וחוזרים אחרי בקול',

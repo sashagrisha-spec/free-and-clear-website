@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
   }
   const [, email, name, eventId, bumpFlag] = parts
   const bump = bumpFlag === '1'
-  const value = typeof amount === 'number' ? amount : 97
+  const value = typeof amount === 'number' ? amount : 167
   const currency = 'ILS'
 
   // Idempotency guard. The thank-you page calls this on every load, so a buyer

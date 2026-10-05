@@ -89,7 +89,7 @@ export function checkCoupon(raw: string | undefined | null, now: Date = new Date
  *
  * Rounding is per line, not on the total, so the invoice always adds up: every
  * product line on the Cardcom receipt matches the sum that was actually charged.
- * (35% off ₪127 is ₪82.55, charged as ₪83.)
+ * (35% off ₪167 is ₪108.55, charged as ₪109.)
  */
 export function applyDiscount(price: number, discount: number): number {
   return Math.round(price * (1 - discount))

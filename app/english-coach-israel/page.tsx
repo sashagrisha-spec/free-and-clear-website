@@ -49,7 +49,7 @@ const offerings = [
   {
     name: 'Digital Courses',
     tag: 'Self-paced',
-    desc: 'Online courses starting at ₪137 – fluency, pronunciation, small talk. Learn at your own pace.',
+    desc: 'Online courses starting at ₪167 – fluency, pronunciation, small talk. Learn at your own pace.',
     cta: 'See Courses',
     href: '/#services',
     navy: false,

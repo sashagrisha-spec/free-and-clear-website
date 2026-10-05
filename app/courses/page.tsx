@@ -28,6 +28,8 @@ export const metadata: Metadata = {
 //  SASHA: כל מה שצריך לערוך נמצא בבלוק COURSES שמתחת ורק בו.
 //
 //  לכל קורס:
+//    price       = המחיר שמשלמים עליו
+//    oldPrice    = המספר שמופיע מתחת בסוגריים, "במקום ..."
 //    tagline     = שורה אחת מודגשת מתחת לשם
 //    whatsInside = "מה קורה בפנים". כל מחרוזת ברשימה היא פסקה נפרדת
 //    forWho      = משלים את המשפט "מתאים לכם אם..."
@@ -35,6 +37,7 @@ export const metadata: Metadata = {
 //    bullets     = נקודות קצרות, אופציונלי. רשימה ריקה לא מציירת כלום
 //    readMoreUrl = הכתובת של דף הנחיתה המלא
 //    buyUrl      = הכתובת של עמוד הסליקה, לרכישה מיידית
+//    buyNote     = במקום buyUrl, לקורס שעוד לא יצא. למשל "יוצא ב-11 באוקטובר"
 //
 //  טקסט שנשאר ריק יופיע בדף כמקום שמור מסומן ב-◆.
 //  לינק שנשאר ריק יהפוך את הכפתור לאפור עם הערה "חסר לינק",
@@ -48,6 +51,8 @@ type Course = {
   name: string
   level: Level
   price: number
+  /** The struck-through "instead of" number under the price. */
+  oldPrice: number
   /** One bold line under the name: what this thing is. */
   tagline: string
   /** "מה קורה בפנים", one string per paragraph. */
@@ -65,6 +70,9 @@ type Course = {
   readMoreNote?: string
   /** Straight to checkout. Empty string = button renders visibly dead. */
   buyUrl: string
+  /** Use INSTEAD of buyUrl for a course that is not out yet: fills the buy slot
+      with a release line, so there is no live buy button before the launch. */
+  buyNote?: string
 }
 
 const COURSES: Course[] = [
@@ -73,6 +81,7 @@ const COURSES: Course[] = [
     name: 'אתגר שמע למתחילים',
     level: 'מתחילים',
     price: 47,
+    oldPrice: 77,
     tagline: '21 הקלטות קצרות שיעזרו לכם סוף סוף לפתוח את הפה.',
     whatsInside: [
       '21 הקלטות אודיו, אחת לכל יום של האתגר, וכולן מגיעות אליכם בלינק אחד מיד אחרי הרכישה. כל הקלטה היא דקה או שתיים בנושא יומיומי, ואתם פשוט חוזרים אחריי. השיטה היא Shadowing, בגרסה שמתאימה גם למתחילים.',
@@ -89,7 +98,8 @@ const COURSES: Course[] = [
     slug: 'yalla-lachzor-acharei',
     name: 'יאללה, לחזור אחרי',
     level: 'בינוני',
-    price: 127,
+    price: 167,
+    oldPrice: 197,
     tagline: 'תוכנית התרגול הכי פופולרית שלי בשנה האחרונה.',
     whatsInside: [
       '55 הקלטות בנושאים שונים, שנועדו להפוך את האנגלית הפסיבית שלכם לאנגלית שאתם באמת משתמשים בה.',
@@ -107,7 +117,8 @@ const COURSES: Course[] = [
     slug: 'small-talk',
     name: 'סמול טוק, קטן עליי',
     level: 'בינוני',
-    price: 137,
+    price: 187,
+    oldPrice: 237,
     tagline: 'מיקרו-קורס ממוקד שיעזור לכם להפסיק להרגיש מוזר בסמול טוק.',
     whatsInside: [
       'איך נכנסים לשיחה? איך ממשיכים אותה בלי להיתקע? מה שואלים חוץ מ-"So, what do you do?" ואיך הופכים שיחה עם קולגה, לקוח או מישהו שפגשתם בכנס להרבה יותר טבעית?',
@@ -119,19 +130,29 @@ const COURSES: Course[] = [
     buyUrl: 'https://secure.cardcom.solutions/EA/EA5/cfTDi0SJAkCJnWBxeOjVA/PaymentSP',
   },
   {
-    slug: 'dabru-beshetef',
-    name: 'לדבר אנגלית בשטף וביטחון',
+    slug: 'the-sound-of-english',
+    name: 'The Sound of English',
     level: 'בינוני / מתקדם',
-    price: 197,
-    tagline: 'הקורס הדיגיטלי הכי מעמיק שלי.',
+    price: 97,
+    oldPrice: 247,
+    tagline: 'הקורס החדש שלי להגייה ולמבטא, ו-₪97 הוא מחיר ההשקה שלו לשבועיים בלבד.',
     whatsInside: [
-      'קורס מצולם ומקיף למי שרוצה באמת להעמיק באנגלית: לבנות הרגלים חדשים סביב השפה, להבין יותר לעומק הגייה, לרענן את כללי הדקדוק שמעלים אבק עוד מהתיכון, לתרגל בצורה אחרת ומהנה ובעיקר - לשנות את מערכת היחסים עם האנגלית.',
-      'הקורס כולו מצולם באנגלית, ולכן הוא מתאים למי שכבר יש לו אנגלית לא רעה ורוצה לקחת אותה שלב קדימה. הוא כן מצריך זמן מול המחשב, אבל אל דאגה - זה לא תואר ואפילו לא סמסטר :)',
+      '34 סרטונים קצרים שמחולקים להסברים, לתרגולים ולבונוסים. בכל שיעור לוקחים צליל אחד, או צמד צלילים מאותה משפחה, ועובדים עליו עד הסוף.',
+      'קודם אני מסבירה בעברית מה בדיוק הפה שלכם צריך לעשות, בלי מונחים מפוצצים ובלי סימנים פונטיים שאף אחד לא מבין. אחר כך מתרגלים יחד באנגלית: קודם מילים, ואז משפטים מהחיים האמיתיים. אתם חוזרים אחריי בקול, ואני איתכם.',
+      'שעה וחצי של סרטונים סך הכל, בקצב שלכם, ועוד דפי תרגול להורדה. גישה לתמיד, בלי מנוי ובלי תפוגה.',
     ],
-    forWho: 'אתם כבר מסתדרים באנגלית, אבל רוצים לדבר בצורה שוטפת, מדויקת ובטוחה יותר ולהרגיש שהאנגלית באמת הופכת לחלק מכם.',
+    forWho: 'האנגלית שלכם טובה, אבל עדיין מבקשים מכם לחזור על מה שאמרתם, או שאתם שומעים את עצמכם ויודעים שהצליל לא יוצא נכון.',
+    kicker: 'שני שיעורים פתוחים לצפייה חופשית בדף הקורס, הסבר אחד ותרגול אחד.',
     bullets: [],
-    readMoreUrl: 'https://small-talk.ravpage.co.il/speaknow',
-    buyUrl: 'https://secure.cardcom.solutions/EA/EA5/hVhtiN67IEixchc4WCwDkQ/PaymentSP',
+    // ⬇ ב-11.10.2026, כשהקורס יוצא, מחזירים את שני הכפתורים: מוחקים את שתי
+    // שורות ה-Note, ומחזירים
+    //   readMoreUrl: '/the-sound-of-english',
+    //   buyUrl: '/the-sound-of-english#buy',
+    // עד אז אין מכאן שום דרך להגיע לסליקה, גם לא דרך דף המכירה.
+    readMoreUrl: '',
+    readMoreNote: 'כל הפרטים נמצאים כאן למעלה',
+    buyUrl: '',
+    buyNote: 'יוצא ב-11 באוקטובר',
   },
 ]
 
@@ -220,9 +241,14 @@ function CourseCard({ course }: { course: Course }) {
       {/* row 1 - level + price */}
       <div className="flex items-center justify-between gap-3 px-6 sm:px-7 pt-7">
         <LevelBadge level={course.level} />
-        <span className="font-black leading-none" style={{ fontSize: '1.875rem' }}>
-          <span className="font-bold" style={{ fontSize: '0.62em', opacity: 0.75 }}>₪</span>
-          {course.price}
+        <span className="flex flex-col items-end leading-none">
+          <span className="font-black leading-none" style={{ fontSize: '1.875rem' }}>
+            <span className="font-bold" style={{ fontSize: '0.62em', opacity: 0.75 }}>₪</span>
+            {course.price}
+          </span>
+          <span className="font-bold mt-1.5 whitespace-nowrap" style={{ fontSize: '0.8125rem', opacity: 0.55 }}>
+            (במקום ₪{course.oldPrice})
+          </span>
         </span>
       </div>
 
@@ -297,7 +323,9 @@ function CourseCard({ course }: { course: Course }) {
 
         {course.buyUrl
           ? <CardButton href={course.buyUrl} variant="primary">לרכישה מיידית</CardButton>
-          : <PendingButton label="לרכישה מיידית" />}
+          : course.buyNote
+            ? <ReleaseNote text={course.buyNote} />
+            : <PendingButton label="לרכישה מיידית" />}
       </div>
     </article>
   )
@@ -348,6 +376,24 @@ function SlotNote({ text }: { text: string }) {
       style={{ color: 'var(--navy)', opacity: 0.55, border: '2px solid transparent', minHeight: 56 }}
     >
       {text}
+    </span>
+  )
+}
+
+// Fills the buy slot for a course that is not out yet. Same box as a real
+// button so the row stays level with the card beside it, but plainly not a
+// button: no shadow, no hover, dashed yellow outline instead of a solid fill.
+function ReleaseNote({ text }: { text: string }) {
+  return (
+    <span
+      className="w-full sm:flex-1 text-center font-bold py-3.5 px-5 rounded-xl"
+      style={{
+        backgroundColor: 'rgba(245,200,66,0.18)',
+        color: 'var(--navy)',
+        border: '2px dashed var(--yellow)',
+      }}
+    >
+      ⏳ {text}
     </span>
   )
 }

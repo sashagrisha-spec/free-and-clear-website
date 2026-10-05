@@ -10,11 +10,11 @@ const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400
 export const metadata: Metadata = {
   title: 'The Sound of English | קורס הגייה ומבטא באנגלית',
   description:
-    'אתם מדברים אנגלית לא רע, אז למה עדיין מבקשים מכם לחזור שוב על מה שאמרתם? קורס דיגיטלי להגייה ומבטא: 34 סרטונים קצרים, גישה לתמיד. ₪97 במקום ₪197.',
+    'אתם מדברים אנגלית לא רע, אז למה עדיין מבקשים מכם לחזור שוב על מה שאמרתם? קורס דיגיטלי להגייה ומבטא: 34 סרטונים קצרים, גישה לתמיד. ₪97 במקום ₪247.',
   alternates: { canonical: 'https://www.freeandclearenglish.com/the-sound-of-english' },
   openGraph: {
     title: 'The Sound of English',
-    description: 'קורס הגייה ומבטא באנגלית. 34 סרטונים קצרים, גישה לתמיד. ₪97 במקום ₪197.',
+    description: 'קורס הגייה ומבטא באנגלית. 34 סרטונים קצרים, גישה לתמיד. ₪97 במקום ₪247.',
     url: 'https://www.freeandclearenglish.com/the-sound-of-english',
     siteName: 'Free & Clear English',
     locale: 'he_IL',
@@ -615,7 +615,7 @@ export default function TheSoundOfEnglishPage() {
             מחיר ההשקה
           </h2>
           <p className="mb-1" style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
-            <s>197 ₪</s>
+            <s>247 ₪</s>
           </p>
           <p className="mb-6" style={{ fontSize: 'clamp(3.6rem, 13vw, 5.6rem)', lineHeight: 1, color: 'var(--yellow)', fontWeight: 700 }}>
             97 ₪

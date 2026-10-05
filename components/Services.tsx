@@ -1,8 +1,70 @@
 import Link from 'next/link'
 
+// The two smaller digital courses. The Sound of English has no href on purpose:
+// it is not out yet, so the card shows its release date instead of a button.
+// On 11.10.2026 give it href: 'https://www.freeandclearenglish.com/the-sound-of-english'
+// and drop releaseNote.
+const DIGITAL_COURSES: Array<{
+  title: string
+  meta: string
+  desc: string
+  price: number
+  oldPrice: number
+  href?: string
+  releaseNote?: string
+}> = [
+  {
+    title: 'The Sound of English',
+    meta: 'Hebrew explanations · English practice · Intermediate+',
+    desc: 'My new pronunciation course. 34 short videos, one sound at a time: first what your mouth actually has to do, then practice out loud with me. An hour and a half in all, plus practice sheets, yours forever. The launch price holds for two weeks only.',
+    price: 97,
+    oldPrice: 247,
+    releaseNote: 'Out October 11',
+  },
+  {
+    title: 'Small Talk קטן עליי',
+    meta: 'English + Hebrew · Beginners+',
+    desc: 'For people who understand and speak a little but freeze up, even on the simplest topics. Real phrases, popular topics and cultural differences, so you stop dreading \u201cso what do you do?\u201d',
+    price: 187,
+    oldPrice: 237,
+    href: 'https://small-talk.ravpage.co.il/smalltalkall',
+  },
+]
+
+// Namespaced to this section. The point is SYMMETRY: the two cards borrow the
+// grid's own rows, so title, price, text and button line up exactly.
+const CSS = `
+.home-courses-pair {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.home-course-card {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .home-courses-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto 1fr auto;
+  }
+
+  @supports (grid-template-rows: subgrid) {
+    .home-course-card {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 4;
+      row-gap: 0;
+    }
+  }
+}
+`
+
 export default function Services() {
   return (
     <section id="services" style={{ backgroundColor: 'var(--light-grey)' }} className="py-24">
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="text-center mb-16">
@@ -175,11 +237,11 @@ export default function Services() {
               </div>
               <div className="flex-shrink-0 flex flex-col md:items-center text-center">
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--navy)', opacity: 0.7 }}>
-                  פחות מ-₪2.5 לאימון
+                  פחות מ-₪3.1 לאימון
                 </span>
                 <span className="flex items-baseline justify-center gap-2 my-1">
                   <span className="text-2xl font-bold" style={{ color: 'var(--navy)', opacity: 0.4, textDecoration: 'line-through' }}>₪197</span>
-                  <span className="text-5xl font-black leading-none" style={{ color: 'var(--navy)' }}>₪127</span>
+                  <span className="text-5xl font-black leading-none" style={{ color: 'var(--navy)' }}>₪167</span>
                 </span>
                 <span className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: 'var(--navy)', opacity: 0.7 }}>
                   תשלום חד-פעמי
@@ -195,54 +257,62 @@ export default function Services() {
             </div>
           </div>
 
-          {/* Beginners+ : Small Talk */}
-          <div className="rounded-2xl p-7 flex flex-col" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
-            <div className="flex items-start justify-between gap-4 mb-1">
-              <h3 className="text-xl font-bold" style={{ color: 'var(--navy)' }}>Small Talk קטן עליי</h3>
-              <span className="text-xl font-bold flex-shrink-0" style={{ color: 'var(--navy)' }}>₪157</span>
-            </div>
-            <p className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: 'var(--mid-grey)' }}>
-              English + Hebrew · Beginners+
-            </p>
-            <p className="text-sm leading-relaxed mb-4 flex-1" style={{ color: 'var(--mid-grey)' }}>
-              For people who understand and speak a little but freeze up, even on the simplest topics.
-              Real phrases, popular topics and cultural differences, so you stop dreading &ldquo;so what do you do?&rdquo;
-            </p>
-            <a href="https://small-talk.ravpage.co.il/smalltalkall" target="_blank" rel="noopener noreferrer" className="text-center font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity text-sm" style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}>
-              Get the Course
-            </a>
-          </div>
+          {/* The two smaller courses, side by side. Every row of one card is
+              literally the same grid row as that row of the other (subgrid), so
+              the price, the text and the button can never drift apart. */}
+          <div className="home-courses-pair">
+            {DIGITAL_COURSES.map(course => (
+              <div
+                key={course.title}
+                className="home-course-card rounded-2xl"
+                style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}
+              >
+                <div className="px-7 pt-7 flex items-start justify-between gap-4">
+                  <h3 className="text-xl font-bold" style={{ color: 'var(--navy)' }}>{course.title}</h3>
+                  <span className="flex items-baseline gap-2 flex-shrink-0">
+                    <span className="text-base font-bold" style={{ color: 'var(--navy)', opacity: 0.4, textDecoration: 'line-through' }}>₪{course.oldPrice}</span>
+                    <span className="text-xl font-bold" style={{ color: 'var(--navy)' }}>₪{course.price}</span>
+                  </span>
+                </div>
 
-          {/* Intermediate+ : the more advanced course, below */}
-          <div className="mt-6 rounded-2xl p-8" style={{ backgroundColor: 'var(--white)', border: '1px solid #E5E7EB' }}>
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold mb-2" style={{ color: 'var(--navy)' }}>Speak with Fluency &amp; Confidence</h3>
-                <p className="text-xs font-semibold uppercase tracking-wide mb-4" style={{ color: 'var(--mid-grey)' }}>
-                  8 chapters · English only · Intermediate+
+                <p className="px-7 pt-1 text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--mid-grey)' }}>
+                  {course.meta}
                 </p>
-                <p className="text-base leading-relaxed" style={{ color: 'var(--mid-grey)' }}>
-                  The next step up. Fluency, pronunciation, critical grammar and habit building.
-                  Built for people who already know English but feel something is getting in the way.
+
+                <p className="px-7 pt-4 text-sm leading-relaxed" style={{ color: 'var(--mid-grey)' }}>
+                  {course.desc}
                 </p>
+
+                <div className="px-7 pt-5 pb-7">
+                  {course.href ? (
+                    <a
+                      href={course.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-center font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity text-sm"
+                      style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}
+                    >
+                      Get the Course
+                    </a>
+                  ) : (
+                    /* Not out yet, so there is no way to buy from here. Same box as
+                       the button beside it, but plainly not a button. */
+                    <span
+                      className="block text-center font-bold py-3 px-6 rounded-lg text-sm"
+                      style={{ backgroundColor: 'rgba(245,200,66,0.18)', color: 'var(--navy)', border: '2px dashed var(--yellow)' }}
+                    >
+                      ⏳ {course.releaseNote}
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="flex-shrink-0 flex flex-col md:items-end md:text-right">
-                <span className="text-3xl font-bold" style={{ color: 'var(--navy)' }}>₪197</span>
-                <span className="text-xs font-semibold uppercase tracking-wide mb-5" style={{ color: 'var(--mid-grey)' }}>
-                  8-chapter course
-                </span>
-                <a href="https://small-talk.ravpage.co.il/speaknow" target="_blank" rel="noopener noreferrer" className="text-center font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-opacity" style={{ backgroundColor: 'var(--navy)', color: 'var(--white)' }}>
-                  Get the Course
-                </a>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Coming Soon */}
-        <div className="mt-8 grid md:grid-cols-2 gap-4">
+        <div className="mt-8 grid gap-4">
           {[
-            { title: 'Pronunciation Foundations', sub: 'Digital course - coming soon' },
             { title: 'Pronunciation Workshops', sub: 'Live on Zoom - coming very soon' },
           ].map(item => (
             <div
