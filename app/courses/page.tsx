@@ -144,15 +144,8 @@ const COURSES: Course[] = [
     forWho: 'האנגלית שלכם טובה, אבל עדיין מבקשים מכם לחזור על מה שאמרתם, או שאתם שומעים את עצמכם ויודעים שהצליל לא יוצא נכון.',
     kicker: 'שני שיעורים פתוחים לצפייה חופשית בדף הקורס, הסבר אחד ותרגול אחד.',
     bullets: [],
-    // ⬇ ב-11.10.2026, כשהקורס יוצא, מחזירים את שני הכפתורים: מוחקים את שתי
-    // שורות ה-Note, ומחזירים
-    //   readMoreUrl: '/the-sound-of-english',
-    //   buyUrl: '/the-sound-of-english#buy',
-    // עד אז אין מכאן שום דרך להגיע לסליקה, גם לא דרך דף המכירה.
-    readMoreUrl: '',
-    readMoreNote: 'כל הפרטים נמצאים כאן למעלה',
-    buyUrl: '',
-    buyNote: 'יוצא ב-11 באוקטובר',
+    readMoreUrl: '/the-sound-of-english',
+    buyUrl: '/the-sound-of-english',
   },
 ]
 

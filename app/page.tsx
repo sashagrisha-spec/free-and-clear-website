@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav";
+import LaunchBanner from "@/components/LaunchBanner";
 import Hero from "@/components/Hero";
 import Logos from "@/components/Logos";
 import About from "@/components/About";
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <main>
       <Nav />
+      <LaunchBanner />
       <Hero />
       <Logos />
       <About />

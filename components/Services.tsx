@@ -1,9 +1,7 @@
 import Link from 'next/link'
 
-// The two smaller digital courses. The Sound of English has no href on purpose:
-// it is not out yet, so the card shows its release date instead of a button.
-// On 11.10.2026 give it href: 'https://www.freeandclearenglish.com/the-sound-of-english'
-// and drop releaseNote.
+// The two smaller digital courses. A course with no href shows its releaseNote
+// instead of a button.
 const DIGITAL_COURSES: Array<{
   title: string
   meta: string
@@ -13,14 +11,6 @@ const DIGITAL_COURSES: Array<{
   href?: string
   releaseNote?: string
 }> = [
-  {
-    title: 'The Sound of English',
-    meta: 'Hebrew explanations · English practice · Intermediate+',
-    desc: 'My new pronunciation course. 34 short videos, one sound at a time: first what your mouth actually has to do, then practice out loud with me. An hour and a half in all, plus practice sheets, yours forever. The launch price holds for two weeks only.',
-    price: 97,
-    oldPrice: 247,
-    releaseNote: 'Out October 11',
-  },
   {
     title: 'Small Talk קטן עליי',
     meta: 'English + Hebrew · Beginners+',
@@ -46,7 +36,7 @@ const CSS = `
 
 @media (min-width: 768px) {
   .home-courses-pair {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(${DIGITAL_COURSES.length}, minmax(0, 1fr));
     grid-template-rows: auto auto 1fr auto;
   }
 
@@ -308,25 +298,6 @@ export default function Services() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Coming Soon */}
-        <div className="mt-8 grid gap-4">
-          {[
-            { title: 'Pronunciation Workshops', sub: 'Live on Zoom - coming very soon' },
-          ].map(item => (
-            <div
-              key={item.title}
-              className="rounded-2xl p-5 flex items-center gap-4"
-              style={{ border: '2px dashed #CBD5E1' }}
-            >
-              <span className="text-2xl">🔜</span>
-              <div>
-                <p className="font-bold" style={{ color: 'var(--navy)', opacity: 0.6 }}>{item.title}</p>
-                <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--mid-grey)' }}>{item.sub}</p>
-              </div>
-            </div>
-          ))}
         </div>
 
       </div>
