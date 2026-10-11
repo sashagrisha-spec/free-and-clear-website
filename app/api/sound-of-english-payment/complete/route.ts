@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import { NextRequest, NextResponse } from 'next/server'
 import { sendPurchaseEvent } from '@/lib/meta-capi'
 import { saveBuyer } from '@/lib/save-buyer'
+import { saveBuyerSource, type Utm } from '@/lib/utm'
 import { addSubscriberToList } from '@/lib/ravmesser'
 import { accessUrl } from '@/lib/access'
 
@@ -92,7 +93,11 @@ function accessEmailHtml(name: string, link: string, smallTalk: boolean, yalla: 
 }
 
 export async function POST(req: NextRequest) {
-  const { returnValue, lowProfileCode } = await req.json()
+  const { returnValue, lowProfileCode, utm } = (await req.json()) as {
+    returnValue: string
+    lowProfileCode: string
+    utm?: Utm | null
+  }
 
   let amount: number | undefined
   try {
@@ -135,6 +140,11 @@ export async function POST(req: NextRequest) {
     cardcomLowProfile: lowProfileCode,
     eventId,
   })
+  if (claim === 'inserted' && utm?.source && lowProfileCode) {
+    await saveBuyerSource(PRODUCT_SLUG, lowProfileCode, utm)
+  }
+  const sourceLabel = utm?.source ? [utm.source, utm.medium, utm.campaign].filter(Boolean).join(' / ').replace(/[<>&"]/g, '') : 'ישיר / לא ידוע'
+
   if (claim === 'duplicate') {
     return NextResponse.json({ success: true, name, accessUrl: link, eventId, value, currency, smallTalk, yalla, duplicate: true })
   }
@@ -185,6 +195,7 @@ export async function POST(req: NextRequest) {
         <p><strong>סכום:</strong> ${value} ₪</p>
         <p><strong>Small talk:</strong> ${smallTalk ? 'כן' : 'לא'}</p>
         <p><strong>יאללה, לחזור אחרי:</strong> ${yalla ? 'כן' : 'לא'}</p>
+        <p><strong>מקור:</strong> ${sourceLabel}</p>
       </div>`,
     }),
   )

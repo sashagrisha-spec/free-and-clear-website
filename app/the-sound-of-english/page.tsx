@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { Assistant } from 'next/font/google'
 import Image from 'next/image'
 import MetaPixel from '@/components/MetaPixel'
+import UtmCapture from '@/components/UtmCapture'
 import CheckoutForm from './CheckoutForm'
 
 const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '600', '700'], display: 'swap' })
@@ -267,6 +268,7 @@ export default function TheSoundOfEnglishPage() {
   return (
     <>
     <MetaPixel />
+    <UtmCapture />
     <main dir="rtl" className={assistant.className} style={{ backgroundColor: '#fff', color: INK, textAlign: 'center' }}>
       <style
         dangerouslySetInnerHTML={{

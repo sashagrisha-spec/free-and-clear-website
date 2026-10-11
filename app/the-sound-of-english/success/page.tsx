@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import MetaPixel, { trackPurchase } from '@/components/MetaPixel'
+import { recallUtm } from '@/lib/utm'
 
 function SuccessContent() {
   const searchParams = useSearchParams()
@@ -22,7 +23,7 @@ function SuccessContent() {
     fetch('/api/sound-of-english-payment/complete', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ returnValue: rv, lowProfileCode }),
+      body: JSON.stringify({ returnValue: rv, lowProfileCode, utm: recallUtm() }),
     })
       .then((r) => r.json())
       .then((data) => {
