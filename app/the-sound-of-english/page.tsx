@@ -70,9 +70,11 @@ function Lines({ lines, tone = BODY }: { lines: Line[]; tone?: string }) {
           <p key={i} style={{ ...base, fontSize: '1.42rem', fontWeight: 600 }}>
             <span
               style={{
-                background: 'linear-gradient(transparent 55%, rgba(245,200,66,0.8) 55%)',
+                // On navy the half-marker hides the ink text, so it becomes a full yellow box.
+                background: tone === BODY ? 'linear-gradient(transparent 55%, rgba(245,200,66,0.8) 55%)' : 'var(--yellow)',
                 color: INK,
-                padding: '0 0.22em',
+                padding: tone === BODY ? '0 0.22em' : '0.02em 0.3em',
+                borderRadius: tone === BODY ? 0 : 6,
                 boxDecorationBreak: 'clone',
                 WebkitBoxDecorationBreak: 'clone',
               }}
@@ -203,26 +205,6 @@ function Cta({ label = 'אני בפנים 👈' }: { label?: string }) {
   )
 }
 
-function SoundChip({ children, tone = 'blue' }: { children: React.ReactNode; tone?: 'blue' | 'gold' }) {
-  const blue = tone === 'blue'
-  return (
-    <span
-      className="inline-block rounded-full"
-      style={{
-        backgroundColor: blue ? 'rgba(27,48,84,0.06)' : 'rgba(245,200,66,0.32)',
-        color: INK,
-        border: `1px solid ${blue ? 'rgba(27,48,84,0.14)' : 'rgba(201,162,39,0.4)'}`,
-        padding: '0.45rem 1.25rem',
-        fontSize: '1.1rem',
-        fontWeight: 600,
-        direction: 'ltr',
-      }}
-    >
-      {children}
-    </span>
-  )
-}
-
 function H2({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-center mb-10" style={{ fontSize: 'clamp(1.8rem, 4.8vw, 2.7rem)', fontWeight: 600, letterSpacing: '-0.015em', color: INK, lineHeight: 1.3 }}>
@@ -284,28 +266,28 @@ export default function TheSoundOfEnglishPage() {
 
       {/* HERO */}
       <section
-        className="relative overflow-hidden pt-16 pb-16"
-        style={{ background: 'linear-gradient(180deg, #FFF6DE 0%, #FDFBF4 46%, #FCFBF7 100%)' }}
+        className="relative overflow-hidden pt-16 pb-20"
+        style={{ backgroundColor: INK }}
       >
         {/* Two glows, one per side, so the light is symmetric around the centre. */}
         <div
           aria-hidden
           className="absolute"
-          style={{ top: -200, right: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.34) 0%, rgba(245,200,66,0) 70%)' }}
+          style={{ top: -200, right: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.20) 0%, rgba(245,200,66,0) 70%)' }}
         />
         <div
           aria-hidden
           className="absolute"
-          style={{ top: -200, left: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(127,176,228,0.26) 0%, rgba(127,176,228,0) 70%)' }}
+          style={{ top: -200, left: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.20) 0%, rgba(245,200,66,0) 70%)' }}
         />
         <Phonetics set={0} />
-        <Confetti />
+        <Confetti tone="onNavy" />
         <div className="relative max-w-3xl mx-auto px-6">
-          <p className="mb-7 inline-block rounded-full" style={{ backgroundColor: 'rgba(27,48,84,0.05)', padding: '0.45rem 1.3rem', fontSize: '1.02rem', color: SOFT }}>
+          <p className="mb-7 inline-block rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.08)', padding: '0.45rem 1.3rem', fontSize: '1.02rem', color: 'var(--yellow)', fontWeight: 600 }}>
             🎧 קורס דיגיטלי להגייה ומבטא
           </p>
 
-          <h1 className="mb-8" style={{ fontSize: 'clamp(2.1rem, 5.6vw, 3.4rem)', fontWeight: 600, lineHeight: 1.32, letterSpacing: '-0.02em' }}>
+          <h1 className="mb-8" style={{ fontSize: 'clamp(2.1rem, 5.6vw, 3.4rem)', fontWeight: 600, lineHeight: 1.32, letterSpacing: '-0.02em', color: '#fff' }}>
             <span style={{ display: 'block' }}>
               אתם{' '}
               <span className="relative inline-block">
@@ -316,133 +298,139 @@ export default function TheSoundOfEnglishPage() {
                   aria-hidden="true"
                   style={{ position: 'absolute', left: 0, right: 0, bottom: '-0.16em', width: '100%', height: '0.22em' }}
                 >
-                  <path d="M3 8 C 90 2, 190 2, 297 7" stroke="#7FB0E4" strokeWidth="4" strokeLinecap="round" fill="none" />
+                  <path d="M3 8 C 90 2, 190 2, 297 7" stroke="rgba(255,255,255,0.85)" strokeWidth="4" strokeLinecap="round" fill="none" />
                 </svg>
               </span>{' '}
               <strong style={{ fontWeight: 700 }}>לא רע</strong>.
             </span>
-            <span style={{ display: 'block', marginTop: '0.35em' }}>אז למה עדיין מבקשים מכם</span>
             <span
               style={{
                 display: 'block',
-                marginTop: '0.2em',
-                fontSize: '1.16em',
+                marginTop: '0.3em',
+                fontSize: '1.08em',
                 fontWeight: 700,
+                color: 'var(--yellow)',
               }}
             >
-              <span
-                style={{
-                  background: 'linear-gradient(transparent 60%, rgba(245,200,66,0.75) 60%)',
-                  padding: '0 0.16em',
-                  boxDecorationBreak: 'clone',
-                  WebkitBoxDecorationBreak: 'clone',
-                }}
-              >
-                לחזור שוב על מה שאמרתם?
-              </span>
+              אבל למה עדיין לא מבינים אתכם?
             </span>
           </h1>
 
           <Lines
+            tone="#fff"
             lines={[
-              { t: 'הגיע הזמן לשפר את ההגייה, המבטא ויכולת התקשורת שלכם.', k: 'b' },
-              { t: 'בלי להתעסק במילים גבוהות, אנגלית עסקית או דקדוק מורכב.' },
-              { t: '(כי זה לא מה שאתם צריכים…)' },
+              { t: 'זה לא בגלל הדקדוק או אוצר המילים.' },
+              { t: 'זה בגלל שאף אחד לא לימד אתכם להגות נכון', k: 'b' },
+              { t: 'את המילים הכי פשוטות. ואת המפחידות.' },
+              { t: 'ויש שיטה פשוטה.', k: 'hl' },
             ]}
           />
 
-          <div className="mt-10 mb-10">
-            <Card>
-              <Lines
-                lines={[
-                  { t: 'אתם מדברים אנגלית בפגישות, בכנסים ובנסיעות עבודה כבר שנים' },
-                  { t: 'אבל מרגישים שמשהו שם לא יושב עד הסוף.', k: 'b' },
-                  { t: 'אתם שומעים את עצמכם מסתבכים עם המילים,' },
-                  { t: 'נבוכים מזה,', k: 'b' },
-                  { t: 'רואים איך אנשים מתקרבים פיזית למצלמה של הזום', k: 'hl' },
-                  { t: 'בניסיון להבין אתכם' },
-                  { t: 'ובסוף אתם בכלל לא בטוחים אם הם הבינו אתכם?', k: 'u' },
-                ]}
-              />
-            </Card>
+          <div className="mt-10">
+            <Cta label="תלמדי אותי הגייה נכונה 👈" />
           </div>
-
-          <Cta label="אני רוצה שיבינו אותי" />
-        </div>
-      </section>
-
-      {/* NOT YOUR FAULT */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#fff' }}>
-        <Phonetics set={1} />
-        <div className="relative max-w-3xl mx-auto px-6">
-          <H2>אתם ממש לא לבד, וזו לא אשמתכם 💛</H2>
-          <Lines
-            lines={[
-              { t: 'אף אחד לא לימד אתכם את הצלילים.', k: 'hl' },
-              { t: 'למדנו דקדוק, זמנים, אוצר מילים ומבחנים.' },
-              { t: 'אף אחד לא עצר ואמר לכם איפה הלשון אמורה לגעת,', k: 'u' },
-              { t: 'מה הפה עושה, ואיפה נופלת ההדגשה.' },
-              { t: 'לא בבית הספר, לא באוניברסיטה,' },
-              { t: 'ובטח שלא בסטארטאפ שאתם עובדים בו.' },
-            ]}
-          />
-
-          <p className="mt-12 mb-6" style={{ fontSize: '1.22rem', fontWeight: 300, color: BODY }}>
-            באנגלית יש צלילים שפשוט לא קיימים בעברית:
+          <div className="mt-9 flex items-baseline justify-center gap-3" style={{ direction: 'rtl' }}>
+            <span style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)', fontWeight: 700 }}>247 ₪</span>
+            <span style={{ color: 'var(--yellow)', fontSize: 'clamp(3.25rem, 11vw, 5rem)', fontWeight: 700, lineHeight: 1 }}>97 ₪</span>
+          </div>
+          <p className="mt-3" style={{ fontSize: '1.15rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
+            תשלום חד פעמי ·{' '}
+            <span style={{ color: 'var(--yellow)' }}>⏳ מחיר השקה לשבועיים בלבד</span>
           </p>
-          <div className="flex flex-wrap gap-3 justify-center mb-12">
-            <SoundChip>TH</SoundChip>
-            <SoundChip tone="gold">sheep / ship</SoundChip>
-            <SoundChip>R</SoundChip>
-            <SoundChip tone="gold">schwa</SoundChip>
-          </div>
-
-          <Lines
-            lines={[
-              { t: 'ה-TH. ההבדל בין sheep ל-ship.' },
-              { t: 'ה-R שהוא לא ר׳ של עברית.' },
-              { t: 'כשלא לימדו אתכם צליל, הפה עושה את הדבר ההגיוני היחיד:' },
-              { t: 'מחליף אותו בצליל הכי קרוב שהוא מכיר מעברית.', k: 'b' },
-              { t: 'וזה כבר לא "מבטא".' },
-              { t: 'לפעמים זו פשוט מילה אחרת שממש לא התכוונתם להגיד.', k: 'u' },
-            ]}
-          />
-
-          <div className="mt-14">
-            <Lines
-              lines={[
-                { t: 'המבטא שלכם הוא לא הבעיה.', k: 'big' },
-                { t: 'הבעיה היא כשלא מבינים אתכם.', k: 'hl' },
-              ]}
-            />
-          </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#FCFBF7' }}>
-        <Phonetics set={2} />
+      {/* PAIN */}
+      <section className="relative overflow-hidden py-20" style={{ backgroundColor: '#fff' }}>
         <div className="relative max-w-3xl mx-auto px-6">
-          <H2>אז מה עושים?</H2>
           <Card>
             <Lines
               lines={[
-                { t: 'בכל שיעור לוקחים צליל אחד', k: 'big' },
-                { t: 'או צמד מאותה משפחה.' },
-                { t: 'קודם אני מסבירה מה בדיוק הפה שלכם צריך לעשות.', k: 'b' },
-                { t: 'בלי מונחים מפוצצים ובלי סימנים פונטיים שאף אחד לא מבין.' },
-                { t: 'ואז מתרגלים יחד באנגלית, איתי ועם המצגת.' },
-                { t: 'מילים, ואז משפטים מהחיים:' },
-                { t: 'עבודה, קולגות, חופשות, ילדים, חברים.', k: 'u' },
-                { t: 'אתם חוזרים אחריי בקול, ואני איתכם. 🎤', k: 'hl' },
+                { t: 'זה לא שאין לכם את המילים.', k: 'big' },
+                { t: 'הן פשוט יוצאות אחרת ממה שהתכוונתם.', k: 'hl' },
+                { t: 'אתם שומעים את עצמכם מסתבכים עם המילים,' },
+                { t: 'נבוכים מזה,', k: 'b' },
+                { t: 'רואים איך אנשים מתקרבים פיזית למצלמה של הזום', k: 'u' },
+                { t: 'בניסיון להבין אתכם' },
+                { t: 'ובסוף אתם בכלל לא בטוחים אם הם הבינו אתכם.' },
+                { t: 'נכון? אז די.', k: 'big' },
+                { t: 'הגיע הזמן. ויש לכם פה משהו מטורף' },
+                { t: 'שתוך שעה וחצי יסדר לכם את הראש.', k: 'b' },
+                { t: 'אתם סך הכל צריכים להבין מה עושה הפה' },
+                { t: 'ואיפה לשים את הלשון כשאתם אומרים TH ו-R.' },
               ]}
             />
           </Card>
         </div>
       </section>
 
+      {/* NOT YOUR FAULT */}
+      <section className="relative overflow-hidden py-24" style={{ backgroundColor: 'var(--light-grey)' }}>
+        <Phonetics set={1} />
+        <div className="relative max-w-3xl mx-auto px-6">
+          <H2>הבעיה היא לא אתם</H2>
+          <Lines
+            lines={[
+              { t: 'כולנו למדנו קריאה, דקדוק ולכתוב מבחנים,' },
+              { t: 'אבל אף אחד לא לימד אותנו את הצלילים.', k: 'hl' },
+              { t: 'אז הפה מחליף אותם בצלילים מעברית,' },
+              { t: 'ופתאום יוצאת מילה אחרת.', k: 'u' },
+            ]}
+          />
+        </div>
+      </section>
+
+      {/* THE MATRIX */}
+      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#fff' }}>
+        <Phonetics set={2} />
+        <div className="relative max-w-3xl mx-auto px-6">
+          <H2>אז על מה אני מדברת?</H2>
+          <Card>
+            <Lines
+              lines={[
+                { t: 'על תורת ההגייה!', k: 'big' },
+                { t: 'ונשבעת, כשלמדתי את זה לגמרי במקרה' },
+                { t: 'בבית ספר למשחק בניו יורק,' },
+                { t: 'הרגשתי שגיליתי את המטריקס.', k: 'hl' },
+                { t: 'בעקבות זה הפכתי לקואצ׳רית לתקשורת ולתורת ההגייה באנגלית.' },
+                { t: 'ואנגלית היא בכלל שפה שלישית שלי!', k: 'b' },
+                { t: 'למה רק מי שלומד אצלי 1:1 יקבל את החומרים האלה?', k: 'u' },
+                { t: 'רוצים גם לגלות את המטריקס של השפה?', k: 'big' },
+              ]}
+            />
+          </Card>
+        </div>
+      </section>
+
+      {/* WHAT'S INSIDE */}
+      <section className="relative overflow-hidden py-24" style={{ backgroundColor: INK }}>
+        <Phonetics set={1} />
+        <div className="relative max-w-3xl mx-auto px-6">
+          <h2 className="text-center mb-10" style={{ fontSize: 'clamp(1.8rem, 4.8vw, 2.7rem)', fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--yellow)', lineHeight: 1.3 }}>
+            הנה מה שיש בקורס הדיגיטלי
+            <br />
+            הקצר והמטורף הזה
+          </h2>
+          <Lines
+            tone="#fff"
+            lines={[
+              { t: '34 סרטונים קצרים', k: 'big' },
+              { t: 'שמתחלקים להסברים, תרגולים ובונוסים' },
+              { t: 'בערך שעה וחצי סך הכל, בקצב שלכם' },
+              { t: 'פרק בונוס עם צלילים ודפוסים נוספים' },
+              { t: 'ההסברים בעברית, עם אנגלית בערבוב טבעי,' },
+              { t: 'והתרגול באנגלית' },
+              { t: 'גישה לתמיד. בלי מנוי, בלי תפוגה', k: 'hl' },
+              { t: 'מיד אחרי הרכישה מקבלים לינק ישיר לכל הסרטונים,', k: 'u' },
+              { t: 'לכל החיים' },
+              { t: 'לצפייה מהמחשב או מהטלפון' },
+            ]}
+          />
+        </div>
+      </section>
+
       {/* SAMPLE LESSONS */}
-      <section className="py-24" style={{ backgroundColor: '#fff' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--light-grey)' }}>
         <div className="max-w-4xl mx-auto px-6">
           <H2>רוצים לראות איך זה נראה?</H2>
           <Lines
@@ -475,84 +463,16 @@ export default function TheSoundOfEnglishPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ABOUT */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#FCFBF7' }}>
-        <Phonetics set={0} />
-        <div className="relative max-w-3xl mx-auto px-6">
-          <H2>אז למה שתקשיבו לי?</H2>
-          <p className="mb-7" style={{ fontSize: '1.7rem', fontWeight: 600 }}>
-            נעים להכיר, אני סשה 👋
-          </p>
-          <div className="flex justify-center mb-10">
-            <div
-              className="relative rounded-full overflow-hidden"
-              style={{ width: 230, height: 230, border: '6px solid #fff', boxShadow: '0 18px 40px rgba(27,48,84,0.18)' }}
-            >
-              <Image
-                src="/images/sasha-2026.jpg"
-                alt="סשה דניאל"
-                fill
-                sizes="230px"
-                priority
-                style={{ objectFit: 'cover', objectPosition: 'center 18%' }}
-              />
-            </div>
-          </div>
-          <Card>
-            <Lines
-              lines={[
-                { t: 'קואצ׳רית לאנגלית מדוברת, מתמחה בהגייה ובמבטא.', k: 'b' },
-                { t: 'מעל 8 שנים אני עוזרת ליזמים, מנהלים, פרופסורים, מרצים ורופאים' },
-                { t: 'שמבינים אנגלית אבל נתקעים ברגע האמת,' },
-                { t: 'לפתוח את הפה ולדבר בביטחון.', k: 'u' },
-                { t: 'אנגלית היא בכלל שפה שלישית שלי,', k: 'b' },
-                { t: 'ודווקא בגלל זה אני יודעת, מבינה ומרגישה את התסכולים שלכם.' },
-                { t: 'כי עברתי אותם.' },
-                { t: 'למדתי משחק בניו יורק בגיל 22, ושם בבית הספר היה לנו שיעור פונטיקה' },
-                { t: 'שהפיל לי את האסימון הכי גדול בחיים:', k: 'hl' },
-                { t: 'יש שפה שלמה של צלילים שלא מלמדים אותנו.', k: 'b' },
-                { t: 'ממש כמו המטריקס, הרגשתי שהסתירו ממני מידע קריטי כל השנים.' },
-                { t: 'ועכשיו אני עושה הכל בשביל לחשוף את המידע הזה' },
-                { t: 'לכל מי שרק רוצה לגלות אותו.' },
-                { t: 'את הקורס הזה בניתי מהצלילים שאני מלמדת בשיעורים פרטיים שוב ושוב, שנה אחרי שנה.' },
-                { t: 'כמעט ואין בארץ קורס דיגיטלי שמתמקד בהגייה ובמבטא,', k: 'b' },
-                { t: 'וזו בדיוק הסיבה שבניתי אותו.' },
-              ]}
-            />
-          </Card>
-        </div>
-      </section>
-
-      {/* WHAT'S INSIDE */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#fff' }}>
-        <Phonetics set={1} />
-        <div className="relative max-w-3xl mx-auto px-6">
-          <H2>אז מה יש בקורס?</H2>
-          <Lines
-            lines={[
-              { t: '34 סרטונים קצרים', k: 'big' },
-              { t: 'שמתחלקים להסברים, תרגולים ובונוסים' },
-              { t: 'בערך שעה וחצי סך הכל, בקצב שלכם' },
-              { t: 'פרק בונוס עם צלילים ודפוסים נוספים' },
-              { t: 'ההסברים בעברית, עם אנגלית בערבוב טבעי,' },
-              { t: 'והתרגול באנגלית' },
-              { t: 'גישה לתמיד. בלי מנוי, בלי תפוגה', k: 'hl' },
-              { t: 'מיד אחרי הרכישה מקבלים לינק ישיר לכל הסרטונים,', k: 'u' },
-              { t: 'לכל החיים' },
-              { t: 'לצפייה מהמחשב או מהטלפון' },
-            ]}
-          />
           <div className="mt-14">
-            <Cta />
+            <Cta label="קחי אותי לקורס 👈" />
           </div>
         </div>
       </section>
+
+      {/* WhatsApp screenshots from students go here once Sasha adds them. */}
 
       {/* IS IT FOR YOU */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#FCFBF7' }}>
+      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#fff' }}>
         <Phonetics set={2} />
         <div className="relative max-w-3xl mx-auto px-6">
           <H2>רגע, זה בשבילכם?</H2>
@@ -589,19 +509,62 @@ export default function TheSoundOfEnglishPage() {
         </div>
       </section>
 
+      {/* ABOUT: same block as the yalla page */}
+      <section className="py-20" style={{ backgroundColor: 'var(--light-grey)' }}>
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center gap-8 rounded-3xl p-8 bg-white shadow-sm" style={{ border: '1px solid #E5E7EB' }}>
+            <div className="relative rounded-full overflow-hidden flex-shrink-0 w-32 h-32 md:w-40 md:h-40" style={{ border: '4px solid var(--yellow)' }}>
+              <Image src="/images/sasha-2026.jpg" alt="סשה דניאל" fill sizes="160px" style={{ objectFit: 'cover', objectPosition: 'center 18%' }} />
+            </div>
+            <div className="text-center md:text-right">
+              <h2 className="mb-3" style={{ color: INK, fontSize: '1.6rem', fontWeight: 700 }}>נעים להכיר, אני סשה 👋</h2>
+              <p className="mb-4" style={{ color: BODY, fontSize: '1.15rem', lineHeight: 1.65 }}>
+                קואצ׳רית לאנגלית מדוברת. כבר 8 שנים אני עוזרת לישראלים שמבינים אנגלית אבל נתקעים בדיבור,
+                לפתוח את הפה ולדבר בביטחון. את הקורס הזה בניתי בדיוק בשביל אנשים כמוכם, שרוצים להתחיל
+                ממשהו קטן ולטעום דרך חדשה, שונה ו<strong style={{ color: INK }}>אפקטיבית מאוד</strong>.
+              </p>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2">
+                <a
+                  href="https://www.instagram.com/freeandclearenglish"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-bold hover:opacity-80 transition-opacity"
+                  style={{ color: INK }}
+                >
+                  <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5.5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+                  </svg>
+                  @freeandclearenglish
+                </a>
+                <a
+                  href="https://www.freeandclearenglish.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-bold hover:opacity-80 transition-opacity"
+                  style={{ color: INK }}
+                >
+                  🌐 freeandclearenglish.com
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* GUARANTEE */}
-      <section className="py-24" style={{ backgroundColor: '#fff' }}>
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="rounded-3xl" style={{ border: '2px solid rgba(245,200,66,0.9)', padding: '2.6rem 1.7rem' }}>
-            <H2>ואם זה לא יעבוד? 🤔</H2>
+      <section className="py-20" style={{ backgroundColor: 'var(--light-grey)' }}>
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="rounded-3xl p-8 md:p-10 text-center bg-white shadow-sm" style={{ border: '2px dashed var(--yellow)' }}>
+            <p className="mb-4" style={{ fontSize: '3.75rem' }}>🛡️</p>
+            <H2>ואם זה לא יעבוד?</H2>
             <Lines
               lines={[
-                { t: 'עברתם את כל הקורס, מהשיעור הראשון ועד האחרון,' },
-                { t: 'תרגלתם בקול,' },
-                { t: 'ולא קיבלתם את מה שחיפשתם?' },
-                { t: 'שלחו לי הקלטה קצרה של עצמכם מבצעים את התרגולים,' },
-                { t: 'ואני מחזירה לכם את הכסף.', k: 'hl' },
-                { t: 'בלי ויכוחים.', k: 'b' },
+                { t: 'עשיתם את כל הקורס והתאמנתם חודשיים,' },
+                { t: 'אבל מרגישים שכלום לא נדבק?' },
+                { t: 'אני מחזירה לכם כל שקל.', k: 'hl' },
+                { t: 'כי אני יודעת שכשעובדים, זה עובד.', k: 'b' },
               ]}
             />
           </div>
@@ -635,7 +598,7 @@ export default function TheSoundOfEnglishPage() {
       </section>
 
       {/* FAQ */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#FCFBF7' }}>
+      <section className="relative overflow-hidden py-24" style={{ backgroundColor: 'var(--light-grey)' }}>
         <Phonetics set={1} />
         <div className="relative max-w-3xl mx-auto px-6">
           <H2>שאלות שאתם בטח שואלים</H2>
@@ -681,40 +644,12 @@ export default function TheSoundOfEnglishPage() {
               />
             </Faq>
           </div>
+          <div className="mt-14">
+            <Cta />
+          </div>
         </div>
       </section>
 
-      {/* CLOSING */}
-      <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#fff' }}>
-        <Phonetics set={2} />
-        <div className="relative max-w-3xl mx-auto px-6">
-          <H2>כמה מילים ממני…</H2>
-          <Lines
-            lines={[
-              { t: 'אני לא יודעת מי אתם,' },
-              { t: 'אבל אני כן יודעת איך זה מרגיש', k: 'b' },
-              { t: 'להיות במבוכה ובלבול מלדבר באנגלית.' },
-              { t: 'הקורס הזה לא נולד סתם.' },
-              { t: 'יצרתי אותו כי כל יום אני רואה תלמידים מתוסכלים' },
-              { t: 'שפשוט נפתח בתוכם משהו', k: 'u' },
-              { t: 'כשהם לומדים את הדבר המדויק.' },
-              { t: 'ואמרתי: די.', k: 'b' },
-              { t: 'למה רק למי שלומד אצלי 1:1 יש גישה לחומרים האלה?' },
-              { t: 'אני מתרגשת מהחומר הזה כל פעם מחדש,' },
-              { t: 'ומאמינה שגם אתם תתרגשו,' },
-              { t: 'כי יהיו בפנים דברים שיכולים לשנות לכם את החיים', k: 'hl' },
-              { t: '(או לפחות איך שאתם נשמעים באנגלית 🙂)' },
-              { t: 'שיהיה מלא בהצלחה, ותכתבו לי איך היה.' },
-            ]}
-          />
-          <p className="mt-12 mb-12" style={{ fontSize: '1.45rem', color: INK, fontWeight: 600, lineHeight: 1.6 }}>
-            באהבה,
-            <br />
-            סשה דניאל 💛
-          </p>
-          <Cta />
-        </div>
-      </section>
     </main>
     </>
   )
