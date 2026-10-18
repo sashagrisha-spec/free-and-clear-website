@@ -244,6 +244,56 @@ function Faq({ q, children }: { q: string; children: React.ReactNode }) {
   )
 }
 
+/* ---------- taped notes ---------- */
+/* Three real messages, each a small paper square stuck to the wall with a strip
+   of washi tape. Every square is the same size so the row stays symmetrical;
+   only the tilt and the tape colour change. */
+
+const NOTES = [
+  { src: '/images/soe-reviews/review-1.jpg', w: 876, h: 1040, tilt: -3, tape: 'rgba(245,200,66,0.75)', tapeTilt: -4 },
+  { src: '/images/soe-reviews/review-2.jpg', w: 845, h: 772, tilt: 2, tape: 'rgba(168,198,236,0.8)', tapeTilt: 3 },
+  { src: '/images/soe-reviews/review-3.jpg', w: 853, h: 577, tilt: -1.5, tape: 'rgba(240,169,192,0.75)', tapeTilt: -2 },
+]
+
+function TapedNotes() {
+  return (
+    <div className="grid gap-12 sm:gap-8 sm:grid-cols-3 mx-auto mt-14" style={{ maxWidth: 880 }}>
+      {NOTES.map((n, i) => (
+        <figure
+          key={n.src}
+          className="fce-note relative mx-auto w-full"
+          style={{ maxWidth: 300, ['--tilt' as string]: `${n.tilt}deg` }}
+        >
+          <span
+            aria-hidden="true"
+            className="fce-tape absolute left-1/2 z-10"
+            style={{ top: -14, width: 96, height: 28, backgroundColor: n.tape, transform: `translateX(-50%) rotate(${n.tapeTilt}deg)` }}
+          />
+          <div
+            className="flex items-center justify-center"
+            style={{
+              aspectRatio: '1 / 1',
+              backgroundColor: '#fff',
+              padding: '1.6rem 1rem 1rem',
+              boxShadow: '0 1px 2px rgba(27,48,84,0.08), 0 12px 28px rgba(27,48,84,0.12)',
+            }}
+          >
+            <Image
+              src={n.src}
+              alt={`הודעה מתלמיד/ה ${i + 1}`}
+              width={n.w}
+              height={n.h}
+              sizes="300px"
+              className="max-w-full max-h-full w-auto h-auto"
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
+        </figure>
+      ))}
+    </div>
+  )
+}
+
 /* ---------- page ---------- */
 
 export default function TheSoundOfEnglishPage() {
@@ -259,7 +309,11 @@ export default function TheSoundOfEnglishPage() {
 /* No will-change here on purpose: the page carries 60 of these, and promoting
    every one to its own layer costs more on a phone than it saves. */
 .fce-float { animation: fceFloat 4.5s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .fce-float { animation: none !important; } }
+.fce-note { transform: rotate(var(--tilt)); transition: transform 0.35s ease; }
+.fce-note:hover { transform: rotate(0deg) scale(1.04); }
+/* Torn ends on the tape strip */
+.fce-tape { clip-path: polygon(0 8%, 6% 0, 12% 10%, 18% 2%, 82% 2%, 88% 10%, 94% 0, 100% 8%, 100% 92%, 94% 100%, 88% 90%, 82% 98%, 18% 98%, 12% 90%, 6% 100%, 0 92%); }
+@media (prefers-reduced-motion: reduce) { .fce-float { animation: none !important; } .fce-note { transition: none; } }
 `,
         }}
       />
@@ -463,13 +517,15 @@ export default function TheSoundOfEnglishPage() {
               </div>
             ))}
           </div>
-          <div className="mt-14">
+          <p className="mt-20" style={{ fontSize: '1.45rem', color: INK, fontWeight: 600 }}>
+            אנשים שכבר עשו את הקורס השבוע :)
+          </p>
+          <TapedNotes />
+          <div className="mt-16">
             <Cta label="קחי אותי לקורס 👈" />
           </div>
         </div>
       </section>
-
-      {/* WhatsApp screenshots from students go here once Sasha adds them. */}
 
       {/* IS IT FOR YOU */}
       <section className="relative overflow-hidden py-24" style={{ backgroundColor: '#fff' }}>
