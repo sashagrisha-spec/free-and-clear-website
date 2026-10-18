@@ -252,7 +252,7 @@ function Faq({ q, children }: { q: string; children: React.ReactNode }) {
 const NOTES = [
   { src: '/images/soe-reviews/review-1.jpg', w: 876, h: 1040, tilt: -3, tape: 'rgba(245,200,66,0.75)', tapeTilt: -4 },
   { src: '/images/soe-reviews/review-2.jpg', w: 845, h: 772, tilt: 2, tape: 'rgba(168,198,236,0.8)', tapeTilt: 3 },
-  { src: '/images/soe-reviews/review-3.jpg', w: 853, h: 577, tilt: -1.5, tape: 'rgba(240,169,192,0.75)', tapeTilt: -2 },
+  { src: '/images/soe-reviews/review-5.jpg', w: 851, h: 585, tilt: -1.5, tape: 'rgba(240,169,192,0.75)', tapeTilt: -2 },
 ]
 
 function TapedNotes() {
