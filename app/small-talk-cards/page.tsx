@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Assistant } from 'next/font/google'
 import CardViewer from './CardViewer'
+import FinalCard from './FinalCard'
 
 const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '600', '700'], display: 'swap' })
 
@@ -12,8 +13,6 @@ export const metadata: Metadata = {
 }
 
 const INK = '#1B3054'
-const YELLOW = '#F5C842'
-const COURSE_URL = '/the-sound-of-english'
 
 export default function SmallTalkCardsPage() {
   return (
@@ -26,23 +25,7 @@ export default function SmallTalkCardsPage() {
           Start | Respond | Keep It Going
         </h1>
 
-        <CardViewer
-          finale={
-            <div dir="rtl" className="mt-14 text-xl leading-relaxed sm:text-2xl">
-              <p>ואם בא לכם גם לשייף את ההגייה</p>
-              <p>קורס הדגל שלי The sound of English</p>
-              <p>עכשיו במחיר השקה</p>
-              <p className="font-bold">רק עד ה-26 לחודש :)</p>
-              <a
-                href={COURSE_URL}
-                className="mt-6 inline-block rounded-full px-10 py-4 text-xl font-bold transition-transform hover:scale-105"
-                style={{ backgroundColor: YELLOW, color: INK }}
-              >
-                לקורס ההגייה
-              </a>
-            </div>
-          }
-        />
+        <CardViewer finalCard={<FinalCard />} />
       </div>
     </main>
   )

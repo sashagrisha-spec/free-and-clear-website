@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import Image from 'next/image'
 
-const TOTAL = 12
+const IMAGE_CARDS = 12
+// The 12 image cards plus one closing card built in code.
+const TOTAL = IMAGE_CARDS + 1
 const INK = '#1B3054'
 const cardSrc = (i: number) => `/images/small-talk-cards/card-${String(i + 1).padStart(2, '0')}.png`
 
-// `finale` is shown only under the last card.
-export default function CardViewer({ finale }: { finale?: ReactNode }) {
+// `finalCard` is shown as the last card, after the 12 images.
+export default function CardViewer({ finalCard }: { finalCard: ReactNode }) {
   const [index, setIndex] = useState(0)
   const touchX = useRef<number | null>(null)
 
@@ -49,19 +51,23 @@ export default function CardViewer({ finale }: { finale?: ReactNode }) {
           touchX.current = null
         }}
       >
-        <Image
-          key={index}
-          src={cardSrc(index)}
-          alt={`Card ${index + 1} of ${TOTAL}`}
-          fill
-          sizes="(max-width: 520px) 100vw, 480px"
-          priority={index === 0}
-          className="object-contain"
-        />
+        {index < IMAGE_CARDS ? (
+          <Image
+            key={index}
+            src={cardSrc(index)}
+            alt={`Card ${index + 1} of ${TOTAL}`}
+            fill
+            sizes="(max-width: 520px) 100vw, 480px"
+            priority={index === 0}
+            className="object-contain"
+          />
+        ) : (
+          finalCard
+        )}
       </div>
 
       {/* Preload the next card so flipping feels instant. */}
-      {index < TOTAL - 1 && (
+      {index < IMAGE_CARDS - 1 && (
         <div className="hidden" aria-hidden="true">
           <Image src={cardSrc(index + 1)} alt="" width={480} height={640} sizes="480px" />
         </div>
@@ -75,7 +81,6 @@ export default function CardViewer({ finale }: { finale?: ReactNode }) {
         {arrow(1, 'Next card', index === TOTAL - 1)}
       </div>
 
-      {index === TOTAL - 1 && finale}
     </div>
   )
 }
