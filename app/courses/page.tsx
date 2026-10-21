@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Assistant, Playpen_Sans_Hebrew } from 'next/font/google'
+import { Assistant } from 'next/font/google'
 import Link from 'next/link'
 import MetaPixel from '@/components/MetaPixel'
 import HolidayStrip from './HolidayStrip'
@@ -11,7 +11,10 @@ import CountdownTimer from '@/app/yalla-lachzor-acharei/CountdownTimer'
 const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '600', '700'], display: 'swap' })
 // The handwritten accent, one line per block, same idea as Caveat on Say It Back.
 // Caveat has no Hebrew letters, so Hebrew lines are written in Playpen Sans Hebrew.
-const hand = Playpen_Sans_Hebrew({ subsets: ['hebrew'], weight: '500', display: 'swap' })
+// Loaded as a plain Google Fonts stylesheet (see the <link> in the page): through
+// next/font this font breaks the Vercel build ("queries have exactly one entry").
+const hand = { className: 'courses-hand' }
+const HAND_FONT_URL = 'https://fonts.googleapis.com/css2?family=Playpen+Sans+Hebrew:wght@500&display=swap'
 
 export const metadata: Metadata = {
   title: 'כל הקורסים | Free & Clear English',
@@ -493,6 +496,8 @@ const CSS = `
   box-shadow: 0 26px 60px rgba(27, 48, 84, 0.10);
 }
 
+.courses-hand { font-family: 'Playpen Sans Hebrew', cursive; }
+
 @keyframes coursesFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
 .courses-float { animation: coursesFloat 4.5s ease-in-out infinite; }
 @keyframes coursesBounce { 0%,100% { transform: translateY(0) } 50% { transform: translateY(8px) } }
@@ -514,6 +519,8 @@ const CSS = `
 export default function CoursesPage() {
   return (
     <>
+      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+      <link rel="stylesheet" href={HAND_FONT_URL} precedence="default" />
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <MetaPixel />
       <HolidayStrip />
