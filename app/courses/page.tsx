@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Suez_One } from 'next/font/google'
+import { Assistant, Playpen_Sans_Hebrew } from 'next/font/google'
 import Link from 'next/link'
 import MetaPixel from '@/components/MetaPixel'
 import HolidayStrip from './HolidayStrip'
@@ -8,7 +8,10 @@ import { PROMOTED_COUPON } from '@/lib/coupons'
 // visitor, not a per-visit evergreen timer that resets and lies.
 import CountdownTimer from '@/app/yalla-lachzor-acharei/CountdownTimer'
 
-const display = Suez_One({ subsets: ['hebrew', 'latin'], weight: '400', display: 'swap' })
+const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '600', '700'], display: 'swap' })
+// The handwritten accent, one line per block, same idea as Caveat on Say It Back.
+// Caveat has no Hebrew letters, so Hebrew lines are written in Playpen Sans Hebrew.
+const hand = Playpen_Sans_Hebrew({ subsets: ['hebrew'], weight: '500', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'כל הקורסים | Free & Clear English',
@@ -59,6 +62,8 @@ type Course = {
   whatsInside: string[]
   /** Completes the sentence "מתאים לכם אם...". */
   forWho: string
+  /** Optional big yellow line under the price, e.g. a launch-price deadline. */
+  launchNote?: string
   /** Optional closing punch line, shown just above the buttons. */
   kicker?: string
   /** Optional short points. Renders nothing when empty. */
@@ -82,6 +87,7 @@ const COURSES: Course[] = [
     level: 'בינוני / מתקדם',
     price: 97,
     oldPrice: 247,
+    launchNote: 'מחיר השקה עד ה-26.10',
     tagline: 'הקורס החדש שלי להגייה ולמבטא, ו-₪97 הוא מחיר ההשקה שלו לשבועיים בלבד.',
     whatsInside: [
       '34 סרטונים קצרים שמחולקים להסברים, לתרגולים ולבונוסים. בכל שיעור לוקחים צליל אחד, או צמד צלילים מאותה משפחה, ועובדים עליו עד הסוף.',
@@ -93,24 +99,6 @@ const COURSES: Course[] = [
     bullets: [],
     readMoreUrl: '/the-sound-of-english',
     buyUrl: '/the-sound-of-english',
-  },
-  {
-    slug: 'etgar-shema',
-    name: 'אתגר שמע למתחילים',
-    level: 'מתחילים',
-    price: 47,
-    oldPrice: 77,
-    tagline: '21 הקלטות קצרות שיעזרו לכם סוף סוף לפתוח את הפה.',
-    whatsInside: [
-      '21 הקלטות אודיו, אחת לכל יום של האתגר, וכולן מגיעות אליכם בלינק אחד מיד אחרי הרכישה. כל הקלטה היא דקה או שתיים בנושא יומיומי, ואתם פשוט חוזרים אחריי. השיטה היא Shadowing, בגרסה שמתאימה גם למתחילים.',
-      'זה המוצר היחיד שלי שמתאים גם לאנשים ברמה בסיסית: כאלה שמבינים לא מעט אנגלית, אבל כמעט לא מדברים אותה.',
-      'אין סרטונים ואין צורך לשבת מול מחשב. שמים אוזניות ומתרגלים באוטו בדרך לעבודה, תוך כדי סידור המטבח, או בהליכה עם הכלב. הוא לא יעיר לכם על המבטא :)',
-    ],
-    forWho: 'אתם מבינים אנגלית הרבה יותר טוב ממה שאתם מצליחים לדבר ורוצים להתחיל לאמן את הפה, האוזן והביטחון.',
-    bullets: [],
-    readMoreUrl: '',
-    readMoreNote: 'כל ההסבר נמצא כאן למעלה',
-    buyUrl: 'https://secure.cardcom.solutions/EA/EA5/PVxn8Db8UEGNxWe3KEtkPQ/PaymentSP',
   },
   {
     slug: 'yalla-lachzor-acharei',
@@ -163,47 +151,66 @@ const COURSES: Course[] = [
     readMoreUrl: 'https://small-talk.ravpage.co.il/speaknow',
     buyUrl: 'https://secure.cardcom.solutions/EA/EA5/hVhtiN67IEixchc4WCwDkQ/PaymentSP',
   },
+  {
+    slug: 'etgar-shema',
+    name: 'אתגר שמע למתחילים',
+    level: 'מתחילים',
+    price: 47,
+    oldPrice: 77,
+    tagline: '21 הקלטות קצרות שיעזרו לכם סוף סוף לפתוח את הפה.',
+    whatsInside: [
+      '21 הקלטות אודיו, אחת לכל יום של האתגר, וכולן מגיעות אליכם בלינק אחד מיד אחרי הרכישה. כל הקלטה היא דקה או שתיים בנושא יומיומי, ואתם פשוט חוזרים אחריי. השיטה היא Shadowing, בגרסה שמתאימה גם למתחילים.',
+      'זה המוצר היחיד שלי שמתאים גם לאנשים ברמה בסיסית: כאלה שמבינים לא מעט אנגלית, אבל כמעט לא מדברים אותה.',
+      'אין סרטונים ואין צורך לשבת מול מחשב. שמים אוזניות ומתרגלים באוטו בדרך לעבודה, תוך כדי סידור המטבח, או בהליכה עם הכלב. הוא לא יעיר לכם על המבטא :)',
+    ],
+    forWho: 'אתם מבינים אנגלית הרבה יותר טוב ממה שאתם מצליחים לדבר ורוצים להתחיל לאמן את הפה, האוזן והביטחון.',
+    bullets: [],
+    readMoreUrl: '',
+    readMoreNote: 'כל ההסבר נמצא כאן למעלה',
+    buyUrl: 'https://secure.cardcom.solutions/EA/EA5/PVxn8Db8UEGNxWe3KEtkPQ/PaymentSP',
+  },
 ]
+
 
 /* ─────────────────────────── building blocks ─────────────────────────── */
 
-// Hand-drawn underline, same one used on the other Hebrew landing pages.
-function Swoosh({ className = '', style }: { className?: string; style?: React.CSSProperties }) {
+// Shown last, on its own, under the "I don't teach beginners" line.
+const BEGINNERS_SLUG = 'etgar-shema'
+
+const INK = '#1B3054'
+const BODY = '#42536D'
+const SOFT = '#7C8AA0'
+
+// Every sentence starts on its own line. Splits after . ! ? only when a space
+// follows, so "So, what do you do?" inside quotes and the :) smileys stay whole.
+function sentences(text: string): string[] {
+  return text.split(/(?<=[.!?])\s+/).filter(Boolean)
+}
+
+function SentenceLines({ text, style }: { text: string; style?: React.CSSProperties }) {
   return (
-    <svg className={className} style={style} viewBox="0 0 300 18" fill="none" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M4 12 C 80 4, 150 4, 296 10" stroke="var(--yellow)" strokeWidth="6" strokeLinecap="round" />
-    </svg>
+    <p style={style}>
+      {sentences(text).map((line, i) => (
+        <span key={i} className="block" style={{ marginTop: i === 0 ? 0 : '0.35rem' }}>{line}</span>
+      ))}
+    </p>
   )
 }
 
-// All card TEXT is navy. The level is carried by a coloured dot in the badge
-// and by the strip across the top of the card, never by a second text colour.
-const LEVEL_STYLE: Record<Level, { badgeBg: string; dot: string; accent: string }> = {
-  'מתחילים': {
-    badgeBg: 'rgba(27,138,90,0.13)',
-    dot: '#1B8A5A',
-    accent: 'linear-gradient(90deg, #34B37B, #1B8A5A)',
-  },
-  'בינוני': {
-    badgeBg: 'rgba(245,200,66,0.30)',
-    dot: '#D9A400',
-    accent: 'linear-gradient(90deg, #F5C842, #E0A800)',
-  },
-  'בינוני / מתקדם': {
-    badgeBg: 'rgba(27,48,84,0.11)',
-    dot: '#1B3054',
-    accent: 'linear-gradient(90deg, #3A63A8, #1B3054)',
-  },
+// All card TEXT is navy. The level is carried only by a coloured dot.
+const LEVEL_DOT: Record<Level, string> = {
+  'מתחילים': '#34B37B',
+  'בינוני': '#E0A800',
+  'בינוני / מתקדם': '#3A63A8',
 }
 
 function LevelBadge({ level }: { level: Level }) {
-  const s = LEVEL_STYLE[level]
   return (
     <span
-      className="inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap"
-      style={{ backgroundColor: s.badgeBg, color: 'var(--navy)' }}
+      className="inline-flex items-center gap-2 rounded-full whitespace-nowrap"
+      style={{ backgroundColor: 'rgba(27,48,84,0.05)', color: INK, fontSize: '0.95rem', fontWeight: 600, padding: '0.35rem 1rem' }}
     >
-      <span className="rounded-full flex-shrink-0" style={{ width: 7, height: 7, backgroundColor: s.dot }} />
+      <span className="rounded-full flex-shrink-0" style={{ width: 8, height: 8, backgroundColor: LEVEL_DOT[level] }} />
       {level}
     </span>
   )
@@ -214,90 +221,115 @@ function Placeholder({ children }: { children: React.ReactNode }) {
   return (
     <span
       className="block text-sm rounded-lg px-3 py-2"
-      style={{ border: '1.5px dashed rgba(27,48,84,0.28)', color: 'var(--navy)', backgroundColor: 'rgba(27,48,84,0.03)' }}
+      style={{ border: '1.5px dashed rgba(27,48,84,0.28)', color: INK, backgroundColor: 'rgba(27,48,84,0.03)' }}
     >
       ◆ {children}
     </span>
   )
 }
 
+/* Big pastel IPA glyphs floating behind the cards, mirrored pairs. */
+const BLUE_G = '#8FBCEA'
+const GOLD_G = '#F3D46B'
+
+function Phonetics({ glyphs }: { glyphs: Array<{ g: string; top: string; left: string; size: number; rot: number; c: string; d: number }> }) {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden select-none">
+      {glyphs.map((s, i) => (
+        <span
+          key={i}
+          className="courses-float"
+          style={{ position: 'absolute', top: s.top, left: s.left, fontSize: s.size, lineHeight: 1, color: s.c, opacity: 0.45, fontWeight: 300, animationDelay: `${s.d}s` }}
+        >
+          <span style={{ display: 'inline-block', transform: `rotate(${s.rot}deg)` }}>{s.g}</span>
+        </span>
+      ))}
+    </div>
+  )
+}
+
+const HERO_GLYPHS = [
+  { g: 'θ', top: '10%', left: '4%', size: 180, rot: -14, c: BLUE_G, d: 0 },
+  { g: 'iː', top: '10%', left: '80%', size: 180, rot: 14, c: BLUE_G, d: 1.1 },
+  { g: 'ʃ', top: '58%', left: '8%', size: 140, rot: 8, c: GOLD_G, d: 0.6 },
+  { g: 'ə', top: '58%', left: '84%', size: 140, rot: -8, c: GOLD_G, d: 1.8 },
+]
+
+const GRID_GLYPHS = [
+  { g: 'ð', top: '6%', left: '2%', size: 200, rot: 8, c: GOLD_G, d: 0.8 },
+  { g: 'ʌ', top: '6%', left: '86%', size: 200, rot: -8, c: GOLD_G, d: 1.9 },
+  { g: 'ŋ', top: '52%', left: '1%', size: 170, rot: 6, c: BLUE_G, d: 1.0 },
+  { g: 'uː', top: '52%', left: '84%', size: 170, rot: -6, c: BLUE_G, d: 2.1 },
+]
+
 /* ───────────────────────────── the card ───────────────────────────── */
 
 // SIX rows, and the card borrows them from the grid itself (see .courses-card
-// in globals.css). That is what keeps the yellow box and the buttons of one
-// card level with the card beside it no matter how long the copy is.
+// below). That is what keeps the yellow box and the buttons of one card level
+// with the card beside it no matter how long the copy is.
 function CourseCard({ course }: { course: Course }) {
-  const level = LEVEL_STYLE[course.level]
-
   return (
     <article
-      className="courses-card rounded-3xl"
+      className="courses-card rounded-[2rem] text-center"
       style={{
-        backgroundColor: 'var(--white)',
-        border: '1px solid rgba(27,48,84,0.09)',
-        boxShadow: '0 10px 36px rgba(27,48,84,0.10)',
-        position: 'relative',
-        overflow: 'hidden',
-        color: 'var(--navy)',
+        backgroundColor: '#fff',
+        border: '1px solid rgba(27,48,84,0.10)',
+        boxShadow: '0 20px 48px rgba(27,48,84,0.06)',
+        color: INK,
       }}
     >
-      {/* level accent across the top. Positioned, so it never becomes a row. */}
-      <span
-        aria-hidden="true"
-        style={{ position: 'absolute', top: 0, insetInline: 0, height: 5, background: level.accent }}
-      />
-
       {/* row 1 - level + price */}
-      <div className="flex items-center justify-between gap-3 px-6 sm:px-7 pt-7">
+      <div className="flex flex-col items-center gap-4 px-7 sm:px-9 pt-9">
         <LevelBadge level={course.level} />
-        <span className="flex flex-col items-end leading-none">
-          <span className="font-black leading-none" style={{ fontSize: '1.875rem' }}>
-            <span className="font-bold" style={{ fontSize: '0.62em', opacity: 0.75 }}>₪</span>
-            {course.price}
-          </span>
-          <span className="font-bold mt-1.5 whitespace-nowrap" style={{ fontSize: '0.8125rem', opacity: 0.55 }}>
-            (במקום ₪{course.oldPrice})
-          </span>
+        <span className="flex items-baseline justify-center gap-3">
+          <span style={{ fontSize: '1.25rem', fontWeight: 600, color: SOFT, textDecoration: 'line-through' }}>₪{course.oldPrice}</span>
+          <span style={{ fontSize: '2.6rem', fontWeight: 700, lineHeight: 1, color: INK }}>₪{course.price}</span>
         </span>
+        {course.launchNote && (
+          <span
+            className="rounded-full"
+            style={{ backgroundColor: 'var(--yellow)', color: INK, fontSize: 'clamp(1.2rem, 3.4vw, 1.45rem)', fontWeight: 700, padding: '0.55rem 1.5rem', boxShadow: '0 10px 24px rgba(245,200,66,0.35)' }}
+          >
+            ⏳ {course.launchNote}
+          </span>
+        )}
       </div>
 
       {/* row 2 - name */}
-      <h2 className={`${display.className} px-6 sm:px-7 pt-4 leading-tight`} style={{ fontSize: 'clamp(1.375rem, 4vw, 1.625rem)' }}>
+      <h2 className="px-7 sm:px-9 pt-5" style={{ fontSize: 'clamp(1.6rem, 4vw, 1.95rem)', fontWeight: 700, lineHeight: 1.3, letterSpacing: '-0.01em' }}>
         {course.name}
       </h2>
 
-      {/* row 3 - tagline */}
-      <p className="px-6 sm:px-7 pt-2.5 text-base font-bold leading-relaxed">
-        {course.tagline}
-      </p>
+      {/* row 3 - tagline, the one handwritten line of the card */}
+      <div className="px-7 sm:px-9 pt-3">
+        <p className={hand.className} style={{ fontSize: '1.2rem', fontWeight: 500, lineHeight: 1.6, color: INK }}>
+          {course.tagline}
+        </p>
+      </div>
 
       {/* row 4 - the flexible one. All the length difference between courses
           gets absorbed here, which is why the rows below stay aligned. */}
-      <div className="px-6 sm:px-7 pt-4 flex flex-col gap-3">
+      <div className="px-7 sm:px-9 pt-6 flex flex-col gap-5">
         {course.whatsInside.length > 0
           ? course.whatsInside.map((para, i) => (
-              <p key={i} className="text-sm leading-relaxed">{para}</p>
+              <SentenceLines key={i} text={para} style={{ fontSize: '1.08rem', fontWeight: 300, lineHeight: 1.75, color: BODY }} />
             ))
           : <Placeholder>מה בדיוק קורה בקורס</Placeholder>}
 
         {course.bullets.length > 0 && (
-          <ul className="flex flex-col gap-1.5 mt-1">
+          <ul className="flex flex-col gap-1.5">
             {course.bullets.map(b => (
-              <li key={b} className="flex items-start gap-2 text-sm">
-                <span className="flex-shrink-0 font-black">✓</span>
-                <span>{b}</span>
-              </li>
+              <li key={b} style={{ fontSize: '1.05rem', color: BODY }}>✓ {b}</li>
             ))}
           </ul>
         )}
 
         {course.kicker && (
-          <p className="text-sm font-bold leading-relaxed mt-1">
+          <p style={{ fontSize: '1.12rem', fontWeight: 600, lineHeight: 1.75 }}>
             <span
               style={{
-                backgroundColor: 'var(--yellow)',
-                padding: '0.1em 0.35em',
-                borderRadius: 6,
+                background: 'linear-gradient(transparent 55%, rgba(245,200,66,0.75) 55%)',
+                padding: '0 0.2em',
                 boxDecorationBreak: 'clone',
                 WebkitBoxDecorationBreak: 'clone',
               }}
@@ -308,22 +340,21 @@ function CourseCard({ course }: { course: Course }) {
         )}
       </div>
 
-      {/* row 5 - "מתאים לכם אם". The line that makes people self-select, so it
-          gets its own box instead of blending into the paragraphs above. */}
-      <div className="px-6 sm:px-7 pt-6">
+      {/* row 5 - "מתאים לכם אם", warm and bright, never grey */}
+      <div className="px-7 sm:px-9 pt-8">
         <div
-          className="rounded-2xl px-4 py-3.5 h-full"
-          style={{ background: 'linear-gradient(135deg, #FFFBEE, #FFF6DC)', border: '1px solid rgba(245,200,66,0.6)' }}
+          className="rounded-3xl h-full"
+          style={{ background: 'linear-gradient(180deg, #FFF5D6 0%, #FFFBEE 100%)', border: '1.5px solid rgba(245,200,66,0.6)', padding: '1.2rem 1.4rem' }}
         >
-          <h3 className="text-sm font-black mb-1">מתאים לכם אם</h3>
+          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.4rem' }}>מתאים לכם אם</h3>
           {course.forWho
-            ? <p className="text-sm leading-relaxed">{course.forWho}</p>
+            ? <SentenceLines text={course.forWho} style={{ fontSize: '1.05rem', fontWeight: 400, lineHeight: 1.7, color: INK }} />
             : <Placeholder>למי הקורס הזה מתאים</Placeholder>}
         </div>
       </div>
 
       {/* row 6 - the two buttons */}
-      <div className="px-6 sm:px-7 pt-5 pb-7 flex flex-col sm:flex-row gap-2.5 items-end">
+      <div className="px-7 sm:px-9 pt-7 pb-9 flex flex-col sm:flex-row gap-3 items-end">
         {course.readMoreUrl
           ? <CardButton href={course.readMoreUrl} variant="outline">לקרוא עוד</CardButton>
           : course.readMoreNote
@@ -343,18 +374,21 @@ function CourseCard({ course }: { course: Course }) {
 // Buttons share one component so the two variants can never drift apart in
 // size. An external checkout URL (Cardcom) needs a plain <a>; an internal path
 // gets next/link for client-side navigation.
-const BUTTON_CLASS = 'w-full sm:flex-1 text-center font-bold py-3.5 px-5 rounded-xl transition-opacity hover:opacity-90'
+const BUTTON_CLASS = 'w-full sm:flex-1 text-center rounded-full transition-transform hover:-translate-y-0.5'
+const BUTTON_BASE: React.CSSProperties = { fontSize: '1.1rem', fontWeight: 700, padding: '0.95rem 1.2rem', minHeight: 58 }
 
 const BUTTON_STYLE: Record<'primary' | 'outline', React.CSSProperties> = {
   primary: {
+    ...BUTTON_BASE,
     backgroundColor: 'var(--yellow)',
-    color: 'var(--navy)',
-    border: '2px solid transparent',
-    boxShadow: '0 6px 18px rgba(245,200,66,0.45)',
+    color: INK,
+    border: '1.5px solid transparent',
+    boxShadow: '0 12px 28px rgba(245,200,66,0.35)',
   },
   outline: {
-    color: 'var(--navy)',
-    border: '2px solid var(--navy)',
+    ...BUTTON_BASE,
+    color: INK,
+    border: '1.5px solid rgba(27,48,84,0.35)',
   },
 }
 
@@ -376,13 +410,12 @@ function CardButton({
 }
 
 // For a course with no separate landing page: fills the slot so the row keeps
-// its two-up shape and stays level with the card beside it, and tells the
-// reader plainly that there is nothing further to go and read.
+// its two-up shape and stays level with the card beside it.
 function SlotNote({ text }: { text: string }) {
   return (
     <span
-      className="w-full sm:flex-1 text-center text-sm font-medium rounded-xl flex items-center justify-center"
-      style={{ color: 'var(--navy)', opacity: 0.55, border: '2px solid transparent', minHeight: 56 }}
+      className="w-full sm:flex-1 text-center flex items-center justify-center rounded-full"
+      style={{ ...BUTTON_BASE, fontWeight: 400, color: SOFT, border: '1.5px solid transparent' }}
     >
       {text}
     </span>
@@ -390,30 +423,24 @@ function SlotNote({ text }: { text: string }) {
 }
 
 // Fills the buy slot for a course that is not out yet. Same box as a real
-// button so the row stays level with the card beside it, but plainly not a
-// button: no shadow, no hover, dashed yellow outline instead of a solid fill.
+// button so the row stays level, but plainly not a button.
 function ReleaseNote({ text }: { text: string }) {
   return (
     <span
-      className="w-full sm:flex-1 text-center font-bold py-3.5 px-5 rounded-xl"
-      style={{
-        backgroundColor: 'rgba(245,200,66,0.18)',
-        color: 'var(--navy)',
-        border: '2px dashed var(--yellow)',
-      }}
+      className="w-full sm:flex-1 text-center rounded-full"
+      style={{ ...BUTTON_BASE, backgroundColor: 'rgba(245,200,66,0.18)', color: INK, border: '1.5px dashed var(--yellow)' }}
     >
       ⏳ {text}
     </span>
   )
 }
 
-// A button with no destination yet. Rendered visibly dead on purpose: better a
-// grey button that says "missing link" than a live one that goes nowhere.
+// A button with no destination yet. Rendered visibly dead on purpose.
 function PendingButton({ label }: { label: string }) {
   return (
     <span
-      className="w-full sm:flex-1 text-center font-bold py-3.5 px-5 rounded-xl"
-      style={{ backgroundColor: 'rgba(27,48,84,0.05)', color: 'var(--navy)', opacity: 0.5, border: '2px dashed rgba(27,48,84,0.3)' }}
+      className="w-full sm:flex-1 text-center rounded-full"
+      style={{ ...BUTTON_BASE, backgroundColor: 'rgba(27,48,84,0.05)', color: INK, opacity: 0.5, border: '1.5px dashed rgba(27,48,84,0.3)' }}
     >
       {label}
       <span className="text-xs font-normal"> · חסר לינק</span>
@@ -422,42 +449,36 @@ function PendingButton({ label }: { label: string }) {
 }
 
 const CSS = `
-/* Namespaced to this page, and kept in the page instead of globals.css so the
-   all-courses layout owns its own rules and nothing can leak elsewhere.
-   The whole point of this block is SYMMETRY: every section of a card must line
-   up exactly with the same section of the card beside it, however much copy
-   each course has. */
+/* Namespaced to this page. The whole point of the grid rules is SYMMETRY:
+   every section of a card lines up exactly with the same section of the card
+   beside it, however much copy each course has. */
 
 .courses-grid {
   display: grid;
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 760px) {
   .courses-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* An odd card out at the end sits centred, at exactly one column's width,
-     so it is the same size as every other card. */
+  /* An odd card out at the end sits centred, at exactly one column's width. */
   .courses-card:last-child:nth-child(odd) {
     grid-column: 1 / -1;
     justify-self: center;
-    width: calc(50% - 0.75rem);
+    width: calc(50% - 1rem);
   }
 }
 
-/* Fallback for a browser without subgrid: a flex column. Buttons still land at
-   the bottom, the highlighted boxes may sit a little apart. */
+/* Fallback for a browser without subgrid: a flex column. */
 .courses-card {
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* The real thing. Each card borrows the grid's OWN rows, so the
-   "matches you if" box and the buttons are literally the same rows for both
-   cards in a pair. They cannot drift apart. */
 @supports (grid-template-rows: subgrid) {
   .courses-card {
     display: grid;
@@ -469,14 +490,14 @@ const CSS = `
 
 .courses-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 50px rgba(27, 48, 84, 0.16);
+  box-shadow: 0 26px 60px rgba(27, 48, 84, 0.10);
 }
 
-/* Soft dot texture, so the navy is never a flat slab. */
-.courses-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
+@keyframes coursesFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+.courses-float { animation: coursesFloat 4.5s ease-in-out infinite; }
+@keyframes coursesBounce { 0%,100% { transform: translateY(0) } 50% { transform: translateY(8px) } }
+.courses-bounce { animation: coursesBounce 1.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .courses-float, .courses-bounce { animation: none !important; } }
 `
 
 /* ───────────────────────────── the page ─────────────────────────────
@@ -497,103 +518,93 @@ export default function CoursesPage() {
       <MetaPixel />
       <HolidayStrip />
 
-      <main
-        dir="rtl"
-        style={{
-          color: 'var(--navy)',
-          background: 'linear-gradient(180deg, #FFFCF3 0%, #FBFAFF 42%, #F3F6FD 100%)',
-          minHeight: '100vh',
-        }}
-      >
-        {/* ── hero. Navy, but not a flat slab: a gradient, a dot texture and a
-            soft yellow glow, rounded off at the bottom. ── */}
-        <section
-          className="relative overflow-hidden"
-          style={{
-            background: 'linear-gradient(155deg, #22395F 0%, #16274A 52%, #1B3054 100%)',
-            borderBottomLeftRadius: 36,
-            borderBottomRightRadius: 36,
-          }}
-        >
-          <span aria-hidden="true" className="courses-dots absolute inset-0" style={{ opacity: 0.55 }} />
-          <span
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              top: '-45%',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '75%',
-              height: '150%',
-              background: 'radial-gradient(closest-side, rgba(245,200,66,0.20), rgba(245,200,66,0))',
-              pointerEvents: 'none',
-            }}
-          />
+      <main dir="rtl" className={assistant.className} style={{ color: INK, backgroundColor: '#fff', minHeight: '100vh', textAlign: 'center' }}>
+        {/* ── hero ── */}
+        <section className="relative overflow-hidden" style={{ backgroundColor: INK }}>
+          <div aria-hidden className="absolute" style={{ top: -200, right: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.20) 0%, rgba(245,200,66,0) 70%)' }} />
+          <div aria-hidden className="absolute" style={{ top: -200, left: -150, width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.20) 0%, rgba(245,200,66,0) 70%)' }} />
+          <Phonetics glyphs={HERO_GLYPHS} />
 
-          {/* logo bar, sitting inside the hero so there is no seam */}
-          <div className="relative max-w-6xl mx-auto px-6 pt-5">
-            {/* plain <a>, not next/link, so the English site opens LTR.
-                See HOME_LINK_NOTE above. */}
+          {/* logo, centred. Plain <a>, see HOME_LINK_NOTE above. */}
+          <div className="relative max-w-6xl mx-auto px-6 pt-8">
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/" className="text-white font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">
+            <a href="/" className="inline-block text-white hover:opacity-80 transition-opacity" style={{ fontSize: '1.15rem', fontWeight: 600, letterSpacing: '-0.01em' }}>
               Free &amp; Clear English
             </a>
           </div>
 
-          <div className="relative max-w-3xl mx-auto px-6 pt-10 pb-16 text-center">
-            <h1 className={`${display.className} leading-tight`} style={{ color: '#fff', fontSize: 'clamp(2rem, 7vw, 3.25rem)' }}>
-              כל הקורסים{' '}
-              <span className="relative inline-block">
-                <span style={{ color: 'var(--yellow)' }}>במקום אחד</span>
-                <Swoosh className="absolute" style={{ bottom: '-0.2em', insetInline: 0, width: '100%', height: '0.26em' }} />
+          <div className="relative max-w-3xl mx-auto px-6 pt-16 pb-24">
+            <h1 style={{ color: '#fff', lineHeight: 1.25, letterSpacing: '-0.02em' }}>
+              <span className="block" style={{ fontSize: 'clamp(2rem, 5.6vw, 3.2rem)', fontWeight: 400 }}>כל הקורסים</span>
+              <span className="block" style={{ marginTop: '0.25em', fontSize: 'clamp(2.6rem, 8vw, 4.2rem)', fontWeight: 700, color: 'var(--yellow)' }}>
+                במקום אחד
               </span>
             </h1>
 
-            <p className="mt-7 text-lg leading-relaxed" style={{ color: 'rgba(255,255,255,0.88)' }}>
-              <span className="block">כל קורס כאן בונה משהו אחר באנגלית שלכם.</span>
-              <span className="block mt-1.5">בחרו לפי הרמה שבה אתם נמצאים היום, ותתחילו.</span>
-            </p>
+            <div className="mt-12" style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.25rem', fontWeight: 300, lineHeight: 1.6 }}>
+              <p>כל קורס כאן בונה משהו אחר באנגלית שלכם.</p>
+              <p className="mt-4">בחרו לפי הרמה שבה אתם נמצאים היום,</p>
+              <p className={`${hand.className} mt-6`} style={{ fontSize: 'clamp(1.7rem, 5vw, 2.2rem)', fontWeight: 500, color: 'var(--yellow)', lineHeight: 1.3 }}>
+                ותתחילו.
+              </p>
+              <a href="#courses" aria-label="לקורסים" className="courses-bounce inline-block mt-8" style={{ color: 'var(--yellow)' }}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M12 4v15M5 12l7 7 7-7" />
+                </svg>
+              </a>
+            </div>
 
             {/* Urgency, but honest: one shared deadline, and the whole block
                 removes itself the second the sale is over. */}
             {PROMOTED_COUPON && (
-              <div className="mt-9">
+              <div className="mt-12">
                 <CountdownTimer target={PROMOTED_COUPON.coupon.expires} label="מבצע החגים נגמר בעוד" />
               </div>
             )}
           </div>
         </section>
 
-        {/* ── the four courses ── */}
-        <section className="px-6 py-14">
-          <div className="courses-grid max-w-5xl mx-auto">
-            {COURSES.map(course => (
+        {/* ── the courses ── */}
+        <section id="courses" className="relative overflow-hidden px-5 sm:px-6 py-24" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFBEE 100%)' }}>
+          <Phonetics glyphs={GRID_GLYPHS} />
+          <div className="relative courses-grid max-w-5xl mx-auto">
+            {COURSES.filter(c => c.slug !== BEGINNERS_SLUG).map(course => (
               <CourseCard key={course.slug} course={course} />
             ))}
           </div>
 
-          <p className="max-w-5xl mx-auto mt-12 text-center text-sm font-medium" style={{ opacity: 0.75 }}>
+          {/* The beginners' challenge sits apart, after its own line. */}
+          <div className="relative max-w-5xl mx-auto mt-24 mb-12">
+            <p style={{ fontSize: '1.3rem', fontWeight: 300, color: BODY, lineHeight: 1.6 }}>ולמרות שאני לא מלמדת מתחילים,</p>
+            <p className={`${hand.className} mt-3`} style={{ fontSize: 'clamp(1.6rem, 4.6vw, 2.1rem)', fontWeight: 500, color: INK, lineHeight: 1.4 }}>
+              יש לכם פה אתגר למתחילים :)
+            </p>
+          </div>
+          <div className="relative courses-grid max-w-5xl mx-auto">
+            {COURSES.filter(c => c.slug === BEGINNERS_SLUG).map(course => (
+              <CourseCard key={course.slug} course={course} />
+            ))}
+          </div>
+
+          <p className="relative max-w-5xl mx-auto mt-16" style={{ fontSize: '1.15rem', fontWeight: 400, color: BODY }}>
             כל הקורסים הם תשלום חד-פעמי, והגישה נשארת שלכם.
           </p>
         </section>
 
         {/* ── footer ── */}
-        <footer
-          className="relative overflow-hidden mx-4 mb-4 rounded-3xl px-6 py-12"
-          style={{ background: 'linear-gradient(155deg, #22395F 0%, #16274A 100%)' }}
-        >
-          <span aria-hidden="true" className="courses-dots absolute inset-0" style={{ opacity: 0.4 }} />
-          <div className="relative max-w-5xl mx-auto text-center">
-            <p className="font-bold text-white text-lg">Free &amp; Clear English</p>
-            <p className="mt-2 text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
+        <footer className="relative overflow-hidden px-6 py-20" style={{ backgroundColor: INK }}>
+          <div aria-hidden className="absolute" style={{ bottom: -260, left: '50%', transform: 'translateX(-50%)', width: 620, height: 520, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,200,66,0.16) 0%, rgba(245,200,66,0) 70%)' }} />
+          <div className="relative max-w-5xl mx-auto">
+            <p style={{ color: '#fff', fontSize: '1.2rem', fontWeight: 600 }}>Free &amp; Clear English</p>
+            <p className={`${hand.className} mt-4`} style={{ fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', fontWeight: 500, color: 'var(--yellow)', lineHeight: 1.4 }}>
               לא רק לדעת אנגלית, אלא גם לדבר אותה בביטחון
             </p>
             {/* plain <a> on purpose, see HOME_LINK_NOTE above */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a
               href="/"
-              className="inline-block mt-5 text-sm font-bold px-5 py-2.5 rounded-xl transition-opacity hover:opacity-85"
-              style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)' }}
+              className="inline-block mt-9 rounded-full transition-transform hover:-translate-y-0.5"
+              style={{ backgroundColor: 'var(--yellow)', color: INK, fontSize: '1.05rem', fontWeight: 700, padding: '0.85rem 2.2rem' }}
             >
               לאתר הראשי
             </a>
