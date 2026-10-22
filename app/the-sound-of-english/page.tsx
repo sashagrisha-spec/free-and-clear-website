@@ -245,7 +245,7 @@ function Faq({ q, children }: { q: string; children: React.ReactNode }) {
 }
 
 /* ---------- taped notes ---------- */
-/* Three real messages, each a small paper square stuck to the wall with a strip
+/* Five real messages, each a small paper square stuck to the wall with a strip
    of washi tape. Every square is the same size so the row stays symmetrical;
    only the tilt and the tape colour change. */
 
@@ -253,11 +253,18 @@ const NOTES = [
   { src: '/images/soe-reviews/review-1.jpg', w: 876, h: 1040, tilt: -3, tape: 'rgba(245,200,66,0.75)', tapeTilt: -4 },
   { src: '/images/soe-reviews/review-2.jpg', w: 845, h: 772, tilt: 2, tape: 'rgba(168,198,236,0.8)', tapeTilt: 3 },
   { src: '/images/soe-reviews/review-5.jpg', w: 851, h: 585, tilt: -1.5, tape: 'rgba(240,169,192,0.75)', tapeTilt: -2 },
+  { src: '/images/soe-reviews/review-6.jpg', w: 878, h: 1371, tilt: 2.5, tape: 'rgba(245,200,66,0.75)', tapeTilt: 3 },
+  { src: '/images/soe-reviews/review-7.jpg', w: 1000, h: 1164, tilt: -2, tape: 'rgba(168,198,236,0.8)', tapeTilt: -3 },
 ]
 
+/* The row breaks out of the section's max-w-4xl so all five notes sit in one
+   line across the full screen width. */
 function TapedNotes() {
   return (
-    <div className="grid gap-12 sm:gap-8 sm:grid-cols-3 mx-auto mt-14" style={{ maxWidth: 880 }}>
+    <div
+      className="grid gap-12 md:gap-6 md:grid-cols-5 mt-14 px-6"
+      style={{ width: '100vw', marginInline: 'calc(50% - 50vw)' }}
+    >
       {NOTES.map((n, i) => (
         <figure
           key={n.src}
