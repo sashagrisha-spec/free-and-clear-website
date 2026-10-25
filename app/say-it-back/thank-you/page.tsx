@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Assistant, Caveat } from 'next/font/google'
 import MetaPixel from '@/components/MetaPixel'
-import FirePurchase from './FirePurchase'
 
 const assistant = Assistant({ subsets: ['latin'], weight: ['300', '400', '600', '700'], display: 'swap' })
 const hand = Caveat({ subsets: ['latin'], weight: ['600'], display: 'swap' })
@@ -14,8 +13,9 @@ export const metadata: Metadata = {
 const INK = '#1B3054'
 
 // Lemon Squeezy sends the buyer here after payment: /say-it-back/thank-you?k=<key>.
-// The same key as the listening page, so a random visitor can't open it and
-// can't fire a fake Purchase into Meta.
+// The same key as the listening page. The Meta Purchase is NOT fired here: the
+// Lemon webhook (api/say-it-back/lemon-webhook) reports it from the server, once
+// per order, so firing it here too would count every sale twice.
 export default async function ThankYouPage({ searchParams }: { searchParams: Promise<{ k?: string }> }) {
   const { k = '' } = await searchParams
   const key = process.env.SAY_IT_BACK_ACCESS_KEY
@@ -24,7 +24,6 @@ export default async function ThankYouPage({ searchParams }: { searchParams: Pro
   return (
     <>
       <MetaPixel />
-      {ok && <FirePurchase />}
       <main dir="ltr" className={`${assistant.className} min-h-screen flex items-center justify-center px-6 py-16 text-center`} style={{ backgroundColor: INK }}>
         <div style={{ maxWidth: 560 }}>
           <p style={{ fontSize: '3.5rem', lineHeight: 1 }}>🎉</p>
