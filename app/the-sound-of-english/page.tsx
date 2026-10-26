@@ -11,11 +11,11 @@ const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400
 export const metadata: Metadata = {
   title: 'The Sound of English | קורס הגייה ומבטא באנגלית',
   description:
-    'אתם מדברים אנגלית לא רע, אז למה עדיין מבקשים מכם לחזור שוב על מה שאמרתם? קורס דיגיטלי להגייה ומבטא: 34 סרטונים קצרים, גישה לתמיד. ₪97 במקום ₪247.',
+    'אתם מדברים אנגלית לא רע, אז למה עדיין מבקשים מכם לחזור שוב על מה שאמרתם? קורס דיגיטלי להגייה ומבטא: 34 סרטונים קצרים, גישה לתמיד. ₪247 במקום ₪297.',
   alternates: { canonical: 'https://www.freeandclearenglish.com/the-sound-of-english' },
   openGraph: {
     title: 'The Sound of English',
-    description: 'קורס הגייה ומבטא באנגלית. 34 סרטונים קצרים, גישה לתמיד. ₪97 במקום ₪247.',
+    description: 'קורס הגייה ומבטא באנגלית. 34 סרטונים קצרים, גישה לתמיד. ₪247 במקום ₪297.',
     url: 'https://www.freeandclearenglish.com/the-sound-of-english',
     siteName: 'Free & Clear English',
     locale: 'he_IL',
@@ -391,12 +391,12 @@ export default function TheSoundOfEnglishPage() {
             <Cta label="תלמדי אותי הגייה נכונה 👈" />
           </div>
           <div className="mt-9 flex items-baseline justify-center gap-3" style={{ direction: 'rtl' }}>
-            <span style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)', fontWeight: 700 }}>247 ₪</span>
-            <span style={{ color: 'var(--yellow)', fontSize: 'clamp(3.25rem, 11vw, 5rem)', fontWeight: 700, lineHeight: 1 }}>97 ₪</span>
+            <span style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)', fontWeight: 700 }}>297 ₪</span>
+            <span style={{ color: 'var(--yellow)', fontSize: 'clamp(3.25rem, 11vw, 5rem)', fontWeight: 700, lineHeight: 1 }}>247 ₪</span>
           </div>
           <p className="mt-3" style={{ fontSize: '1.15rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
             תשלום חד פעמי ·{' '}
-            <span style={{ color: 'var(--yellow)' }}>⏳ מחיר השקה לשבועיים בלבד</span>
+            גישה לתמיד
           </p>
         </div>
       </section>
@@ -640,19 +640,16 @@ export default function TheSoundOfEnglishPage() {
         <Confetti tone="onNavy" />
         <div className="relative max-w-xl mx-auto px-6" style={{ color: '#fff' }}>
           <h2 className="mb-7" style={{ fontSize: 'clamp(1.8rem, 4.8vw, 2.7rem)', color: '#fff', fontWeight: 600 }}>
-            מחיר ההשקה
+            המחיר
           </h2>
           <p className="mb-1" style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
-            <s>247 ₪</s>
+            <s>297 ₪</s>
           </p>
           <p className="mb-6" style={{ fontSize: 'clamp(3.6rem, 13vw, 5.6rem)', lineHeight: 1, color: 'var(--yellow)', fontWeight: 700 }}>
-            97 ₪
+            247 ₪
           </p>
-          <p className="mb-3" style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.9)', fontWeight: 300 }}>
+          <p className="mb-10" style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.9)', fontWeight: 300 }}>
             תשלום חד פעמי · גישה לתמיד
-          </p>
-          <p className="mb-10" style={{ fontSize: '1.2rem', color: 'var(--yellow)', fontWeight: 600 }}>
-            ⏳ ההשקה לשבועיים בלבד, ואחריה המחיר עולה
           </p>
           <Suspense fallback={null}>
             <CheckoutForm />

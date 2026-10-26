@@ -120,8 +120,7 @@ export default function FinalCard() {
           <p dir="ltr" className={serif.className} style={{ fontSize: cq(8), fontWeight: 600, lineHeight: 1.2, margin: `${cq(1)} 0` }}>
             The sound of English
           </p>
-          <p>עכשיו במחיר השקה</p>
-          <p style={{ fontWeight: 700 }}>רק עד ה-26 לחודש :)</p>
+          <p style={{ fontWeight: 700 }}>247 ₪ במקום 297 ₪</p>
         </div>
 
         {/* Button */}

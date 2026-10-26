@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
   const [, email, name, eventId, smallTalkFlag, yallaFlag] = parts
   const smallTalk = smallTalkFlag === '1'
   const yalla = yallaFlag === '1'
-  const value = typeof amount === 'number' ? amount : 97
+  const value = typeof amount === 'number' ? amount : 247
   const currency = 'ILS'
 
   // The access link must point at the site the buyer actually came from. On a

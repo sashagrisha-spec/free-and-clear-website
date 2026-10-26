@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import LaunchBanner from "@/components/LaunchBanner";
+// import LaunchBanner from "@/components/LaunchBanner";
 import Hero from "@/components/Hero";
 import Logos from "@/components/Logos";
 import About from "@/components/About";
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <main>
       <Nav />
-      <LaunchBanner />
+      {/* <LaunchBanner /> hidden 26.10.2026, the launch is over */}
       <Hero />
       <Logos />
       <About />

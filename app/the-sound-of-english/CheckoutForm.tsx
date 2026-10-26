@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-const PRICE = 97
-const OLD_PRICE = 247
+const PRICE = 247
+const OLD_PRICE = 297
 
 // Order bumps, each at half its normal price. The server decides the real
 // charge; these numbers only draw the screen.
