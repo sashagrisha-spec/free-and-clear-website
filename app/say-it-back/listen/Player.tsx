@@ -130,7 +130,7 @@ export default function Player({ mediaBase, handClass }: { mediaBase: string; ha
         <p className="mb-6 inline-block rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.08)', padding: '0.45rem 1.3rem', fontSize: '1.02rem', color: 'var(--yellow)', fontWeight: 600 }}>
           🎧 Say It Back · 56 recordings
         </p>
-        <h1 style={{ fontSize: 'clamp(2.4rem, 7vw, 3.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15 }}>Welcome in</h1>
+        <h1 style={{ fontSize: 'clamp(2.4rem, 7vw, 3.6rem)', fontWeight: 700, color: '#fff', lineHeight: 1.15 }}>Welcome</h1>
         <p className={handClass} style={{ fontSize: 'clamp(1.9rem, 5.5vw, 2.6rem)', color: 'var(--yellow)', marginTop: '1.4rem', lineHeight: 1.25 }}>
           Press play.
           <br />
