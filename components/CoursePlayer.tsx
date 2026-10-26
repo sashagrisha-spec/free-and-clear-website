@@ -27,6 +27,47 @@ export interface DemoChapter {
 const STORAGE_KEY = 'fce-course-demo-progress'
 const CERT_NAME_KEY = 'fce-course-certificate-name'
 
+// The Sounds of English is taught in English; Small talk is a Hebrew course, so
+// its player speaks Hebrew and reads right to left. English stays the default.
+export type PlayerLang = 'en' | 'he'
+
+const TEXT = {
+  en: {
+    progress: (d: number, n: number) => `${d} of ${n} lessons complete`,
+    chapter: 'Chapter',
+    markDone: 'Mark as watched',
+    markUndone: 'Mark as not watched',
+    lessonOf: (i: number, n: number) => `Lesson ${i} of ${n}`,
+    close: 'Close',
+    contents: 'Course contents',
+    comingSoon: 'Video coming soon',
+    lessonComplete: 'Lesson complete',
+    watchAgain: 'Watch again',
+    finish: 'Finish course',
+    next: 'Next lesson',
+    completeContinue: 'Complete and continue',
+    pdf: 'PDF for practice',
+    previous: 'Previous',
+  },
+  he: {
+    progress: (d: number, n: number) => `${d} מתוך ${n} שיעורים הושלמו`,
+    chapter: 'פרק',
+    markDone: 'סימון כנצפה',
+    markUndone: 'ביטול הסימון',
+    lessonOf: (i: number, n: number) => `שיעור ${i} מתוך ${n}`,
+    close: 'סגירה',
+    contents: 'תוכן הקורס',
+    comingSoon: 'הסרטון יעלה בקרוב',
+    lessonComplete: 'סיימתם את השיעור',
+    watchAgain: 'לצפות שוב',
+    finish: 'לסיום הקורס',
+    next: 'לשיעור הבא',
+    completeContinue: 'סיימתי, לשיעור הבא',
+    pdf: 'דף תרגול להורדה',
+    previous: 'לשיעור הקודם',
+  },
+}
+
 // Standalone entries are not chapters, so they must not consume a chapter
 // number: without this the bonuses would be "Chapter 4" and the closing video
 // "Chapter 5", which is exactly the labelling we removed.
@@ -37,10 +78,24 @@ function chapterNumber(chapters: DemoChapter[], ci: number): number {
 export default function CoursePlayer({
   courseName,
   chapters,
+  lang = 'en',
+  storageKey = STORAGE_KEY,
 }: {
   courseName: string
   chapters: DemoChapter[]
+  lang?: PlayerLang
+  // Each course keeps its own progress, or lesson 3 of one course would show
+  // as watched in the other.
+  storageKey?: string
 }) {
+  const T = TEXT[lang]
+  const rtl = lang === 'he'
+  // Letter-spaced capitals suit English labels; spaced-out Hebrew letters
+  // just look broken.
+  const caps = rtl ? '' : ' uppercase tracking-widest'
+  // In Hebrew "next" points left.
+  const fwd = rtl ? 'left' : 'right'
+  const back = rtl ? 'right' : 'left'
   // Lessons are navigated as one flat list; the sidebar keeps the chapter shape.
   const flat = useMemo(
     () =>
@@ -63,7 +118,7 @@ export default function CoursePlayer({
   // Progress lives in the browser, so it survives a refresh without a login.
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY)
+      const saved = localStorage.getItem(storageKey)
       if (saved) setDone(new Set(JSON.parse(saved) as number[]))
     } catch {}
   }, [])
@@ -71,7 +126,7 @@ export default function CoursePlayer({
   const save = (next: Set<number>) => {
     setDone(next)
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]))
+      localStorage.setItem(storageKey, JSON.stringify([...next]))
     } catch {}
   }
 
@@ -153,8 +208,8 @@ export default function CoursePlayer({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') goTo(i + 1)
-      if (e.key === 'ArrowLeft') goTo(i - 1)
+      if (e.key === (rtl ? 'ArrowLeft' : 'ArrowRight')) goTo(i + 1)
+      if (e.key === (rtl ? 'ArrowRight' : 'ArrowLeft')) goTo(i - 1)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -165,7 +220,7 @@ export default function CoursePlayer({
   const sidebar = (
     <aside>
       <div className="mb-6">
-        <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: 'var(--yellow)' }}>
+        <p className={`text-xs font-bold mb-3${caps}`} style={{ color: 'var(--yellow)' }}>
           {courseName}
         </p>
         <div
@@ -178,7 +233,7 @@ export default function CoursePlayer({
           />
         </div>
         <p className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
-          {done.size} of {flat.length} lessons complete
+          {T.progress(done.size, flat.length)}
         </p>
       </div>
 
@@ -197,7 +252,7 @@ export default function CoursePlayer({
               <div key={ci} className="flex items-center gap-1 pt-2">
                 <button
                   onClick={() => toggleDone(n)}
-                  aria-label={isDone ? 'Mark as not watched' : 'Mark as watched'}
+                  aria-label={isDone ? T.markUndone : T.markDone}
                   className="shrink-0 rounded-full flex items-center justify-center transition-colors"
                   style={{
                     width: '18px',
@@ -215,7 +270,7 @@ export default function CoursePlayer({
                 </button>
                 <button
                   onClick={() => goTo(n)}
-                  className="flex-1 text-left text-sm rounded-md px-2 py-1.5 transition-colors"
+                  className="flex-1 text-start text-sm rounded-md px-2 py-1.5 transition-colors"
                   style={{
                     color: active ? 'var(--navy)' : 'rgba(255,255,255,0.75)',
                     backgroundColor: active ? 'var(--yellow)' : 'transparent',
@@ -235,12 +290,12 @@ export default function CoursePlayer({
                 onClick={() => toggleChapter(ci)}
                 aria-expanded={open}
                 aria-controls={`chapter-${ci}`}
-                className="w-full flex items-center justify-between gap-3 text-left rounded-lg py-2"
+                className="w-full flex items-center justify-between gap-3 text-start rounded-lg py-2"
                 style={{ cursor: 'pointer' }}
               >
                 <span>
-                  <span className="block text-[11px] font-bold uppercase tracking-widest mb-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                    Chapter {chapterNumber(chapters, ci)}
+                  <span className={`block text-[11px] font-bold mb-1${caps}`} style={{ color: 'rgba(255,255,255,0.35)' }}>
+                    {T.chapter} {chapterNumber(chapters, ci)}
                   </span>
                   <span className="block text-sm font-bold text-white">{chapter.title}</span>
                 </span>
@@ -274,7 +329,7 @@ export default function CoursePlayer({
                       <li key={li} className="flex items-center gap-1">
                         <button
                           onClick={() => toggleDone(n)}
-                          aria-label={isDone ? 'Mark as not watched' : 'Mark as watched'}
+                          aria-label={isDone ? T.markUndone : T.markDone}
                           className="shrink-0 rounded-full flex items-center justify-center transition-colors"
                           style={{
                             width: '18px',
@@ -292,7 +347,7 @@ export default function CoursePlayer({
                         </button>
                         <button
                           onClick={() => goTo(n)}
-                          className="flex-1 text-left text-sm rounded-md px-2 py-1.5 transition-colors"
+                          className="flex-1 text-start text-sm rounded-md px-2 py-1.5 transition-colors"
                           style={{
                             color: active ? 'var(--navy)' : 'rgba(255,255,255,0.75)',
                             backgroundColor: active ? 'var(--yellow)' : 'transparent',
@@ -317,7 +372,7 @@ export default function CoursePlayer({
   return (
     <div className="max-w-6xl mx-auto lg:grid lg:gap-12" style={{ gridTemplateColumns: '260px 1fr' }}>
       {showCertificate && (
-        <Certificate courseName={courseName} onClose={() => setShowCertificate(false)} />
+        <Certificate courseName={courseName} lang={lang} onClose={() => setShowCertificate(false)} />
       )}
       {/* Mobile: the same list, folded into a toggle above the video. */}
       <div className="lg:hidden mb-6">
@@ -326,10 +381,8 @@ export default function CoursePlayer({
           className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-bold"
           style={{ backgroundColor: 'rgba(255,255,255,0.08)', color: '#fff' }}
         >
-          <span>
-            Lesson {i + 1} of {flat.length}
-          </span>
-          <span style={{ color: 'var(--yellow)' }}>{menuOpen ? 'Close' : 'Course contents'}</span>
+          <span>{T.lessonOf(i + 1, flat.length)}</span>
+          <span style={{ color: 'var(--yellow)' }}>{menuOpen ? T.close : T.contents}</span>
         </button>
         {menuOpen && <div className="mt-5">{sidebar}</div>}
       </div>
@@ -353,7 +406,7 @@ export default function CoursePlayer({
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
-              Video coming soon
+              {T.comingSoon}
             </div>
           )}
           {finished && (
@@ -361,18 +414,18 @@ export default function CoursePlayer({
               className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center"
               style={{ background: 'linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.06)), var(--navy)' }}
             >
-              <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--yellow)' }}>
-                Lesson complete
+              <p className={`text-xs font-bold${caps}`} style={{ color: 'var(--yellow)' }}>
+                {T.lessonComplete}
               </p>
               {/* On a phone the title already sits right under the video. */}
               <p className="hidden sm:block text-2xl font-bold text-white">{lesson.title}</p>
               <div className="flex items-center justify-center gap-3">
                 <NavButton onClick={watchAgain} disabled={false} variant="ghost" compact>
-                  Watch again
+                  {T.watchAgain}
                 </NavButton>
                 <NavButton onClick={complete} disabled={false} variant="solid" compact>
-                  {isLast ? 'Finish course' : 'Next lesson'}
-                  <Arrow dir="right" />
+                  {isLast ? T.finish : T.next}
+                  <Arrow dir={fwd} />
                 </NavButton>
               </div>
             </div>
@@ -380,8 +433,8 @@ export default function CoursePlayer({
         </div>
 
         {!chapters[lesson.chapterIndex].standalone && (
-          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: 'var(--yellow)' }}>
-            Chapter {chapterNumber(chapters, lesson.chapterIndex)} · {chapters[lesson.chapterIndex].title}
+          <p className={`text-xs font-bold mb-2${caps}`} style={{ color: 'var(--yellow)' }}>
+            {T.chapter} {chapterNumber(chapters, lesson.chapterIndex)} · {chapters[lesson.chapterIndex].title}
           </p>
         )}
         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-3">{lesson.title}</h1>
@@ -411,18 +464,18 @@ export default function CoursePlayer({
                 <path d="M4 20h16" />
               </svg>
             </span>
-            PDF for practice
+            {T.pdf}
           </a>
         ))}
 
         <div className="flex items-center justify-between gap-3 pt-2">
           <NavButton onClick={() => goTo(i - 1)} disabled={i === 0} variant="ghost">
-            <Arrow dir="left" />
-            Previous
+            <Arrow dir={back} />
+            {T.previous}
           </NavButton>
           <NavButton onClick={complete} disabled={false} variant="solid">
-            {isLast ? 'Finish course' : done.has(i) ? 'Next lesson' : 'Complete and continue'}
-            <Arrow dir="right" />
+            {isLast ? T.finish : done.has(i) ? T.next : T.completeContinue}
+            <Arrow dir={fwd} />
           </NavButton>
         </div>
       </main>
@@ -434,7 +487,34 @@ export default function CoursePlayer({
    which is a flat ending for a course somebody paid for and worked through.
    The learner types their own name (we never learn it from the signed link,
    which carries only an email) and can print or save it as a PDF. */
-function Certificate({ courseName, onClose }: { courseName: string; onClose: () => void }) {
+const CERT_TEXT = {
+  en: {
+    aria: 'Certificate of completion',
+    title: 'Certificate of Completion',
+    certifies: 'This certifies that',
+    yourName: 'Your name',
+    completed: 'has completed',
+    line: 'every sound, every practice, all the way to the end.',
+    sign: 'Sasha · Free & Clear English',
+    print: 'Print or save as PDF',
+    back: 'Back to the course',
+  },
+  he: {
+    aria: 'תעודת סיום',
+    title: 'תעודת סיום',
+    certifies: 'תעודה זו מוענקת ל',
+    yourName: 'השם שלכם',
+    completed: 'על השלמת הקורס',
+    line: 'כל השיעורים, כל התרגולים, עד הסוף.',
+    sign: 'סשה · Free & Clear English',
+    print: 'להדפסה או לשמירה כ-PDF',
+    back: 'חזרה לקורס',
+  },
+}
+
+function Certificate({ courseName, lang, onClose }: { courseName: string; lang: PlayerLang; onClose: () => void }) {
+  const C = CERT_TEXT[lang]
+  const rtl = lang === 'he'
   const [name, setName] = useState('')
 
   useEffect(() => {
@@ -453,7 +533,7 @@ function Certificate({ courseName, onClose }: { courseName: string; onClose: () 
 
   // Hardcoded Israel time: the date on the certificate should be her students'
   // date, not the timezone of whatever device they happen to be using.
-  const date = new Intl.DateTimeFormat('en-GB', {
+  const date = new Intl.DateTimeFormat(rtl ? 'he-IL' : 'en-GB', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -479,7 +559,7 @@ function Certificate({ courseName, onClose }: { courseName: string; onClose: () 
       style={{ backgroundColor: 'rgba(11,23,44,0.92)', backdropFilter: 'blur(3px)' }}
       role="dialog"
       aria-modal="true"
-      aria-label="Certificate of completion"
+      aria-label={C.aria}
     >
       <style>{`
 @keyframes certFloat { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
@@ -540,19 +620,19 @@ function Certificate({ courseName, onClose }: { courseName: string; onClose: () 
           </p>
 
           <p
-            className="uppercase"
-            style={{ marginTop: '1.1rem', fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.24em', color: '#C9A227' }}
+            className={rtl ? undefined : 'uppercase'}
+            style={{ marginTop: '1.1rem', fontSize: rtl ? '1rem' : '0.78rem', fontWeight: 700, letterSpacing: rtl ? 0 : '0.24em', color: '#C9A227' }}
           >
-            Certificate of Completion
+            {C.title}
           </p>
 
-          <p style={{ marginTop: '1.6rem', fontSize: '1.02rem', color: '#42536D' }}>This certifies that</p>
+          <p style={{ marginTop: '1.6rem', fontSize: '1.02rem', color: '#42536D' }}>{C.certifies}</p>
 
           <input
             value={name}
             onChange={(e) => onName(e.target.value)}
-            placeholder="Your name"
-            aria-label="Your name"
+            placeholder={C.yourName}
+            aria-label={C.yourName}
             className="cert-name"
             style={{
               display: 'block',
@@ -570,12 +650,12 @@ function Certificate({ courseName, onClose }: { courseName: string; onClose: () 
             }}
           />
 
-          <p style={{ marginTop: '1.5rem', fontSize: '1.02rem', color: '#42536D' }}>has completed</p>
-          <p style={{ marginTop: '0.45rem', fontSize: 'clamp(1.35rem, 4.6vw, 1.85rem)', fontWeight: 700, direction: 'ltr' }}>
+          <p style={{ marginTop: '1.5rem', fontSize: '1.02rem', color: '#42536D' }}>{C.completed}</p>
+          <p style={{ marginTop: '0.45rem', fontSize: 'clamp(1.35rem, 4.6vw, 1.85rem)', fontWeight: 700, direction: rtl ? 'rtl' : 'ltr' }}>
             {courseName}
           </p>
           <p style={{ marginTop: '1.1rem', fontSize: '1rem', lineHeight: 1.65, color: '#42536D' }}>
-            every sound, every practice, all the way to the end.
+            {C.line}
           </p>
 
           <div
@@ -593,7 +673,7 @@ function Certificate({ courseName, onClose }: { courseName: string; onClose: () 
             }}
           >
             <span>{date}</span>
-            <span style={{ fontWeight: 700, color: '#1B3054' }}>Sasha · Free &amp; Clear English</span>
+            <span style={{ fontWeight: 700, color: '#1B3054' }}>{C.sign}</span>
           </div>
         </div>
 
@@ -603,14 +683,14 @@ function Certificate({ courseName, onClose }: { courseName: string; onClose: () 
             className="rounded-full font-bold"
             style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)', padding: '0.85rem 1.7rem', fontSize: '0.95rem', cursor: 'pointer', border: 'none' }}
           >
-            Print or save as PDF
+            {C.print}
           </button>
           <button
             onClick={onClose}
             className="rounded-full font-bold"
             style={{ backgroundColor: 'transparent', color: 'rgba(255,255,255,0.8)', padding: '0.85rem 1.5rem', fontSize: '0.95rem', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.3)' }}
           >
-            Back to the course
+            {C.back}
           </button>
         </div>
       </div>
