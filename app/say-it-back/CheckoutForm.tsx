@@ -10,7 +10,7 @@
 // SASHA: after you create the product in Lemon Squeezy, paste its "Buy" checkout
 // URL below. It looks like https://freeandclearenglish.lemonsqueezy.com/buy/xxxx
 // Until it is set, the button is disabled.
-const LEMON_CHECKOUT_URL = 'https://freeandclearenglish.lemonsqueezy.com/checkout/buy/b98beb22-c02c-454a-a677-ebefe288ca93'
+const LEMON_CHECKOUT_URL = 'https://freeandclearenglish.lemonsqueezy.com/checkout/buy/b98beb22-c02c-454a-a677-ebefe288ca93?discount=0' // discount=0 hides the coupon field
 
 export default function CheckoutForm() {
   const ready = LEMON_CHECKOUT_URL.length > 0
