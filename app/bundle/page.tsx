@@ -165,6 +165,37 @@ function Seal() {
   )
 }
 
+// A pair of pastel phonetic symbols sitting on the seam between two sections,
+// floating slowly. Always a mirrored pair (same height, same size, opposite
+// tilt) so the page stays symmetric, and only a few on the whole page.
+function Seam({ a, b, color }: { a: string; b: string; color: string }) {
+  const glyph = (g: string, side: 'left' | 'right', tilt: number, delay: number) => (
+    <span
+      className="absolute bundle-float"
+      style={{
+        [side]: '4%',
+        top: 0,
+        transform: 'translateY(-50%)',
+        fontSize: 'clamp(70px, 11vw, 140px)',
+        lineHeight: 1,
+        color,
+        opacity: 0.55,
+        fontWeight: 700,
+        animationDelay: `${delay}s`,
+        ['--tilt' as string]: `${tilt}deg`,
+      }}
+    >
+      {g}
+    </span>
+  )
+  return (
+    <div className="relative" style={{ height: 0, zIndex: 2, pointerEvents: 'none' }} aria-hidden="true" dir="ltr">
+      {glyph(a, 'left', -12, 0)}
+      {glyph(b, 'right', 12, 1.6)}
+    </div>
+  )
+}
+
 /* ---------- content ---------- */
 
 const COURSES = [
@@ -235,7 +266,9 @@ export default function BundlePage() {
 .bundle-hand { font-family: 'Gveret Levin', cursive; font-weight: 400; }
 @keyframes bundleSpin { to { transform: rotate(360deg) } }
 .bundle-spin { animation: bundleSpin 26s linear infinite; }
-@media (prefers-reduced-motion: reduce) { .bundle-spin { animation: none; } }
+@keyframes bundleFloat { 0%,100% { translate: 0 -50%; rotate: var(--tilt) } 50% { translate: 0 calc(-50% - 12px); rotate: calc(var(--tilt) * -0.5) } }
+.bundle-float { animation: bundleFloat 7s ease-in-out infinite; transform: none !important; translate: 0 -50%; rotate: var(--tilt); }
+@media (prefers-reduced-motion: reduce) { .bundle-spin, .bundle-float { animation: none; } }
 .bundle-cards { display: grid; gap: 1.4rem; grid-template-columns: 1fr; }
 .bundle-card { display: grid; grid-template-rows: subgrid; grid-row: span 4; }
 @media (min-width: 900px) { .bundle-cards { grid-template-columns: repeat(3, 1fr); } }
@@ -290,6 +323,8 @@ export default function BundlePage() {
         <Cta />
       </section>
 
+      <Seam a="θ" b="ɹ" color="#8FBCEA" />
+
       {/* PAIN */}
       <section style={{ padding: '5.5rem 16px' }}>
         <Lines
@@ -325,7 +360,7 @@ export default function BundlePage() {
                 'בבית הספר לימדו אתכם לקרוא, לכתוב ולעבור מבחנים.',
                 'אף אחד לא לימד אתכם איפה שמים את הלשון ב־TH.',
                 'אף אחד לא לימד אתכם מה אומרים אחרי Hi.',
-                '**ואף אחד לא נתן לכם לדבר.',
+                '__ואף אחד לא נתן לכם לדבר.',
               ],
               ['אז חסרים לכם שלושה דברים.', 'לא מילים.', 'לא דקדוק.', '**שלושה דברים אחרים לגמרי.'],
             ]}
@@ -346,9 +381,11 @@ export default function BundlePage() {
           ))}
         </div>
         <div style={{ marginTop: '2.4rem' }}>
-          <Lines groups={[['כל אלה מאמנים את האוזן.', '**והאוזן שלכם כבר מצוינת.']]} />
+          <Lines groups={[['כל אלה מאמנים את האוזן.', '__והאוזן שלכם כבר מצוינת.']]} />
         </div>
       </section>
+
+      <Seam a="ə" b="æ" color="#B9A6E8" />
 
       {/* SOLUTION: bright yellow, the three courses side by side */}
       <section style={{ backgroundColor: YELLOW, padding: '5.5rem 16px' }}>
@@ -392,7 +429,7 @@ export default function BundlePage() {
       {/* TRY BEFORE BUYING */}
       <section style={{ padding: '5.5rem 16px' }}>
         <H2>תנסו לפני שקונים</H2>
-        <Lines groups={[['**שיעור מכל קורס, פתוח לגמרי.', 'בלי לשלם ובלי להשאיר פרטים.', 'תראו איך אני מלמדת, ותחליטו אחר כך.']]} />
+        <Lines groups={[['__שיעור מכל קורס, פתוח לגמרי.', 'בלי לשלם ובלי להשאיר פרטים.', 'תראו איך אני מלמדת, ותחליטו אחר כך.']]} />
 
         <div className="bundle-try mx-auto" style={{ maxWidth: 1000, marginTop: '2.8rem' }}>
           {[
@@ -436,6 +473,8 @@ export default function BundlePage() {
         </div>
       </section>
 
+      <Seam a="ʃ" b="ð" color="#F2B8CB" />
+
       {/* ABOUT */}
       <section style={{ backgroundColor: INK, padding: '5.5rem 16px' }}>
         <div
@@ -453,7 +492,7 @@ export default function BundlePage() {
             ['ואנגלית היא השפה השלישית שלי.'],
             ['בגיל 22 טסתי ללמוד משחק בניו יורק.', 'עם ביטחון בשמיים.'],
             ['ותוך שנייה קיבלתי שוק.', 'בעברית הייתי חדה, מצחיקה, נוכחת.', '**באנגלית הייתי שקטה, ביישנית, מבולבלת.', 'גם כשכבר ידעתי את השפה.'],
-            ['אז החלטתי להרים יד בכל פעם שהמורה ביקשה מתנדב.', 'התבלבלתי.', 'צחקתי.', '**ולמדתי מלא.'],
+            ['אז החלטתי להרים יד בכל פעם שהמורה ביקשה מתנדב.', 'התבלבלתי.', 'צחקתי.', '__ולמדתי מלא.'],
             ['ושם גם גיליתי את תורת ההגייה.'],
           ]}
         />
@@ -530,6 +569,8 @@ export default function BundlePage() {
         </div>
         <Cta />
       </section>
+
+      <Seam a="iː" b="ʌ" color="#F3D46B" />
 
       {/* WHAT'S INSIDE + NOT FOR */}
       <section style={{ padding: '5.5rem 16px' }}>
