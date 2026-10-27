@@ -1,15 +1,14 @@
 import type { Metadata } from 'next'
-import { Assistant } from 'next/font/google'
+import { Rubik } from 'next/font/google'
 import Image from 'next/image'
 import BundleCheckout from './BundleCheckout'
 
-const assistant = Assistant({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '600', '700'], display: 'swap' })
+// Rubik for the whole page, the font Sasha picked from Dana's site (2026-10-27).
+const rubik = Rubik({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '500', '700', '900'], display: 'swap' })
 
-// Display serif for the big headlines (the Jenna Kutcher feel Sasha asked for),
-// and the one handwritten line per section. Both have Hebrew letters; loaded as
-// plain stylesheets, like the handwriting font on /courses.
-const FONTS_URL =
-  'https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Playpen+Sans+Hebrew:wght@500&display=swap'
+// The one handwritten line per section: Gveret Levin, the round handwriting
+// Sasha likes. Loaded as a plain stylesheet, like the handwriting on /courses.
+const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Gveret+Levin&display=swap'
 
 export const metadata: Metadata = {
   title: 'ערכת הדיבור באנגלית | Free & Clear English',
@@ -44,11 +43,23 @@ function Lines({ groups, tone = BODY, size = '1.3rem' }: { groups: string[][]; t
     <div className="mx-auto" style={{ maxWidth: 640 }}>
       {groups.map((g, gi) => (
         <div key={gi} style={{ marginTop: gi === 0 ? 0 : '1.6rem' }}>
-          {g.map((l, i) => (
-            <p key={i} style={{ fontSize: size, lineHeight: 1.7, color: tone, fontWeight: 400 }}>
-              {l}
-            </p>
-          ))}
+          {g.map((l, i) => {
+            // "**" at the start marks the line that carries the point.
+            const strong = l.startsWith('**')
+            return (
+              <p
+                key={i}
+                style={{
+                  fontSize: strong ? `calc(${size} * 1.12)` : size,
+                  lineHeight: 1.7,
+                  color: strong && tone === BODY ? INK : tone,
+                  fontWeight: strong ? 700 : 300,
+                }}
+              >
+                {strong ? l.slice(2) : l}
+              </p>
+            )
+          })}
         </div>
       ))}
     </div>
@@ -57,7 +68,7 @@ function Lines({ groups, tone = BODY, size = '1.3rem' }: { groups: string[][]; t
 
 function Hand({ children, color = INK, size = '1.7rem' }: { children: React.ReactNode; color?: string; size?: string }) {
   return (
-    <p className="bundle-hand" style={{ color, fontSize: size, lineHeight: 1.5 }}>
+    <p className="bundle-hand" style={{ color, fontSize: `calc(${size} * 1.3)`, lineHeight: 1.4 }}>
       {children}
     </p>
   )
@@ -65,7 +76,7 @@ function Hand({ children, color = INK, size = '1.7rem' }: { children: React.Reac
 
 function H2({ children, color = INK }: { children: React.ReactNode; color?: string }) {
   return (
-    <h2 className="bundle-serif" style={{ color, fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 500, lineHeight: 1.25, marginBottom: '1.6rem' }}>
+    <h2 className="bundle-serif" style={{ color, fontSize: 'clamp(2rem, 6vw, 3rem)', fontWeight: 700, lineHeight: 1.25, marginBottom: '1.6rem' }}>
       {children}
     </h2>
   )
@@ -200,11 +211,11 @@ const NOTES = [
 
 export default function BundlePage() {
   return (
-    <main dir="rtl" className={assistant.className} style={{ backgroundColor: '#fff', color: INK, textAlign: 'center' }}>
+    <main dir="rtl" className={rubik.className} style={{ backgroundColor: '#fff', color: INK, textAlign: 'center' }}>
       <link rel="stylesheet" href={FONTS_URL} precedence="default" />
       <style>{`
-.bundle-serif { font-family: 'Frank Ruhl Libre', serif; }
-.bundle-hand { font-family: 'Playpen Sans Hebrew', cursive; font-weight: 500; }
+.bundle-serif { font-weight: 700; }
+.bundle-hand { font-family: 'Gveret Levin', cursive; font-weight: 400; }
 @keyframes bundleSpin { to { transform: rotate(360deg) } }
 .bundle-spin { animation: bundleSpin 26s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .bundle-spin { animation: none; } }
@@ -228,7 +239,7 @@ export default function BundlePage() {
 
         <h1
           className="bundle-serif mx-auto"
-          style={{ color: '#fff', fontSize: 'clamp(2.3rem, 8vw, 4.6rem)', fontWeight: 500, lineHeight: 1.3, maxWidth: 900, marginTop: '2rem' }}
+          style={{ color: '#fff', fontSize: 'clamp(2.3rem, 8vw, 4.6rem)', fontWeight: 900, lineHeight: 1.3, maxWidth: 900, marginTop: '2rem' }}
         >
           בעברית אתם
           <br />
@@ -253,7 +264,7 @@ export default function BundlePage() {
               fill
               priority
               sizes="340px"
-              style={{ objectFit: 'cover', objectPosition: '62% 30%' }}
+              style={{ objectFit: 'cover', objectPosition: '48% 20%' }}
             />
           </div>
           <Seal />
@@ -266,21 +277,22 @@ export default function BundlePage() {
       <section style={{ padding: '5.5rem 16px' }}>
         <Lines
           groups={[
-            ['אתם יושבים בזום עם הצוות מחו"ל.', 'מבינים הכל.', 'אפילו צוחקים במקום הנכון.'],
-            ['ואז שואלים אתכם משהו.'],
-            ['הלב דופק.', 'המילה שהייתה לכם על הלשון נעלמת.', 'ומה שיוצא נשמע לכם עקום.', 'גם אם אף אחד לא אמר כלום.'],
+            ['אתם יושבים בזום עם הצוות מחו"ל.', '**מבינים הכל.', 'אפילו צוחקים במקום הנכון.'],
+            ['**ואז שואלים אתכם משהו.'],
+            ['הלב דופק.', 'המילה שהייתה לכם על הלשון נעלמת.', '**ומה שיוצא נשמע לכם עקום.', 'גם אם אף אחד לא אמר כלום.'],
             ['אחר כך, בהפסקת הקפה, מישהו אומר:'],
           ]}
         />
-        <p dir="ltr" className="bundle-serif" style={{ fontSize: '1.9rem', color: INK, margin: '1.2rem 0' }}>
+        <p dir="ltr" style={{ fontSize: '1.9rem', fontWeight: 500, color: INK, margin: '1.2rem 0' }}>
           Hey, how&apos;s it going?
         </p>
         <Lines
           groups={[
-            ['ואתם עונים Good.', 'והשיחה נגמרת.'],
-            ['ובערב אתם חושבים:', 'זה בדיוק מה שרציתי להגיד.', 'רק בעברית.'],
+            ['ואתם עונים Good.', '**והשיחה נגמרת.'],
+            ['ובערב אתם חושבים:'],
           ]}
         />
+        <p style={{ fontSize: 'clamp(2rem, 6vw, 2.8rem)', fontWeight: 900, color: INK, marginTop: '0.6rem' }}>למה שתקתי??</p>
         <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK, marginTop: '2.2rem' }}>נכון?</p>
         <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK }}>אז די.</p>
       </section>
@@ -291,14 +303,14 @@ export default function BundlePage() {
         <div style={{ marginTop: '1.8rem' }}>
           <Lines
             groups={[
-              ['היא פשוט תקועה בראש.'],
+              ['**היא פשוט תקועה בראש.'],
               [
                 'בבית הספר לימדו אתכם לקרוא, לכתוב ולעבור מבחנים.',
                 'אף אחד לא לימד אתכם איפה שמים את הלשון ב־TH.',
                 'אף אחד לא לימד אתכם מה אומרים אחרי Hi.',
-                'ואף אחד לא נתן לכם לדבר.',
+                '**ואף אחד לא נתן לכם לדבר.',
               ],
-              ['אז חסרים לכם שלושה דברים.', 'לא מילים.', 'לא דקדוק.', 'שלושה דברים אחרים לגמרי.'],
+              ['אז חסרים לכם שלושה דברים.', 'לא מילים.', 'לא דקדוק.', '**שלושה דברים אחרים לגמרי.'],
             ]}
           />
         </div>
@@ -307,24 +319,24 @@ export default function BundlePage() {
       {/* THREE THAT DON'T WORK */}
       <section style={{ backgroundColor: PINK_BG, padding: '5.5rem 16px' }}>
         <H2>שלושה פתרונות שלא עובדים</H2>
-        <div className="bundle-dont mx-auto" style={{ maxWidth: 900 }}>
+        <div className="bundle-dont mx-auto" style={{ maxWidth: 1140 }}>
           {['עוד אפליקציה של מילים', 'עוד קורס דקדוק', 'עוד סדרה בלי כתוביות'].map((t) => (
-            <div key={t} className="rounded-2xl bg-white flex items-center justify-center" style={{ padding: '1.6rem 1rem', boxShadow: '0 6px 20px rgba(217,122,156,0.12)' }}>
-              <p style={{ fontSize: '1.3rem', fontWeight: 600, color: INK, textDecoration: 'line-through', textDecorationColor: '#D97A9C', textDecorationThickness: 3 }}>
+            <div key={t} className="rounded-2xl bg-white flex items-center justify-center" style={{ padding: '2.2rem 1rem', boxShadow: '0 6px 20px rgba(217,122,156,0.12)' }}>
+              <p style={{ fontSize: 'clamp(1.5rem, 2.3vw, 1.85rem)', fontWeight: 700, color: INK, whiteSpace: 'nowrap', textDecoration: 'line-through', textDecorationColor: '#D97A9C', textDecorationThickness: 5 }}>
                 {t}
               </p>
             </div>
           ))}
         </div>
         <div style={{ marginTop: '2.4rem' }}>
-          <Lines groups={[['כל אלה מאמנים את האוזן.', 'והאוזן שלכם כבר מצוינת.']]} />
+          <Lines groups={[['כל אלה מאמנים את האוזן.', '**והאוזן שלכם כבר מצוינת.']]} />
         </div>
       </section>
 
       {/* SOLUTION: bright yellow, the three courses side by side */}
       <section style={{ backgroundColor: YELLOW, padding: '5.5rem 16px' }}>
         <Hand size="2.2rem">הפה. הראש. השריר.</Hand>
-        <p className="bundle-serif" style={{ fontSize: 'clamp(1.7rem, 5vw, 2.4rem)', fontWeight: 500, color: INK, marginTop: '0.8rem' }}>
+        <p className="bundle-serif" style={{ fontSize: 'clamp(1.7rem, 5vw, 2.4rem)', fontWeight: 700, color: INK, marginTop: '0.8rem' }}>
           שלושה קורסים. ערכה אחת.
         </p>
 
@@ -354,7 +366,7 @@ export default function BundlePage() {
         <div style={{ marginTop: '2.8rem' }}>
           <Lines
             tone={INK}
-            groups={[['שלושתם ביחד, כי ככה זה עובד.', 'הגייה בלי תרגול לא נדבקת.', 'ותרגול בלי לדעת מה להגיד לא מוביל לשום מקום.']]}
+            groups={[['**שלושתם ביחד, כי ככה זה עובד.', 'הגייה בלי תרגול לא נדבקת.', 'ותרגול בלי לדעת מה להגיד לא מוביל לשום מקום.']]}
           />
         </div>
         <Cta dark />
@@ -363,7 +375,7 @@ export default function BundlePage() {
       {/* TRY BEFORE BUYING */}
       <section style={{ padding: '5.5rem 16px' }}>
         <H2>תנסו לפני שקונים</H2>
-        <Lines groups={[['שיעור מכל קורס, פתוח לגמרי.', 'בלי לשלם ובלי להשאיר פרטים.', 'תראו איך אני מלמדת, ותחליטו אחר כך.']]} />
+        <Lines groups={[['**שיעור מכל קורס, פתוח לגמרי.', 'בלי לשלם ובלי להשאיר פרטים.', 'תראו איך אני מלמדת, ותחליטו אחר כך.']]} />
 
         <div className="bundle-try mx-auto" style={{ maxWidth: 1000, marginTop: '2.8rem' }}>
           {[
@@ -413,7 +425,7 @@ export default function BundlePage() {
           className="relative mx-auto overflow-hidden"
           style={{ width: 200, height: 200, borderRadius: '50%', border: `5px solid ${PINK}` }}
         >
-          <Image src="/images/bundle/sasha-stage.jpg" alt="סשה על הבמה" fill sizes="200px" style={{ objectFit: 'cover', objectPosition: 'center 30%' }} />
+          <Image src="/images/bundle/sasha-stage-sq.jpg" alt="סשה על הבמה" fill sizes="200px" style={{ objectFit: 'cover', objectPosition: 'center' }} />
         </div>
         <div style={{ marginTop: '2rem' }}>
           <H2 color="#fff">אני סשה</H2>
@@ -423,8 +435,8 @@ export default function BundlePage() {
           groups={[
             ['ואנגלית היא השפה השלישית שלי.'],
             ['בגיל 22 טסתי ללמוד משחק בניו יורק.', 'עם ביטחון בשמיים.'],
-            ['ותוך שנייה קיבלתי שוק.', 'בעברית הייתי חדה, מצחיקה, נוכחת.', 'באנגלית הייתי שקטה, ביישנית, מבולבלת.', 'גם כשכבר ידעתי את השפה.'],
-            ['אז החלטתי להרים יד בכל פעם שהמורה ביקשה מתנדב.', 'התבלבלתי.', 'צחקתי.', 'ולמדתי מלא.'],
+            ['ותוך שנייה קיבלתי שוק.', 'בעברית הייתי חדה, מצחיקה, נוכחת.', '**באנגלית הייתי שקטה, ביישנית, מבולבלת.', 'גם כשכבר ידעתי את השפה.'],
+            ['אז החלטתי להרים יד בכל פעם שהמורה ביקשה מתנדב.', 'התבלבלתי.', 'צחקתי.', '**ולמדתי מלא.'],
             ['ושם גם גיליתי את תורת ההגייה.'],
           ]}
         />
@@ -520,7 +532,7 @@ export default function BundlePage() {
         </div>
 
         <div className="mx-auto rounded-3xl" style={{ maxWidth: 560, backgroundColor: LAV_BG, padding: '2rem 1.4rem', marginTop: '3rem' }}>
-          <p className="bundle-serif" style={{ fontSize: '1.7rem', fontWeight: 500, color: INK, marginBottom: '0.8rem' }}>
+          <p className="bundle-serif" style={{ fontSize: '1.7rem', fontWeight: 700, color: INK, marginBottom: '0.8rem' }}>
             למי זה לא מתאים
           </p>
           <Lines size="1.2rem" groups={[['למי שעוד לא מבין אנגלית.', 'ולמי שמחפש קסם בלי לפתוח את הפה.']]} />
