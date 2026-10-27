@@ -45,6 +45,23 @@ function Lines({ groups, tone = BODY, size = '1.3rem' }: { groups: string[][]; t
         <div key={gi} style={{ marginTop: gi === 0 ? 0 : '1.6rem' }}>
           {g.map((l, i) => {
             // "**" at the start marks the line that carries the point.
+            // "__" keeps the line regular and draws a soft curved line under it.
+            if (l.startsWith('__'))
+              return (
+                <p key={i} style={{ fontSize: size, lineHeight: 1.7, color: tone, fontWeight: 300 }}>
+                  <span className="relative inline-block">
+                    {l.slice(2)}
+                    <svg
+                      viewBox="0 0 300 12"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                      style={{ position: 'absolute', left: 0, right: 0, bottom: '-0.18em', width: '100%', height: '0.3em' }}
+                    >
+                      <path d="M3 8 C 90 2, 190 2, 297 7" stroke="#C9A227" strokeWidth="4" strokeLinecap="round" fill="none" opacity="0.9" />
+                    </svg>
+                  </span>
+                </p>
+              )
             const strong = l.startsWith('**')
             return (
               <p
@@ -279,7 +296,7 @@ export default function BundlePage() {
           groups={[
             ['אתם יושבים בזום עם הצוות מחו"ל.', '**מבינים הכל.', 'אפילו צוחקים במקום הנכון.'],
             ['**ואז שואלים אתכם משהו.'],
-            ['הלב דופק.', 'המילה שהייתה לכם על הלשון נעלמת.', '**ומה שיוצא נשמע לכם עקום.', 'גם אם אף אחד לא אמר כלום.'],
+            ['הלב דופק.', 'המילה שהייתה לכם על הלשון נעלמת.', '__ומה שיוצא נשמע לכם עקום.', 'גם אם אף אחד לא אמר כלום.'],
             ['אחר כך, בהפסקת הקפה, מישהו אומר:'],
           ]}
         />
