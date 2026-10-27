@@ -309,7 +309,7 @@ export default function BundlePage() {
         </h1>
 
         <div style={{ marginTop: '2.2rem' }}>
-          <Hand color={YELLOW}>ויש לזה פתרון. בעצם שלושה</Hand>
+          <Hand color={YELLOW}>ויש לזה פתרון. בעצם שלושה.</Hand>
         </div>
 
         {/* The photo sits in an arch, with the round seal on its edge. */}
