@@ -339,7 +339,7 @@ export default function BundlePage() {
         <div className="bundle-dont mx-auto" style={{ maxWidth: 1140 }}>
           {['עוד אפליקציה של מילים', 'עוד קורס דקדוק', 'עוד סדרה בלי כתוביות'].map((t) => (
             <div key={t} className="rounded-2xl bg-white flex items-center justify-center" style={{ padding: '2.2rem 1rem', boxShadow: '0 6px 20px rgba(217,122,156,0.12)' }}>
-              <p style={{ fontSize: 'clamp(1.5rem, 2.3vw, 1.85rem)', fontWeight: 700, color: INK, whiteSpace: 'nowrap', textDecoration: 'line-through', textDecorationColor: '#D97A9C', textDecorationThickness: 5 }}>
+              <p style={{ fontSize: 'clamp(1.5rem, 2.3vw, 1.85rem)', fontWeight: 700, color: INK, whiteSpace: 'nowrap', textDecoration: 'line-through', textDecorationColor: '#D97A9C', textDecorationThickness: 2 }}>
                 {t}
               </p>
             </div>
