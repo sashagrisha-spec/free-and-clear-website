@@ -38,11 +38,21 @@ const LAV_BG = '#F1EDFB'
 /* ---------- building blocks ---------- */
 
 // One sentence per line, always. Groups are separated by a little air.
-function Lines({ groups, tone = BODY, size = '1.3rem' }: { groups: string[][]; tone?: string; size?: string }) {
+function Lines({
+  groups,
+  tone = BODY,
+  size = '1.3rem',
+  gap = '1.6rem',
+}: {
+  groups: string[][]
+  tone?: string
+  size?: string
+  gap?: string
+}) {
   return (
     <div className="mx-auto" style={{ maxWidth: 640 }}>
       {groups.map((g, gi) => (
-        <div key={gi} style={{ marginTop: gi === 0 ? 0 : '1.6rem' }}>
+        <div key={gi} style={{ marginTop: gi === 0 ? 0 : gap }}>
           {g.map((l, i) => {
             // "**" at the start marks the line that carries the point.
             // "__" keeps the line regular and draws a soft curved line under it.
@@ -327,26 +337,28 @@ export default function BundlePage() {
 
       {/* PAIN */}
       <section style={{ padding: '5.5rem 16px' }}>
+        {/* Sasha's own line breaks (2026-10-27): every line gets the same air. */}
         <Lines
+          gap="0.9rem"
           groups={[
-            ['אתם יושבים בזום עם הצוות מחו"ל', '**מבינים הכל', 'אפילו צוחקים במקום הנכון'],
-            ['**ואז שואלים אתכם משהו'],
-            ['הלב דופק', 'המילה שהייתה לכם על הלשון נעלמת', '__ומה שיוצא נשמע לכם עקום', 'גם אם אף אחד לא אמר כלום'],
+            ['אתם יושבים בזום עם הצוות מחו"ל'],
+            ['**מבינים הכל'],
+            ['אפילו צוחקים במקום הנכון'],
+            ['**ואז שואלים אתכם משהו...'],
+            ['הלב דופק'],
+            ['המילה שהייתה לכם על הלשון נעלמת'],
+            ['__ומה שיוצא נשמע לכם עקום'],
+            ['גם אם אף אחד לא אמר כלום.'],
             ['אחר כך, בהפסקת הקפה, מישהו אומר:'],
           ]}
         />
-        <p dir="ltr" style={{ fontSize: '1.9rem', fontWeight: 500, color: INK, margin: '1.2rem 0' }}>
+        <p dir="ltr" style={{ fontSize: '1.9rem', fontWeight: 500, color: INK, margin: '0.9rem 0' }}>
           Hey, how&apos;s it going?
         </p>
-        <Lines
-          groups={[
-            ['ואתם עונים Good', '**והשיחה נגמרת'],
-            ['ובערב אתם חושבים:'],
-          ]}
-        />
-        <p style={{ fontSize: 'clamp(2rem, 6vw, 2.8rem)', fontWeight: 900, color: INK, marginTop: '0.6rem' }}>למה שתקתי??</p>
-        <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK, marginTop: '2.2rem' }}>נכון?</p>
-        <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK }}>אז די.</p>
+        <Lines gap="0.9rem" groups={[['ואתם עונים Good'], ['**והשיחה נגמרת'], ['ובערב אתם חושבים:']]} />
+        <p style={{ fontSize: 'clamp(2rem, 6vw, 2.8rem)', fontWeight: 900, color: INK, marginTop: '0.9rem' }}>למה שתקתי??</p>
+        <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK, marginTop: '0.9rem' }}>נכון?</p>
+        <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK, marginTop: '0.9rem' }}>אז די.</p>
       </section>
 
       {/* NOT YOU */}
