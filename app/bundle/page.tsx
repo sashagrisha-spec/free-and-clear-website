@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { Rubik } from 'next/font/google'
+import { Suspense } from 'react'
 import Image from 'next/image'
+import MetaPixel from '@/components/MetaPixel'
+import UtmCapture from '@/components/UtmCapture'
 import BundleCheckout from './BundleCheckout'
 
 // Rubik for the whole page, the font Sasha picked from Dana's site (2026-10-27).
@@ -269,6 +272,9 @@ const NOTES = [
 
 export default function BundlePage() {
   return (
+    <>
+    <MetaPixel />
+    <UtmCapture />
     <main dir="rtl" className={rubik.className} style={{ backgroundColor: '#fff', color: INK, textAlign: 'center' }}>
       <link rel="stylesheet" href={FONTS_URL} precedence="default" />
       <style>{`
@@ -624,9 +630,12 @@ export default function BundlePage() {
         <H2 color="#fff">ערכת הדיבור באנגלית</H2>
         <Lines tone="rgba(255,255,255,0.85)" groups={[['אני לא אגיד לכם כמה זה שווה לכם', 'הנה פשוט המחיר']]} />
         <div style={{ marginTop: '2.4rem' }}>
-          <BundleCheckout />
+          <Suspense fallback={null}>
+            <BundleCheckout />
+          </Suspense>
         </div>
       </section>
     </main>
+    </>
   )
 }

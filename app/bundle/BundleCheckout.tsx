@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { ALL_PRICE, TWO_PRICE } from '@/lib/speaking-kit'
 
 // The three courses and their real prices on their own pages (2026-10-27).
 // The server will decide the real charge; these numbers only draw the screen.
@@ -11,8 +13,6 @@ const COURSES = [
 ]
 type CourseId = (typeof COURSES)[number]['id']
 
-const ALL_PRICE = 397
-const TWO_PRICE = 315
 const SEPARATE = COURSES.reduce((s, c) => s + c.price, 0)
 
 const INK = '#1B3054'
@@ -26,6 +26,9 @@ export default function BundleCheckout() {
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  // ?test=<secret> switches the charge to ₪1. The server checks the secret;
+  // the browser only passes it through.
+  const testKey = useSearchParams().get('test') || ''
 
   const togglePick = (id: CourseId) =>
     setTwo((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : prev.length < 2 ? [...prev, id] : [prev[1], id]))
@@ -44,16 +47,21 @@ export default function BundleCheckout() {
       const res = await fetch('/api/bundle-payment/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), courses: plan === 'all' ? COURSES.map((c) => c.id) : two }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          courses: plan === 'all' ? COURSES.map((c) => c.id) : two,
+          ...(testKey ? { test: testKey } : {}),
+        }),
       })
       const data = await res.json().catch(() => ({}))
       if (data.url) {
         window.location.href = data.url
         return
       }
-      setError(data.error || 'התשלום עדיין לא מחובר')
+      setError(data.error || 'שגיאה ביצירת דף התשלום')
     } catch {
-      setError('התשלום עדיין לא מחובר')
+      setError('שגיאת חיבור, נסו שוב')
     }
     setLoading(false)
   }
@@ -192,7 +200,7 @@ export default function BundleCheckout() {
           border: 'none',
         }}
       >
-        {loading ? 'רגע...' : `אני רוצה, ₪${price} 👈`}
+        {loading ? 'רגע...' : testKey ? 'תשלום בדיקה, ₪1' : `אני רוצה, ₪${price} 👈`}
       </button>
       <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.95rem', marginTop: 14, lineHeight: 1.7 }}>
         תשלום מאובטח בכרטיס אשראי.
