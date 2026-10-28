@@ -17,6 +17,8 @@ import { COURSE_LABEL, KIT_NAME, KIT_SLUG, coursesFromCodes, kitPrice, type KitC
 // Schooler: the buyer is deliberately not added to list 77532, which would make
 // Schooler send a second, separate login.
 
+// RavMesser list "רכשו את הבנדל": every kit buyer, whichever courses they chose.
+const KIT_LIST_ID = Number(process.env.KIT_LIST_ID) || 126635
 const SOE_LIST_ID = Number(process.env.SOE_LIST_ID) || 121115
 const YALLA_LIST_ID = Number(process.env.YALLA_LIST_ID) || 112995
 const YALLA_DRIVE_LINK = 'https://drive.google.com/drive/folders/1vUQK4CzoPDkPYX87VAdUNcu5lhkl_yGj?usp=drive_link'
@@ -177,6 +179,7 @@ export async function POST(req: NextRequest) {
   )
 
   // Buyers lists, for segmentation only. Access never depends on these calls.
+  sideEffects.push(addSubscriberToList({ email, first: name, name, listId: KIT_LIST_ID, disableNotification: true }))
   if (courses.includes('soe')) {
     sideEffects.push(addSubscriberToList({ email, first: name, name, listId: SOE_LIST_ID, disableNotification: true }))
   }
