@@ -88,8 +88,11 @@ function SuccessContent() {
           <br />
           שלחנו לכם גם מייל עם כל הקישורים, אז אפשר להיכנס מתי שתרצו.
         </p>
+        <p className="mb-4" style={{ color: '#fff', fontSize: '1.1rem', fontWeight: 700 }}>
+          מומלץ לעשות בסדר הזה:
+        </p>
         <div className="flex flex-col gap-4">
-          {links.map((l) => (
+          {links.map((l, i) => (
             <a
               key={l.course}
               href={l.url}
@@ -97,7 +100,7 @@ function SuccessContent() {
               style={{ backgroundColor: 'var(--yellow)', color: '#1B3054', padding: '1.1rem 1.4rem' }}
             >
               <span className="block" style={{ fontSize: '1.2rem', fontWeight: 700 }}>
-                {l.label} 👈
+                {i + 1}. {l.label} 👈
               </span>
               <span className="block" style={{ fontSize: '0.95rem', opacity: 0.75 }}>
                 {l.note}

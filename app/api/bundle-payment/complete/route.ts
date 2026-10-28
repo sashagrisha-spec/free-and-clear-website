@@ -43,8 +43,11 @@ async function verifyCardcom(lowProfileCode: string) {
 
 export type KitLink = { course: KitCourse; label: string; url: string; note: string }
 
+// Sasha's recommended order for taking the courses (2026-10-28).
+const RECOMMENDED_ORDER: KitCourse[] = ['smallTalk', 'soe', 'yalla']
+
 function kitLinks(baseUrl: string, email: string, courses: KitCourse[]): KitLink[] {
-  return courses.map((c) => {
+  return RECOMMENDED_ORDER.filter((c) => courses.includes(c)).map((c) => {
     if (c === 'soe')
       return { course: c, label: COURSE_LABEL[c], url: accessUrl(baseUrl, 'the-sound-of-english', email), note: '34 סרטונים ו-17 דפי תרגול' }
     if (c === 'smallTalk')
@@ -56,9 +59,9 @@ function kitLinks(baseUrl: string, email: string, courses: KitCourse[]): KitLink
 function accessEmailHtml(name: string, links: KitLink[]): string {
   const blocks = links
     .map(
-      (l) => `
+      (l, i) => `
       <div style="background:#FFFBEE;border:1px dashed #F2B705;border-radius:12px;padding:16px 20px;margin:16px 0;line-height:1.8">
-        <p style="margin:0 0 4px;font-size:17px"><strong>${l.label}</strong></p>
+        <p style="margin:0 0 4px;font-size:17px"><strong>${i + 1}. ${l.label}</strong></p>
         <p style="margin:0 0 10px;color:#6B7280">${l.note}</p>
         <a href="${l.url}" style="background:#1B3054;color:#fff;padding:11px 26px;border-radius:8px;text-decoration:none;font-weight:bold;display:inline-block">לכניסה 👈</a>
       </div>`,
@@ -66,12 +69,13 @@ function accessEmailHtml(name: string, links: KitLink[]): string {
     .join('')
   return `
     <div style="font-family:Arial,sans-serif;direction:rtl;text-align:right;max-width:520px;margin:0 auto;color:#2D2D2D">
-      <h2 style="color:#1B3054">היי ${name}, ${KIT_NAME} שלכם מוכנה 🎧</h2>
-      <p style="font-size:16px">התשלום עבר, וכל הקורסים מחכים לכם כאן:</p>
-      ${blocks}
-      <div style="background:#F4F4F4;border-radius:12px;padding:16px 20px;margin:20px 0;line-height:1.8">
-        <p style="margin:0"><strong>שמרו את המייל הזה.</strong> הקישורים אישיים, הם לא פגים, והם הדרך שלכם להיכנס בכל פעם.</p>
+      <div style="background:#F5C842;border-radius:12px;padding:16px 20px;margin:0 0 22px;line-height:1.7">
+        <p style="margin:0;font-size:17px;color:#1B3054"><strong>שמרו את המייל הזה.</strong><br><strong>הקישורים אישיים, הם לא פגים, והם הדרך שלכם להיכנס בכל פעם.</strong></p>
       </div>
+      <h2 style="color:#1B3054">היי ${name}, ${KIT_NAME} שלכם מוכנה 🎧</h2>
+      <p style="font-size:16px">התשלום עבר, וכל הקורסים מחכים לכם כאן.</p>
+      <p style="font-size:16px;margin:18px 0 0"><strong>מומלץ לעשות בסדר הזה:</strong></p>
+      ${blocks}
       <p style="font-size:14px;color:#6B7280">שאלה? פשוט תענו למייל הזה.</p>
       <p style="font-size:15px;margin-top:22px">באהבה,<br>סשה 💛</p>
     </div>`
