@@ -10,11 +10,11 @@ const hand = Caveat({ subsets: ['latin'], weight: ['600'], display: 'swap' })
 export const metadata: Metadata = {
   title: 'Say It Back | 56 shadowing recordings to get English out of your head and into your mouth',
   description:
-    'You understand English. So why does nothing come out when it is your turn to speak? 56 short shadowing recordings, 10 minutes at a time. Launch price €27.',
+    'You understand English. So why does nothing come out when it is your turn to speak? 56 short shadowing recordings, 10 minutes at a time. Launch price €32.',
   alternates: { canonical: 'https://www.freeandclearenglish.com/say-it-back' },
   openGraph: {
     title: 'Say It Back',
-    description: 'You understand English. Now let your mouth catch up. 56 shadowing recordings. Launch price €27.',
+    description: 'You understand English. Now let your mouth catch up. 56 shadowing recordings. Launch price €32.',
     url: 'https://www.freeandclearenglish.com/say-it-back',
     siteName: 'Free & Clear English',
     locale: 'en_GB',
@@ -343,8 +343,8 @@ export default function SayItBackPage() {
               <Cta label="Get my English out 👉" />
             </div>
             <div className="mt-14 flex items-baseline justify-center gap-3">
-              <span style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)', fontWeight: 700 }}>€49</span>
-              <span style={{ color: 'var(--yellow)', fontSize: 'clamp(3.25rem, 11vw, 5rem)', fontWeight: 700, lineHeight: 1 }}>€27</span>
+              <span style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'line-through', fontSize: 'clamp(1.5rem, 5vw, 2.25rem)', fontWeight: 700 }}>€57</span>
+              <span style={{ color: 'var(--yellow)', fontSize: 'clamp(3.25rem, 11vw, 5rem)', fontWeight: 700, lineHeight: 1 }}>€32</span>
             </div>
             <p className="mt-3" style={{ fontSize: '1.15rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>
               One-time payment · <span style={{ color: 'var(--yellow)' }}>⏳ Launch price</span>
@@ -660,16 +660,16 @@ export default function SayItBackPage() {
           <div className="relative max-w-xl mx-auto px-6" style={{ color: '#fff' }}>
             <H2 color="#fff">Launch price</H2>
             <p className="mb-1" style={{ fontSize: '1.3rem', color: 'rgba(255,255,255,0.55)', fontWeight: 300 }}>
-              <s>€49</s>
+              <s>€57</s>
             </p>
             <p className="mb-6" style={{ fontSize: 'clamp(3.6rem, 13vw, 5.6rem)', lineHeight: 1, color: 'var(--yellow)', fontWeight: 700 }}>
-              €27
+              €32
             </p>
             <p className="mb-3" style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.9)', fontWeight: 300 }}>
               One-time payment · Yours forever
             </p>
             <p className="mb-10" style={{ fontSize: '1.2rem', color: 'var(--yellow)', fontWeight: 600 }}>
-              56 recordings = less than €0.50 each
+              56 recordings = less than €0.60 each
             </p>
             <CheckoutForm />
           </div>

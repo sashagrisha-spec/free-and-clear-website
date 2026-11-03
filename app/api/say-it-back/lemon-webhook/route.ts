@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
   const email = a.user_email
   const name = (a.user_name || '').trim()
   const firstName = name.split(/\s+/)[0] || ''
-  const value = typeof a.total === 'number' ? a.total / 100 : 27
+  const value = typeof a.total === 'number' ? a.total / 100 : 32
   const currency = (a.currency || 'EUR').toUpperCase()
   const eventId = `sib-${orderId}`
 
