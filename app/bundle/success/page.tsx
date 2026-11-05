@@ -111,6 +111,11 @@ function SuccessContent() {
         <p className="mt-8" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.9rem', lineHeight: 1.8 }}>
           שמרו את המייל. הקישורים אישיים ולא פגים.
         </p>
+        <p className="mt-3" style={{ fontSize: '0.85rem' }}>
+          <a href="/bundle/terms" style={{ color: 'rgba(255,255,255,0.55)', textDecoration: 'underline' }}>
+            תקנון הרכישה וההחזרים
+          </a>
+        </p>
       </div>
     </main>
   )

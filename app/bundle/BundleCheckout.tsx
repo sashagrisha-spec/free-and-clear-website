@@ -179,7 +179,13 @@ export default function BundleCheckout() {
         <span style={{ color: 'rgba(255,255,255,0.85)', fontSize: '1rem', lineHeight: 1.6 }}>
           רמת האנגלית שלי בינונית ומעלה.
           <br />
-          ידוע לי שהתרגולים באנגלית, ושאין החזרים אחרי הרכישה.
+          ידוע לי שהתרגולים באנגלית.
+          <br />
+          קראתי והסכמתי ל
+          <a href="/bundle/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--yellow)', textDecoration: 'underline' }}>
+            תקנון הרכישה וההחזרים
+          </a>
+          .
         </span>
       </label>
 
