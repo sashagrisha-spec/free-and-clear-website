@@ -77,6 +77,7 @@ function accessEmailHtml(name: string, links: KitLink[]): string {
       <p style="font-size:16px;margin:18px 0 0"><strong>מומלץ לעשות בסדר הזה:</strong></p>
       ${blocks}
       <p style="font-size:14px;color:#6B7280">שאלה? פשוט תענו למייל הזה.</p>
+      <p style="font-size:14px;color:#6B7280"><a href="https://www.freeandclearenglish.com/bundle/terms" style="color:#6B7280">תקנון הרכישה וההחזרים</a></p>
       <p style="font-size:15px;margin-top:22px">באהבה,<br>סשה 💛</p>
     </div>`
 }
