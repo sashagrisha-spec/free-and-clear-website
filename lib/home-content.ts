@@ -328,6 +328,21 @@ export const HOME_HE: HomeCopy = {
     // Change them there and here together.
     courses: [
       {
+        // The bundle (/bundle). Prices from app/bundle/page.tsx and
+        // lib/speaking-kit.ts (TWO_PRICE); ₪501 is the three courses bought separately.
+        badge: '⭐ הכי משתלם',
+        title: 'ערכת הדיבור באנגלית',
+        meta: 'שלושת הקורסים הכי פופולריים שלי',
+        desc: 'סמול טוק, יאללה לחזור אחרי וצלילי אנגלית בחבילה אחת. הגייה, סמול טוק ותרגול דיבור יומיומי. או כל שניים מהם ב-₪297.',
+        oldPrice: '₪501',
+        price: '₪397',
+        priceNote: 'תשלום חד-פעמי',
+        cta: 'לרכישה מיידית',
+        href: '/bundle#buy',
+        moreLabel: 'לקרוא עוד',
+        moreHref: '/bundle',
+      },
+      {
         badge: 'בינוני / מתקדם',
         title: 'The Sound of English',
         meta: '34 סרטונים · הגייה ומבטא',
@@ -380,18 +395,6 @@ export const HOME_HE: HomeCopy = {
         external: true,
         moreLabel: 'לקרוא עוד',
         moreHref: 'https://small-talk.ravpage.co.il/speaknow',
-      },
-      {
-        badge: 'מתחילים',
-        title: 'אתגר שמע למתחילים',
-        meta: '21 הקלטות אודיו · Shadowing',
-        desc: '21 הקלטות קצרות שיעזרו לכם סוף סוף לפתוח את הפה. אתם מבינים אנגלית הרבה יותר טוב ממה שאתם מצליחים לדבר ורוצים להתחיל לאמן את הפה, האוזן והביטחון.',
-        oldPrice: '₪77',
-        price: '₪47',
-        priceNote: 'תשלום חד-פעמי',
-        cta: 'לרכישה מיידית',
-        href: 'https://secure.cardcom.solutions/EA/EA5/PVxn8Db8UEGNxWe3KEtkPQ/PaymentSP',
-        external: true,
       },
     ],
   },
