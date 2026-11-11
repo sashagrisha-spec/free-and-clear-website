@@ -26,6 +26,9 @@ export function getLangForPath(pathname: string | null | undefined): PageLang {
     return post?.lang === 'he' ? 'he' : 'en'
   }
 
+  // The Hebrew home page, and anything later nested under it
+  if (pathname === '/he' || pathname.startsWith('/he/')) return 'he'
+
   if (HEBREW_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
     return 'he'
   }

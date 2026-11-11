@@ -1,27 +1,16 @@
-import Nav from "@/components/Nav";
-// import LaunchBanner from "@/components/LaunchBanner";
-import Hero from "@/components/Hero";
-import Logos from "@/components/Logos";
-import About from "@/components/About";
-import Services from "@/components/Services";
-import Testimonials from "@/components/Testimonials";
-import WhatsAppTestimonials from "@/components/WhatsAppTestimonials";
-import ContactCTA from "@/components/ContactCTA";
-import Footer from "@/components/Footer";
+import type { Metadata } from "next";
+import HomePage from "@/components/home/HomePage";
+import { HOME_EN } from "@/lib/home-content";
+
+export const metadata: Metadata = {
+  title: "Free & Clear English | Speak English with confidence and clarity",
+  description: "You know English. Now let's make it sound like you. Pronunciation, fluency and communication coaching with Sasha Daniel.",
+  alternates: {
+    canonical: "https://www.freeandclearenglish.com",
+    languages: { en: "https://www.freeandclearenglish.com", he: "https://www.freeandclearenglish.com/he" },
+  },
+};
 
 export default function Home() {
-  return (
-    <main>
-      <Nav />
-      {/* <LaunchBanner /> hidden 26.10.2026, the launch is over */}
-      <Hero />
-      <Logos />
-      <About />
-      <Services />
-      <Testimonials />
-      <WhatsAppTestimonials />
-      <ContactCTA />
-      <Footer />
-    </main>
-  );
+  return <HomePage t={HOME_EN} />;
 }

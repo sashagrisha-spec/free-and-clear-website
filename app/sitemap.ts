@@ -10,6 +10,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: 'https://www.freeandclearenglish.com/he',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
       url: 'https://www.freeandclearenglish.com/blog',
       lastModified: new Date(),
       changeFrequency: 'weekly',
