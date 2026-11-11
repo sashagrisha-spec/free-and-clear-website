@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { Fraunces, DM_Sans, Barlow_Condensed, DM_Mono, Caveat, Rubik } from 'next/font/google'
 import HomeNav from './HomeNav'
 import HomeContact from './HomeContact'
 import OfferPicker from './OfferPicker'
@@ -9,13 +8,10 @@ import { COMPANIES, type HomeCopy } from '@/lib/home-content'
 // 2026-11-03). Fraunces ~ Reckless Neue, DM Sans ~ Circular,
 // Barlow Condensed ~ Moderat Condensed, DM Mono ~ Maison Mono. Caveat is the
 // approved handwritten line from Say It Back.
-const fraunces = Fraunces({ subsets: ['latin'], weight: ['300', '400', '600'], style: ['normal', 'italic'], variable: '--fh-display', display: 'swap' })
-const dmSans = DM_Sans({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--fh-body', display: 'swap' })
-const barlow = Barlow_Condensed({ subsets: ['latin'], weight: ['500', '700'], variable: '--fh-cond', display: 'swap' })
-const dmMono = DM_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--fh-mono', display: 'swap' })
-const caveat = Caveat({ subsets: ['latin'], weight: ['600'], variable: '--fh-hand-en', display: 'swap' })
-// Hebrew: Rubik everywhere (the /bundle font) + Gveret Levin for the hand line.
-const rubik = Rubik({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '500', '700', '800'], variable: '--fh-rubik', display: 'swap' })
+// Loaded as a Google Fonts stylesheet (same way /bundle does) rather than
+// next/font: next/font/google broke the Vercel Turbopack build on 2026-11-11
+// ("next/font/google queries have exactly one entry").
+const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@400;500;700&family=Barlow+Condensed:wght@500;700&family=DM+Mono:wght@400;500&family=Caveat:wght@600&family=Rubik:wght@300;400;500;700;800&display=swap'
 const GVERET_URL = 'https://fonts.googleapis.com/css2?family=Gveret+Levin&display=swap'
 
 // Pastel IPA glyphs floating in the empty side margins (same family as
@@ -103,10 +99,10 @@ function Sentences({ text }: { text: string }) {
 
 export default function HomePage({ t }: { t: HomeCopy }) {
   const he = t.lang === 'he'
-  const fontVars = [fraunces.variable, dmSans.variable, barlow.variable, dmMono.variable, caveat.variable, rubik.variable].join(' ')
 
   return (
-    <main dir={he ? 'rtl' : 'ltr'} lang={t.lang} className={`fh ${he ? 'fh-he' : 'fh-en'} ${fontVars}`}>
+    <main dir={he ? 'rtl' : 'ltr'} lang={t.lang} className={`fh ${he ? 'fh-he' : 'fh-en'}`}>
+      <link rel="stylesheet" href={FONTS_URL} precedence="default" />
       {he && <link rel="stylesheet" href={GVERET_URL} precedence="default" />}
       <style>{CSS}</style>
 
@@ -389,6 +385,12 @@ export default function HomePage({ t }: { t: HomeCopy }) {
 
 const CSS = `
 .fh {
+  --fh-display: 'Fraunces';
+  --fh-body: 'DM Sans';
+  --fh-cond: 'Barlow Condensed';
+  --fh-mono: 'DM Mono';
+  --fh-hand-en: 'Caveat';
+  --fh-rubik: 'Rubik';
   --navy: #1B3054;
   --yellow: #F5C842;
   --yellow-soft: #FFF4CC;
