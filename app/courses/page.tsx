@@ -141,7 +141,7 @@ const COURSES: Course[] = [
     slug: 'speak-now',
     name: 'דברו בשטף וביטחון',
     level: 'בינוני / מתקדם',
-    price: 237,
+    price: 197,
     oldPrice: 267,
     tagline: 'הקורס הכי מעמיק שלי, לאנשים שכבר יודעים אנגלית ורוצים באמת לדבר אותה.',
     whatsInside: [
