@@ -153,31 +153,10 @@ const COURSES: Course[] = [
     readMoreUrl: 'https://small-talk.ravpage.co.il/speaknow',
     buyUrl: 'https://secure.cardcom.solutions/EA/EA5/hVhtiN67IEixchc4WCwDkQ/PaymentSP',
   },
-  {
-    slug: 'etgar-shema',
-    name: 'אתגר שמע למתחילים',
-    level: 'מתחילים',
-    price: 47,
-    oldPrice: 77,
-    tagline: '21 הקלטות קצרות שיעזרו לכם סוף סוף לפתוח את הפה.',
-    whatsInside: [
-      '21 הקלטות אודיו, אחת לכל יום של האתגר, וכולן מגיעות אליכם בלינק אחד מיד אחרי הרכישה. כל הקלטה היא דקה או שתיים בנושא יומיומי, ואתם פשוט חוזרים אחריי. השיטה היא Shadowing, בגרסה שמתאימה גם למתחילים.',
-      'זה המוצר היחיד שלי שמתאים גם לאנשים ברמה בסיסית: כאלה שמבינים לא מעט אנגלית, אבל כמעט לא מדברים אותה.',
-      'אין סרטונים ואין צורך לשבת מול מחשב. שמים אוזניות ומתרגלים באוטו בדרך לעבודה, תוך כדי סידור המטבח, או בהליכה עם הכלב. הוא לא יעיר לכם על המבטא :)',
-    ],
-    forWho: 'אתם מבינים אנגלית הרבה יותר טוב ממה שאתם מצליחים לדבר ורוצים להתחיל לאמן את הפה, האוזן והביטחון.',
-    bullets: [],
-    readMoreUrl: '',
-    readMoreNote: 'כל ההסבר נמצא כאן למעלה',
-    buyUrl: 'https://secure.cardcom.solutions/EA/EA5/PVxn8Db8UEGNxWe3KEtkPQ/PaymentSP',
-  },
 ]
 
 
 /* ─────────────────────────── building blocks ─────────────────────────── */
-
-// Shown last, on its own, under the "I don't teach beginners" line.
-const BEGINNERS_SLUG = 'etgar-shema'
 
 const INK = '#1B3054'
 const BODY = '#42536D'
@@ -574,20 +553,7 @@ export default function CoursesPage() {
         <section id="courses" className="relative overflow-hidden px-5 sm:px-6 py-24" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFBEE 100%)' }}>
           <Phonetics glyphs={GRID_GLYPHS} />
           <div className="relative courses-grid max-w-5xl mx-auto">
-            {COURSES.filter(c => c.slug !== BEGINNERS_SLUG).map(course => (
-              <CourseCard key={course.slug} course={course} />
-            ))}
-          </div>
-
-          {/* The beginners' challenge sits apart, after its own line. */}
-          <div className="relative max-w-5xl mx-auto mt-24 mb-12">
-            <p style={{ fontSize: '1.3rem', fontWeight: 300, color: BODY, lineHeight: 1.6 }}>ולמרות שאני לא מלמדת מתחילים,</p>
-            <p className={`${hand.className} mt-3`} style={{ fontSize: 'clamp(1.6rem, 4.6vw, 2.1rem)', fontWeight: 500, color: INK, lineHeight: 1.4 }}>
-              יש לכם פה אתגר למתחילים :)
-            </p>
-          </div>
-          <div className="relative courses-grid max-w-5xl mx-auto">
-            {COURSES.filter(c => c.slug === BEGINNERS_SLUG).map(course => (
+            {COURSES.map(course => (
               <CourseCard key={course.slug} course={course} />
             ))}
           </div>
