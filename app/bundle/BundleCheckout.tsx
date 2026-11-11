@@ -7,7 +7,7 @@ import { ALL_PRICE, TWO_PRICE } from '@/lib/speaking-kit'
 // The three courses and their real prices on their own pages (2026-10-27).
 // The server will decide the real charge; these numbers only draw the screen.
 const COURSES = [
-  { id: 'soe' as const, name: 'צלילי אנגלית', price: 247 },
+  { id: 'soe' as const, name: 'צלילי אנגלית', price: 147 },
   { id: 'smallTalk' as const, name: 'סמול טוק, קטן עליי', price: 187 },
   { id: 'yalla' as const, name: 'יאללה, לחזור אחרי', price: 167 },
 ]

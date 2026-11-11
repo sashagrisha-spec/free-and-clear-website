@@ -6,7 +6,7 @@ export const KIT_SLUG = 'speaking-kit'
 export const KIT_NAME = 'ערכת הדיבור באנגלית'
 
 export const ALL_PRICE = 397
-export const TWO_PRICE = 315
+export const TWO_PRICE = 297
 
 export const KIT_COURSES = ['soe', 'smallTalk', 'yalla'] as const
 export type KitCourse = (typeof KIT_COURSES)[number]

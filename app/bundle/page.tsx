@@ -16,11 +16,11 @@ const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Gveret+Levin&display
 export const metadata: Metadata = {
   title: 'ערכת הדיבור באנגלית | Free & Clear English',
   description:
-    'אתם מבינים אנגלית, אבל כשצריך לדבר זה יוצא אחרת. שלושה קורסים בחבילה אחת: הגייה, סמול טוק ותרגול דיבור יומיומי. ₪397 במקום ₪601',
+    'אתם מבינים אנגלית, אבל כשצריך לדבר זה יוצא אחרת. שלושה קורסים בחבילה אחת: הגייה, סמול טוק ותרגול דיבור יומיומי. ₪397 במקום ₪501',
   alternates: { canonical: 'https://www.freeandclearenglish.com/bundle' },
   openGraph: {
     title: 'ערכת הדיבור באנגלית',
-    description: 'הגייה, סמול טוק ותרגול דיבור. שלושה קורסים, ₪397 במקום ₪601',
+    description: 'הגייה, סמול טוק ותרגול דיבור. שלושה קורסים, ₪397 במקום ₪501',
     url: 'https://www.freeandclearenglish.com/bundle',
     siteName: 'Free & Clear English',
     locale: 'he_IL',

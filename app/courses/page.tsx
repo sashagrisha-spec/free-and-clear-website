@@ -88,8 +88,8 @@ const COURSES: Course[] = [
     slug: 'the-sound-of-english',
     name: 'The Sound of English',
     level: 'בינוני / מתקדם',
-    price: 247,
-    oldPrice: 297,
+    price: 147,
+    oldPrice: 247,
     tagline: 'הקורס החדש שלי להגייה ולמבטא.',
     whatsInside: [
       '34 סרטונים קצרים שמחולקים להסברים, לתרגולים ולבונוסים. בכל שיעור לוקחים צליל אחד, או צמד צלילים מאותה משפחה, ועובדים עליו עד הסוף.',
