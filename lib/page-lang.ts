@@ -10,6 +10,7 @@ const HEBREW_PREFIXES = [
   '/anglit-iski',
   '/coach-anglit',
   '/hagaya-anglit',
+  '/meet', // free intro-call booking page and its manage page
   '/practice-pods',
   '/speak-like-yourself', // also covers /speak-like-yourself-ig and their /success pages
   '/yalla-lachzor-acharei',
