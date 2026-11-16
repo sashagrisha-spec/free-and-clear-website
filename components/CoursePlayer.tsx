@@ -13,6 +13,11 @@ export interface DemoLesson {
   // Printable practice sheet(s) for this sound, served from /public/practice-pdf.
   pdf?: string
   pdf2?: string
+  // Answer key for the practice sheet, shown as its own button after it.
+  answers?: string
+  // A lesson that is not a video (e.g. a Google Drive folder of recordings):
+  // with no vimeoId, the video box shows this button instead of "coming soon".
+  link?: { href: string; label: string }
 }
 
 export interface DemoChapter {
@@ -47,6 +52,7 @@ const TEXT = {
     next: 'Next lesson',
     completeContinue: 'Complete and continue',
     pdf: 'PDF for practice',
+    answers: 'Answer key',
     previous: 'Previous',
   },
   he: {
@@ -64,6 +70,7 @@ const TEXT = {
     next: 'לשיעור הבא',
     completeContinue: 'סיימתי, לשיעור הבא',
     pdf: 'דף תרגול להורדה',
+    answers: 'דף תשובות',
     previous: 'לשיעור הקודם',
   },
 }
@@ -404,6 +411,19 @@ export default function CoursePlayer({
               allowFullScreen
               title={lesson.title}
             />
+          ) : lesson.link ? (
+            <div className="w-full h-full flex items-center justify-center px-6">
+              <a
+                href={lesson.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full font-bold transition-opacity hover:opacity-90"
+                style={{ backgroundColor: 'var(--yellow)', color: 'var(--navy)', padding: '0.9rem 1.8rem', fontSize: '1rem' }}
+              >
+                {lesson.link.label}
+                <Arrow dir={fwd} />
+              </a>
+            </div>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-sm" style={{ color: 'rgba(255,255,255,0.4)' }}>
               {T.comingSoon}
@@ -444,13 +464,16 @@ export default function CoursePlayer({
           </p>
         )}
 
-        {[lesson.pdf, lesson.pdf2].filter(Boolean).map((href) => (
+        {[
+          ...[lesson.pdf, lesson.pdf2].filter(Boolean).map((href) => ({ href: href as string, label: T.pdf })),
+          ...(lesson.answers ? [{ href: lesson.answers, label: T.answers }] : []),
+        ].map(({ href, label }) => (
           <a
             key={href}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 rounded-xl mb-8 transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2.5 rounded-xl mb-8 me-3 transition-opacity hover:opacity-90"
             style={{ backgroundColor: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', padding: '0.85rem 1.2rem', color: '#fff', fontWeight: 700, fontSize: '0.95rem' }}
           >
             <span
@@ -464,7 +487,7 @@ export default function CoursePlayer({
                 <path d="M4 20h16" />
               </svg>
             </span>
-            {T.pdf}
+            {label}
           </a>
         ))}
 

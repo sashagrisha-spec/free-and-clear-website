@@ -5,7 +5,7 @@
 export const KIT_SLUG = 'speaking-kit'
 export const KIT_NAME = 'ערכת הדיבור באנגלית'
 
-export const ALL_PRICE = 397
+export const ALL_PRICE = 347 // 2026-11-15, Sasha: never lower than this again
 export const TWO_PRICE = 297
 
 export const KIT_COURSES = ['soe', 'smallTalk', 'yalla'] as const

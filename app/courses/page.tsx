@@ -150,8 +150,8 @@ const COURSES: Course[] = [
     ],
     forWho: 'אתם יודעים אנגלית, מרגישים בנוח ללמוד בה, ורוצים לעבוד על הדיבור שלכם לעומק.',
     bullets: [],
-    readMoreUrl: 'https://small-talk.ravpage.co.il/speaknow',
-    buyUrl: 'https://secure.cardcom.solutions/EA/EA5/hVhtiN67IEixchc4WCwDkQ/PaymentSP',
+    readMoreUrl: '/speak-now',
+    buyUrl: '/speak-now#buy',
   },
 ]
 
