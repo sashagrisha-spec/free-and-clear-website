@@ -5,7 +5,13 @@
 export const KIT_SLUG = 'speaking-kit'
 export const KIT_NAME = 'ערכת הדיבור באנגלית'
 
-export const ALL_PRICE = 347 // 2026-11-15, Sasha: never lower than this again
+// Black Friday 26.11-30.11.2026: all three at 297 and the two-course option
+// hidden. To end the sale, set BLACK_FRIDAY to false: the price goes back to
+// 347 and the two-course option comes back, on the page and in the charge.
+export const BLACK_FRIDAY = true
+export const REGULAR_ALL_PRICE = 347 // 2026-11-15, Sasha: never lower than this again
+export const BLACK_FRIDAY_PRICE = 297
+export const ALL_PRICE = BLACK_FRIDAY ? BLACK_FRIDAY_PRICE : REGULAR_ALL_PRICE
 export const TWO_PRICE = 297
 
 export const KIT_COURSES = ['soe', 'smallTalk', 'yalla'] as const

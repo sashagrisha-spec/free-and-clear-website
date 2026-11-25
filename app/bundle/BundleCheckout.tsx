@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { ALL_PRICE, TWO_PRICE } from '@/lib/speaking-kit'
+import { ALL_PRICE, BLACK_FRIDAY, REGULAR_ALL_PRICE, TWO_PRICE } from '@/lib/speaking-kit'
 
 // The three courses and their real prices on their own pages (2026-10-27).
 // The server will decide the real charge; these numbers only draw the screen.
@@ -95,7 +95,8 @@ export default function BundleCheckout() {
         </p>
       </div>
 
-      <div className="grid gap-4 mb-6" style={{ gridTemplateColumns: '1fr 1fr' }}>
+      {/* Black Friday: only the all-three offer shows, so it takes the full row. */}
+      <div className="grid gap-4 mb-6" style={{ gridTemplateColumns: BLACK_FRIDAY ? '1fr' : '1fr 1fr' }}>
         <label style={optionStyle(plan === 'all')}>
           <input type="radio" name="plan" checked={plan === 'all'} onChange={() => setPlan('all')} className="sr-only" />
           <span className="block" style={{ color: 'var(--yellow)', fontWeight: 700, fontSize: '1.05rem' }}>
@@ -105,9 +106,10 @@ export default function BundleCheckout() {
             ₪{ALL_PRICE}
           </span>
           <span className="block" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.95rem', marginTop: 4 }}>
-            <s>₪{SEPARATE}</s>
+            <s>₪{BLACK_FRIDAY ? REGULAR_ALL_PRICE : SEPARATE}</s>
           </span>
         </label>
+        {!BLACK_FRIDAY && (
         <label style={optionStyle(plan === 'two')}>
           <input type="radio" name="plan" checked={plan === 'two'} onChange={() => setPlan('two')} className="sr-only" />
           <span className="block" style={{ color: LAV, fontWeight: 700, fontSize: '1.05rem' }}>
@@ -120,6 +122,7 @@ export default function BundleCheckout() {
             בוחרים בעצמכם
           </span>
         </label>
+        )}
       </div>
 
       {plan === 'two' && (

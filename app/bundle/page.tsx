@@ -5,6 +5,7 @@ import Image from 'next/image'
 import MetaPixel from '@/components/MetaPixel'
 import UtmCapture from '@/components/UtmCapture'
 import BundleCheckout from './BundleCheckout'
+import { BLACK_FRIDAY, BLACK_FRIDAY_PRICE, REGULAR_ALL_PRICE } from '@/lib/speaking-kit'
 
 // Rubik for the whole page, the font Sasha picked from Dana's site (2026-10-27).
 const rubik = Rubik({ subsets: ['hebrew', 'latin'], weight: ['300', '400', '500', '700', '900'], display: 'swap' })
@@ -294,6 +295,30 @@ export default function BundlePage() {
 @media (min-width: 760px) { .bundle-dont { grid-template-columns: repeat(3, 1fr); } }
       `}</style>
 
+      {/* BLACK FRIDAY: the first thing on the page, gone when BLACK_FRIDAY is false. */}
+      {BLACK_FRIDAY && (
+        <section style={{ backgroundColor: INK, padding: '2.6rem 16px 2.8rem', borderBottom: `6px solid ${YELLOW}` }}>
+          <p style={{ color: YELLOW, fontSize: 'clamp(2rem, 7vw, 3.4rem)', fontWeight: 900, lineHeight: 1.25 }}>
+            מבצע מיוחד{' '}
+            <span style={{ whiteSpace: 'nowrap' }}>
+              ל-<span dir="ltr">Black Friday</span>
+            </span>
+          </p>
+          <p style={{ color: YELLOW, fontSize: 'clamp(1.6rem, 5.5vw, 2.6rem)', fontWeight: 700, lineHeight: 1.3, marginTop: '1rem' }}>
+            {BLACK_FRIDAY_PRICE} ₪ לשלושה קורסים{' '}
+            <s style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 400, textDecorationThickness: 2 }}>{REGULAR_ALL_PRICE} ₪</s>
+          </p>
+          <p style={{ color: '#fff', fontSize: 'clamp(1.3rem, 4.5vw, 1.9rem)', fontWeight: 700, marginTop: '0.8rem' }}>רק עד יום שני בחצות</p>
+          <a
+            href="#buy"
+            className="inline-block rounded-full transition-transform hover:-translate-y-0.5"
+            style={{ backgroundColor: YELLOW, color: INK, padding: '1.1rem 2.4rem', fontSize: '1.3rem', fontWeight: 700, marginTop: '1.6rem' }}
+          >
+            לרכישת כל הקורסים
+          </a>
+        </section>
+      )}
+
       {/* HERO */}
       <section className="relative overflow-hidden" style={{ backgroundColor: INK, padding: '3.5rem 16px 6rem' }}>
         <p
@@ -341,32 +366,6 @@ export default function BundlePage() {
 
       <Seam a="θ" b="ɹ" color="#8FBCEA" />
 
-      {/* PAIN */}
-      <section style={{ padding: '5.5rem 16px' }}>
-        {/* Sasha's own line breaks (2026-10-27): every line gets the same air. */}
-        <Lines
-          gap="0.9rem"
-          groups={[
-            ['אתם יושבים בזום עם הצוות מחו"ל'],
-            ['**מבינים הכל'],
-            ['אפילו צוחקים במקום הנכון'],
-            ['**ואז שואלים אתכם משהו...'],
-            ['הלב דופק'],
-            ['המילה שהייתה לכם על הלשון נעלמת'],
-            ['__ומה שיוצא נשמע לכם עקום'],
-            ['גם אם אף אחד לא אמר כלום.'],
-            ['אחר כך, בהפסקת הקפה, מישהו אומר:'],
-          ]}
-        />
-        <p dir="ltr" style={{ fontSize: '1.9rem', fontWeight: 500, color: INK, margin: '0.9rem 0' }}>
-          Hey, how&apos;s it going?
-        </p>
-        <Lines gap="0.9rem" groups={[['ואתם עונים Good'], ['**והשיחה נגמרת'], ['ובערב אתם חושבים:']]} />
-        <p style={{ fontSize: 'clamp(2rem, 6vw, 2.8rem)', fontWeight: 900, color: INK, marginTop: '0.9rem' }}>למה שתקתי??</p>
-        <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK, marginTop: '0.9rem' }}>נכון?</p>
-        <p style={{ fontSize: '1.6rem', fontWeight: 700, color: INK, marginTop: '0.9rem' }}>אז די.</p>
-      </section>
-
       {/* NOT YOU */}
       <section style={{ backgroundColor: LAV_BG, padding: '5.5rem 16px' }}>
         <Hand size="2rem">האנגלית שלכם בסדר גמור</Hand>
@@ -389,7 +388,7 @@ export default function BundlePage() {
       </section>
 
       {/* THREE THAT DON'T WORK */}
-      <section style={{ backgroundColor: PINK_BG, padding: '5.5rem 16px' }}>
+      <section style={{ backgroundColor: PINK_BG, padding: '5.5rem 16px', borderTop: `3px solid ${INK}` }}>
         <H2>שלושה פתרונות שלא עובדים</H2>
         <div className="bundle-dont mx-auto" style={{ maxWidth: 1140 }}>
           {['עוד אפליקציה של מילים', 'עוד קורס דקדוק', 'עוד סדרה בלי כתוביות'].map((t) => (
